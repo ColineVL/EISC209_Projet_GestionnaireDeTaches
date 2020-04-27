@@ -5,8 +5,8 @@ from .models import Project, Task, Status, Journal
 
 admin.site.register(Project)
 admin.site.register(Task)
+admin.site.register(Journal)
 
 #TODO dans l'admin ils mettent les noms de modele au pluriel, donc on lit statuss. Comment changer ça ?
 admin.site.register(Status)
 
-admin.site.register(Journal)

@@ -7,12 +7,6 @@ from .models import Project, Task, Journal
 
 # Create your views here.
 
-
-@login_required
-def accueil(request):
-    return render(request, 'taskmanager/accueil.html')
-
-
 @login_required
 def projects(request):
     liste_projets = request.user.project_set.all()
@@ -28,9 +22,14 @@ def project(request, id):
 
 @login_required
 def task(request, id):
+    add = False
     task = Task.objects.get(id=id)
-
     liste_journal = Journal.objects.filter(task=task)
+
+    if add:
+        # L'utilisateur veut ajouter une info
+        a  = 0
+
     return render(request, 'taskmanager/task.html', locals())
 
 
@@ -46,7 +45,7 @@ def newtask(request):
 @login_required
 def edittask(request, id):
     task = Task.objects.get(id=id)
-    form=TaskForm(instance=task)
+    form = TaskForm(instance=task)
     return render(request, 'taskmanager/newtask.html', locals())
 
-# Et si quelqu'un écrit l'URL tout seul et en écrit un faux ? Créer une page 404.
+#TODO Et si quelqu'un écrit l'URL tout seul et en écrit un faux ? Créer une page 404.

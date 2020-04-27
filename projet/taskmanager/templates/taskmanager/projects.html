@@ -5,12 +5,16 @@
     <title>Projects</title>
 </head>
 <body>
+<h2>Bienvenue {{ user.username }}</h2>
+
+
 <h1>Vos projets</h1>
 {% for projet in liste_projets %}
     <p><a href="{% url 'project' projet.id %}">{{ projet }}</a></p>
 {% empty %}
     <p>Vous n'avez pas de projet...</p>
 {% endfor %}
-<p><a href={% url "accueil" %}>Retour à l'accueil</a></p>
+<p><a href='{% url "logout" %}'>Se déconnecter</a></p>
+
 </body>
 </html>
