@@ -31,3 +31,13 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Journal(models.Model):
+    date = models.DateField()
+    entry = models.CharField(max_length=200)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.entry
