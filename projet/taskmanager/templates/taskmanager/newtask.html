@@ -5,9 +5,11 @@
         {% csrf_token %}
 {#TODO BUG ! Il refuse le {% bootstrap_form %}, il veut un {% endblock %}#}
         {% bootstrap_form form %}
+
         {% buttons %}
             <button type="submit" class="btn btn-primary">Submit</button>
         {% endbuttons %}
+
 
     </form>
 {% endblock %}

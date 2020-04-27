@@ -10,9 +10,9 @@
 
 {% block content %}
     <h1>Projet : {{ projet }}</h1>
-    {#    TODO taille et position du bouton nouvelle tache#}
+    {#    TODO position du bouton nouvelle tache#}
     <a href={% url "newtask" %}>
-        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
     </a>
 
 {#    TODO ce code en commentaire essaie de bien placer le +#}
@@ -29,13 +29,13 @@
 
     <div class="container">
         <table class="table table-hover">
-            <thead>
+            <thead class="thead-light">
             <tr>
                 <th>Task</th>
                 <th>Assignee</th>
                 <th>Start date</th>
                 <th>Due date</th>
-                <th>Modify</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                     <td>{{ task.due_date }}</td>
                     <td><a href="{% url 'edittask' task.id %}">
                         {#           TODO centrer dans la case#}
-                        <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i></p>
+                        <p><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></p>
 
                     </a></td>
                 </tr>

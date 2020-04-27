@@ -9,7 +9,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Vos projets</h1>
+    <div>
+        <h1>Vos projets</h1>
+    </div>
     <table class="table table-hover">
     {% for projet in liste_projets %}
         <tr><td><a href="{% url 'project' projet.id %}">{{ projet }}</a></td></tr>

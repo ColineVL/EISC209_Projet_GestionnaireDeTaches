@@ -30,10 +30,10 @@
 {% block content %}
     <h1>{{ task.project }}</h1>
     <h3>{{ task }}</h3>
-    {#    TODO taille et position du bouton modifier#}
+    {#    TODO position du bouton modifier#}
     <div class="container">
         <a href={% url "edittask" task.id %}>
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
 
         </a>
     </div>
@@ -98,7 +98,7 @@
 
 
     <div class="container">
-        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New task
+        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New entry
         </button>
         <div id="newentry" class="collapse">
             <form action="{% url "task" task.id %}" method="post">
