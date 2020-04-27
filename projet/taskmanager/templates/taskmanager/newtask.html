@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block title %}New Task{% endblock %}
 {% block content %}
-<form action="{% url "newtask" %}" method="post">
-    {% csrf_token %}
+    <form action="{% url "newtask" %}" method="post">
+        {% csrf_token %}
+{#TODO BUG ! Il refuse le {% bootstrap_form %}, il veut un {% endblock %}#}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
 
-    {% bootstrap_form form %}
-    {% buttons %}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-
-</form>
+    </form>
 {% endblock %}
 

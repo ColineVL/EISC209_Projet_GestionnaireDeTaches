@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
-from .forms import TaskForm
+from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
 
 
@@ -26,9 +29,14 @@ def task(request, id):
     task = Task.objects.get(id=id)
     liste_journal = Journal.objects.filter(task=task)
 
-    if add:
-        # L'utilisateur veut ajouter une info
-        a  = 0
+    form = NewEntryForm(request.POST or None)
+    if form.is_valid():
+        text = form.cleaned_data['text']
+        journal = Journal(task=task)
+        journal.date = datetime.now()
+        journal.entry = text
+        journal.author = request.user
+        journal.save()
 
     return render(request, 'taskmanager/task.html', locals())
 
@@ -39,6 +47,7 @@ def newtask(request):
     if form.is_valid():
         tache = form.save()
         return redirect(task, id = tache.id)
+    # TODO attention il te crée une nouvelle tache à chaque fois !
     return render(request, 'taskmanager/newtask.html', locals())
 
 

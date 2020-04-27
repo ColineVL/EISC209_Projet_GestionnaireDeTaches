@@ -9,34 +9,86 @@
     </p>
 {% endblock %}
 
+{#{% block nav %}#}
+{#<div class="container">#}
+{#  <ul class="nav">#}
+{#    <li class="nav-item">#}
+{#      <a class="nav-link" href={% url "projects" %}>Projets</a>#}
+{#    </li>#}
+{#    <li class="nav-item">#}
+{#      <a class="nav-link" href={% url 'project' task.project.id %}>{{ task.project }}</a>#}
+{#    </li>#}
+{#    <li class="nav-item">#}
+{#      <a class="nav-link" href={% url 'task' task.id %}>{{ task }}</a>#}
+{#    </li>#}
+{#  </ul>#}
+{#</div>#}
+{#{% endblock %}#}
+
+
 {% block content %}
-    <h1>{{ task.project }}</h1>
-    <h2>{{ task }}</h2>
-    <h3>{{ task.description }}</h3>
-    <p>Assignée : {{ task.assignee }}</p>
-    <p>Start Date : {{ task.start_date }}</p>
-    <p>Due Date : {{ task.due_date }}</p>
-    <p>Priority : {{ task.priority }}</p>
-    <h4>History</h4>
+<h1>{{ task.project }}</h1>
+<h3>{{ task }}</h3>
+<h6>{{ task.description }}</h6>
 
-    {% for info in liste_journal %}
-        <p>
-            {{ info.author }} {{ info.date }} {{ info.entry }}
-        </p>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Assignée</th>
+            <td>{{ task.assignee }}</td>
+        </tr>
+        <tr>
+            <th>Start date</th>
+            <td>{{ task.start_date }}</td>
+        </tr>
+        <tr>
+            <th>Due date</th>
+            <td>{{ task.due_date }}</td>
+        </tr>
+        <tr>
+            <th>Priority</th>
+            <td>{{ task.priority }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ task.status }}</td>
+        </tr>
+    </table>
 
-    {% empty %}
-        <p>Il n'y a pas d'entrée dans le journal...</p>
-    {% endfor %}
+</div>
 
-    {% if add %}
-        <form action="{% url "task" %}" method="post">
+<h4>History</h4>
+<div class="container">
+    <table class="table">
+        {% for info in liste_journal %}
+            <tr>
+                <td>{{ info.author }}</td>
+                <td>{{ info.date }}</td>
+                <td>{{ info.entry }}</td>
+            </tr>
+
+
+        {% empty %}
+            <p>Il n'y a pas d'entrée dans le journal...</p>
+        {% endfor %}
+    </table>
+
+</div>
+
+
+<div class="container">
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New task
+    </button>
+    <div id="newentry" class="collapse">
+        <form action="{% url "task" task.id%}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Submit"/>
         </form>
-    {% else %}
-        <button type="button">+ task</button>
-        {#<p><a href={% url "nouvelleInfo" %}>Nouvelle info complémentaire</a></p>#}
-    {% endif %}
+    </div>
+</div>
+
+
+
 {% endblock %}
 

@@ -3,6 +3,10 @@
 <head>
     <title>{% block title %}Titre{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/64f57eceaa.js"></script>
 </head>
 <body>
 {% load bootstrap4 %}
@@ -12,18 +16,15 @@
 <div class="jumbotron">
     <h1>Gestionnaire de tâches</h1>
     <div class="row">
-        <div class="col-md-6">
+        {#        TODO manière de caler l'icone a droite : tres moche#}
+        <div class="col-md-11">
             <h4>Bienvenue {{ user.username }} !</h4>
 
         </div>
-{#        TODO Ca va pas du tout cette manière de faire, c'est n'importe quoi#}
-        <div class="col-md-2 offset-md-4">
-             <a href='{% url "logout" %}'>
-                <img src="{% static 'deconnect.png' %}" alt="Déconnexion" width="60" height="50"/>
-            </a>
-
-        </div>
-
+        {#TODO augmenter taille de l'icone#}
+        <a href='{% url "logout" %}'>
+            <p><i class="fa fa-sign-out" aria-hidden="true"></i></p>
+        </a>
     </div>
 
 

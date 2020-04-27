@@ -7,6 +7,6 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = '__all__'
 
-class InfoForm(forms.ModelForm):
+class NewEntryForm(forms.Form):
     text = forms.CharField(max_length=200)
 
