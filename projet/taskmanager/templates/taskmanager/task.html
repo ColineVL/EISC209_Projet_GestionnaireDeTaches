@@ -1,40 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Task</title>
-</head>
-<body>
-<h1>{{ task.project }}</h1>
-<h2>{{ task }}</h2>
-<h3>{{ task.description }}</h3>
-<p>Assignée : {{ task.assignee }}</p>
-<p>Start Date : {{ task.start_date }}</p>
-<p>Due Date : {{ task.due_date }}</p>
-<p>Priority : {{ task.priority }}</p>
-<h4>History</h4>
+{% extends "base.html" %}
+{% block title %}Task{% endblock %}
 
-{% for info in liste_journal %}
+{% block nav %}
     <p>
-        {{ info.author }} {{ info.date }} {{ info.entry }}
+        <a href={% url "projects" %}>Projets</a> /
+        <a href="{% url 'project' task.project.id %}">{{ task.project }}</a> /
+        <a href="{% url 'task' task.id %}">{{ task }}</a>
     </p>
+{% endblock %}
 
-{% empty %}
-    <p>Il n'y a pas d'entrée dans le journal...</p>
-{% endfor %}
+{% block content %}
+    <h1>{{ task.project }}</h1>
+    <h2>{{ task }}</h2>
+    <h3>{{ task.description }}</h3>
+    <p>Assignée : {{ task.assignee }}</p>
+    <p>Start Date : {{ task.start_date }}</p>
+    <p>Due Date : {{ task.due_date }}</p>
+    <p>Priority : {{ task.priority }}</p>
+    <h4>History</h4>
 
-{% if add %}
-<form action="{% url "task" %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
-{% else %}
-    <button type="button">+ task</button>
-{#<p><a href={% url "nouvelleInfo" %}>Nouvelle info complémentaire</a></p>#}
-{% endif %}
+    {% for info in liste_journal %}
+        <p>
+            {{ info.author }} {{ info.date }} {{ info.entry }}
+        </p>
 
+    {% empty %}
+        <p>Il n'y a pas d'entrée dans le journal...</p>
+    {% endfor %}
 
+    {% if add %}
+        <form action="{% url "task" %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit"/>
+        </form>
+    {% else %}
+        <button type="button">+ task</button>
+        {#<p><a href={% url "nouvelleInfo" %}>Nouvelle info complémentaire</a></p>#}
+    {% endif %}
+{% endblock %}
 
-</body>
-</html>

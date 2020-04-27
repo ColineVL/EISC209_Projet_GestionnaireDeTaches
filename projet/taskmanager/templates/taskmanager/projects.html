@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projects</title>
-</head>
-<body>
-<h2>Bienvenue {{ user.username }}</h2>
+{% extends "base.html" %}
 
+{% block title %}Projects{% endblock %}
 
-<h1>Vos projets</h1>
-{% for projet in liste_projets %}
-    <p><a href="{% url 'project' projet.id %}">{{ projet }}</a></p>
-{% empty %}
-    <p>Vous n'avez pas de projet...</p>
-{% endfor %}
-<p><a href='{% url "logout" %}'>Se déconnecter</a></p>
+{% block nav %}
+    <p>
+        <a href={% url "projects" %}>Projets</a>
+    </p>
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <h1>Vos projets</h1>
+    <table class="table table-striped">
+    {% for projet in liste_projets %}
+        <tr><td><a href="{% url 'project' projet.id %}">{{ projet }}</a></td></tr>
+    {% empty %}
+        <p>Vous n'avez pas de projet...</p>
+    {% endfor %}
+{% endblock %}
+

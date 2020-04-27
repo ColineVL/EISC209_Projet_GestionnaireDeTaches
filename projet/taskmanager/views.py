@@ -49,3 +49,6 @@ def edittask(request, id):
     return render(request, 'taskmanager/newtask.html', locals())
 
 #TODO Et si quelqu'un écrit l'URL tout seul et en écrit un faux ? Créer une page 404.
+
+def test(request):
+    return render(request, 'taskmanager/test.html')

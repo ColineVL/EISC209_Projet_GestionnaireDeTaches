@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>{% block title %}Titre{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+{% load bootstrap4 %}
+{% load static %}
+
+
+<div class="jumbotron">
+    <h1>Gestionnaire de tâches</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Bienvenue {{ user.username }} !</h4>
+
+        </div>
+{#        TODO Ca va pas du tout cette manière de faire, c'est n'importe quoi#}
+        <div class="col-md-2 offset-md-4">
+             <a href='{% url "logout" %}'>
+                <img src="{% static 'deconnect.png' %}" alt="Déconnexion" width="60" height="50"/>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    {% block jumbotron %}
+    {% endblock %}
+</div>
+
+<nav>
+    {% block nav %}
+    {% endblock %}
+</nav>
+
+
+<section id="content">
+    {% block content %}{% endblock %}
+</section>
+
+{#    TODO Il m'affiche le footer en plein milieu de la page ! #}
+
+{#<footer>#}
+{#    {% block footer %}#}
+{#        &copy; Coline van Leeuwen, 2020#}
+{##}
+{#    {% endblock %}#}
+{#</footer>#}
+</body>
+</html>

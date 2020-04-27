@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Project</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Project{% endblock %}
 
-<h1>Projet {{ projet }}</h1>
-{% for task in liste_taches %}
+{% block nav %}
     <p>
-        <a href="{% url 'task' task.id %}">{{ task }}</a>
-        <a href="{% url 'edittask' task.id %}">Modifier la tâche</a>
+        <a href={% url "projects" %}>Projets</a> /
+        <a href="{% url 'project' projet.id %}">{{ projet }}</a>
     </p>
+{% endblock %}
 
-{% empty %}
-    <p>Il n'y a pas de tâche dans ce projet...</p>
-{% endfor %}
+{% block content %}
+    <h1>Projet {{ projet }}</h1>
+    {% for task in liste_taches %}
+        <p>
+            <a href="{% url 'task' task.id %}">{{ task }}</a>
+            <a href="{% url 'edittask' task.id %}">Modifier la tâche</a>
+        </p>
 
-{#TODO transformer ça en un bouton#}
-<p><a href={% url "newtask" %}>Créer une nouvelle tâche.</a></p>
+    {% empty %}
+        <p>Il n'y a pas de tâche dans ce projet...</p>
+    {% endfor %}
 
-<p><a href={% url "projects" %}>Retour à la liste de vos projets.</a></p>
-
-</body>
-</html>
+    {#TODO transformer ça en un bouton#}
+    <p><a href={% url "newtask" %}>Créer une nouvelle tâche.</a></p>
+{% endblock %}
