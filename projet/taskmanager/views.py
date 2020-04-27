@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+
+from .forms import TaskForm
 from .models import Project, Task, Journal
 
 
@@ -31,3 +33,13 @@ def task(request, id):
 
     liste_journal = Journal.objects.filter(task=task)
     return render(request, 'taskmanager/task.html', locals())
+
+
+@login_required
+def newtask(request):
+    form = TaskForm(request.POST or None)
+    if form.is_valid():
+        tache = form.save()
+        return redirect(task, id = tache.id)
+    return render(request, 'taskmanager/newtask.html', locals())
+
