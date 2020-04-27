@@ -10,11 +10,25 @@
 
 {% block content %}
     <h1>Projet : {{ projet }}</h1>
+    {#    TODO taille et position du bouton nouvelle tache#}
+    <a href={% url "newtask" %}>
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    </a>
+
+{#    TODO ce code en commentaire essaie de bien placer le +#}
+{#    <div class="row justify-content-between">#}
+{#        <div>#}
+{#            <h1>Projet : {{ projet }}</h1>#}
+{#        </div>#}
+{#        <div>#}
+{#            <a href={% url "newtask" %}>#}
+{#                <p><i class="fa fa-plus-circle" aria-hidden="true"></i></p>#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
 
     <div class="container">
-
-
-        <table class="table">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>Task</th>
@@ -46,6 +60,5 @@
 
     {#    TODO liste vide ?#}
 
-    {#TODO transformer ça en un bouton#}
-    <p><a href={% url "newtask" %}>Créer une nouvelle tâche.</a></p>
+
 {% endblock %}

@@ -9,6 +9,7 @@
     </p>
 {% endblock %}
 
+{#TODO autre manière d'afficher la barre de navigation. Comment faire pour avoir le fond bleu derrière ?#}
 {#{% block nav %}#}
 {#<div class="container">#}
 {#  <ul class="nav">#}
@@ -27,66 +28,87 @@
 
 
 {% block content %}
-<h1>{{ task.project }}</h1>
-<h3>{{ task }}</h3>
-<h6>{{ task.description }}</h6>
+    <h1>{{ task.project }}</h1>
+    <h3>{{ task }}</h3>
+    {#    TODO taille et position du bouton modifier#}
+    <div class="container">
+        <a href={% url "edittask" task.id %}>
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
-<div class="container">
-    <table class="table">
-        <tr>
-            <th>Assignée</th>
-            <td>{{ task.assignee }}</td>
-        </tr>
-        <tr>
-            <th>Start date</th>
-            <td>{{ task.start_date }}</td>
-        </tr>
-        <tr>
-            <th>Due date</th>
-            <td>{{ task.due_date }}</td>
-        </tr>
-        <tr>
-            <th>Priority</th>
-            <td>{{ task.priority }}</td>
-        </tr>
-        <tr>
-            <th>Status</th>
-            <td>{{ task.status }}</td>
-        </tr>
-    </table>
-
-</div>
-
-<h4>History</h4>
-<div class="container">
-    <table class="table">
-        {% for info in liste_journal %}
-            <tr>
-                <td>{{ info.author }}</td>
-                <td>{{ info.date }}</td>
-                <td>{{ info.entry }}</td>
-            </tr>
-
-
-        {% empty %}
-            <p>Il n'y a pas d'entrée dans le journal...</p>
-        {% endfor %}
-    </table>
-
-</div>
-
-
-<div class="container">
-    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New task
-    </button>
-    <div id="newentry" class="collapse">
-        <form action="{% url "task" task.id%}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit"/>
-        </form>
+        </a>
     </div>
-</div>
+
+{#    TODO ce code en commentaire essaie de bien placer le bouton modifier#}
+{#    <div class="row justify-content-between">#}
+{#        <div>#}
+{#            <h3>{{ task }}</h3>#}
+{#        </div>#}
+{#        <div>#}
+{#            <a href={% url "edittask" task.id %}>#}
+{#                <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i></p>#}
+{#            </a>#}
+{#        </div>#}
+{#    </div>#}
+
+    <h6>{{ task.description }}</h6>
+
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th>Assignée</th>
+                <td>{{ task.assignee }}</td>
+            </tr>
+            <tr>
+                <th>Start date</th>
+                <td>{{ task.start_date }}</td>
+            </tr>
+            <tr>
+                <th>Due date</th>
+                <td>{{ task.due_date }}</td>
+            </tr>
+            <tr>
+                <th>Priority</th>
+                <td>{{ task.priority }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ task.status }}</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <h4>History</h4>
+    <div class="container">
+        <table class="table">
+            {% for info in liste_journal %}
+                <tr>
+                    <td>{{ info.author }}</td>
+                    <td>{{ info.date }}</td>
+                    <td>{{ info.entry }}</td>
+                </tr>
+
+
+            {% empty %}
+                <p>Il n'y a pas d'entrée dans le journal...</p>
+            {% endfor %}
+        </table>
+
+    </div>
+
+
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New task
+        </button>
+        <div id="newentry" class="collapse">
+            <form action="{% url "task" task.id %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit"/>
+            </form>
+        </div>
+    </div>
+
 
 
 
