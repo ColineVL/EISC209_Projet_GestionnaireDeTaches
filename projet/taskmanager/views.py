@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 
 from .forms import TaskForm
 from .models import Project, Task, Journal
@@ -43,3 +42,11 @@ def newtask(request):
         return redirect(task, id = tache.id)
     return render(request, 'taskmanager/newtask.html', locals())
 
+
+@login_required
+def edittask(request, id):
+    task = Task.objects.get(id=id)
+    form=TaskForm(instance=task)
+    return render(request, 'taskmanager/newtask.html', locals())
+
+# Et si quelqu'un écrit l'URL tout seul et en écrit un faux ? Créer une page 404.
