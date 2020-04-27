@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+</head>
+<body>
+<h1>Vos projets</h1>
+{% for projet in liste_projets %}
+    <p>{{ projet }}</p>
+{% empty %}
+    <p>Vous n'avez pas de projet...</p>
+{% endfor %}
+<p><a href={% url "accueil" %}>Retour à l'accueil</a></p>
+</body>
+</html>
