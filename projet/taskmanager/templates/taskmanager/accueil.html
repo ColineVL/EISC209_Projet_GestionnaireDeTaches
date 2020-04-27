@@ -5,8 +5,9 @@
     <title>Accueil</title>
 </head>
 <body>
-    <h1>Bienvenue {{ user.username }}</h1>
-    <p><a href='{% url "projects" %}'>Vos projets</a></p>
-    <p><a href = '{% url "logout" %}'>Se déconnecter</a></p>
+<h1>Bienvenue {{ user.username }}</h1>
+<p><a href='{% url "projects" %}'>Vos projets</a></p>
+
+<p><a href='{% url "logout" %}'>Se déconnecter</a></p>
 </body>
 </html>
