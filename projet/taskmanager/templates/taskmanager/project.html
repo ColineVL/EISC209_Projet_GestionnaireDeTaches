@@ -5,6 +5,25 @@
     <title>Project</title>
 </head>
 <body>
-<p>Salut</p>
+
+<h1>Projet {{ projet }}</h1>
+{% for task in liste_taches %}
+    <p>
+{#        <a href="{% url 'task' task.id %}">{{ task }}</a>#}
+{#        <a href="{% url 'modify' task.id %}">Modifier la tâche</a>#}
+    {{ task }}
+    Modifier la tâche
+    </p>
+
+{% empty %}
+    <p>Il n'y a pas de tâche dans ce projet...</p>
+{% endfor %}
+
+{#TODO transformer ça en un bouton#}
+{#<p><a href={% url "newTask" %}>Créer une noouvelle tâche.</a></p>#}
+Créer une nouvelle tâche.
+
+<p><a href={% url "projects" %}>Retour à la liste de vos projets.</a></p>
+
 </body>
 </html>

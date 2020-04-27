@@ -20,5 +20,6 @@ def projects(request):
 
 @login_required
 def project(request, id):
+    projet = Project.objects.get(id=id)
     liste_taches = Task.objects.filter(project__id = id)
     return render(request, 'taskmanager/project.html', locals())
