@@ -2,30 +2,23 @@
 {% block title %}Project{% endblock %}
 
 {% block nav %}
-    <p>
+    <div class="container">
         <a href={% url "projects" %}>Projets</a> /
         <a href="{% url 'project' projet.id %}">{{ projet }}</a>
-    </p>
+    </div>
 {% endblock %}
 
 {% block content %}
-    <h1>Projet : {{ projet }}</h1>
-    {#    TODO position du bouton nouvelle tache#}
-    <a href={% url "newtask" %}>
-        <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
-    </a>
+    <div class="container">
 
-{#    TODO ce code en commentaire essaie de bien placer le +#}
-{#    <div class="row justify-content-between">#}
-{#        <div>#}
-{#            <h1>Projet : {{ projet }}</h1>#}
-{#        </div>#}
-{#        <div>#}
-{#            <a href={% url "newtask" %}>#}
-{#                <p><i class="fa fa-plus-circle" aria-hidden="true"></i></p>#}
-{#            </a>#}
-{#        </div>#}
-{#    </div>#}
+        <h1>Projet : {{ projet }}</h1>
+        {#    TODO position du bouton nouvelle tache#}
+        <a href={% url "newtask" projet.id %}>
+            <i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i>
+        </a>
+    </div>
+
+
 
     <div class="container">
         <table class="table table-hover">

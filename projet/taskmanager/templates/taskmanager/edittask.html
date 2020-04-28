@@ -1,19 +1,19 @@
 {% extends "base.html" %}
-{% block title %}New Task{% endblock %}
+{% block title %}Edit task{% endblock %}
 {% load bootstrap4 %}
-
 
 {% block nav %}
     <div class="container">
         <a href={% url "projects" %}>Projets</a> /
-        <a href="{% url 'project' projet.id %}">{{ projet }}</a> /
-        <a href="{% url 'newtask' projet.id %}">New task</a>
+        <a href="{% url 'project' task.project.id %}">{{ task.project }}</a> /
+        <a href="{% url 'task' task.id %}">{{ task }}</a> /
+        <a href="{% url 'edittask' task.id %}">Edit task</a>
     </div>
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <form action="{% url "newtask" projet.id %}" method="post">
+        <form action="{% url "edittask" task.id %}" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
             {% buttons %}
@@ -22,3 +22,4 @@
         </form>
     </div>
 {% endblock %}
+

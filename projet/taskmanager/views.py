@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from .forms import TaskForm, NewEntryForm
@@ -25,7 +24,6 @@ def project(request, id):
 
 @login_required
 def task(request, id):
-    add = False
     task = Task.objects.get(id=id)
     liste_journal = Journal.objects.filter(task=task)
 
@@ -42,22 +40,31 @@ def task(request, id):
 
 
 @login_required
-def newtask(request):
+def newtask(request, idProjet):
+    projet = Project.objects.get(id=idProjet)
     form = TaskForm(request.POST or None)
     if form.is_valid():
-        tache = form.save()
-        return redirect(task, id = tache.id)
-    # TODO attention il te crée une nouvelle tache à chaque fois !
+        task = form.save(commit=False)
+        task.project = projet
+        task.save()
+        return redirect('task', id = task.id)
     return render(request, 'taskmanager/newtask.html', locals())
 
 
 @login_required
-def edittask(request, id):
-    task = Task.objects.get(id=id)
+def edittask(request, idTask):
+    task = Task.objects.get(id=idTask)
     form = TaskForm(instance=task)
-    return render(request, 'taskmanager/newtask.html', locals())
+    #form = TaskForm(request.POST, instance=task)
+    if form.is_valid():
+        print("!!!!")
+        form.save()
+        return redirect(task, id=task.id)
+    else:
+        print("nooo")
+        # TODO Apparemment le form n'est pas valide'
+    return render(request, 'taskmanager/edittask.html', locals())
 
-#TODO Et si quelqu'un écrit l'URL tout seul et en écrit un faux ? Créer une page 404.
 
 def test(request):
     return render(request, 'taskmanager/test.html')

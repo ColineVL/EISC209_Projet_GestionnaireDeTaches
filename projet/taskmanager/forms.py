@@ -5,8 +5,8 @@ from .models import Task
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        exclude = ('project',)
+
 
 class NewEntryForm(forms.Form):
     text = forms.CharField(max_length=200)
-

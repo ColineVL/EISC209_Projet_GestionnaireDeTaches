@@ -7,7 +7,7 @@ urlpatterns = [
     path('projects', views.projects, name='projects'),
     path('project/<int:id>', views.project, name='project'),
     path('task/<int:id>', views.task, name='task'),
-    path('newtask', views.newtask, name='newtask'),
-    path('edittask/<int:id>', views.edittask, name='edittask'),
+    path('newtask/<int:idProjet>', views.newtask, name='newtask'),
+    path('edittask/<int:idTask>', views.edittask, name='edittask'),
     path('test', views.test, name='test'),
 ]

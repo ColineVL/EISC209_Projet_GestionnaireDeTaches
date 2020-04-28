@@ -2,11 +2,11 @@
 {% block title %}Task{% endblock %}
 
 {% block nav %}
-    <p>
+    <div class="container">
         <a href={% url "projects" %}>Projets</a> /
         <a href="{% url 'project' task.project.id %}">{{ task.project }}</a> /
         <a href="{% url 'task' task.id %}">{{ task }}</a>
-    </p>
+    </div>
 {% endblock %}
 
 {#TODO autre manière d'afficher la barre de navigation. Comment faire pour avoir le fond bleu derrière ?#}
@@ -28,29 +28,32 @@
 
 
 {% block content %}
-    <h1>{{ task.project }}</h1>
-    <h3>{{ task }}</h3>
-    {#    TODO position du bouton modifier#}
+
     <div class="container">
+        <h1>{{ task.project }}</h1>
+        <h3>{{ task }}</h3>
+        {#    TODO position du bouton modifier#}
+
         <a href={% url "edittask" task.id %}>
             <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
 
         </a>
+        <h6>{{ task.description }}</h6>
+
     </div>
 
-{#    TODO ce code en commentaire essaie de bien placer le bouton modifier#}
-{#    <div class="row justify-content-between">#}
-{#        <div>#}
-{#            <h3>{{ task }}</h3>#}
-{#        </div>#}
-{#        <div>#}
-{#            <a href={% url "edittask" task.id %}>#}
-{#                <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i></p>#}
-{#            </a>#}
-{#        </div>#}
-{#    </div>#}
+    {#    TODO ce code en commentaire essaie de bien placer le bouton modifier#}
+    {#    <div class="row justify-content-between">#}
+    {#        <div>#}
+    {#            <h3>{{ task }}</h3>#}
+    {#        </div>#}
+    {#        <div>#}
+    {#            <a href={% url "edittask" task.id %}>#}
+    {#                <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i></p>#}
+    {#            </a>#}
+    {#        </div>#}
+    {#    </div>#}
 
-    <h6>{{ task.description }}</h6>
 
     <div class="container">
         <table class="table">
@@ -78,8 +81,9 @@
 
     </div>
 
-    <h4>History</h4>
     <div class="container">
+        <h4>History</h4>
+
         <table class="table">
             {% for info in liste_journal %}
                 <tr>
