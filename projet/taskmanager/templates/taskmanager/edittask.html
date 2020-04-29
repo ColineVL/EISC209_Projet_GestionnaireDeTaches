@@ -3,19 +3,30 @@
 {% load bootstrap4 %}
 
 {% block nav %}
-    <div class="container">
-        <a href={% url "projects" %}>Projets</a> /
-        <a href="{% url 'project' task.project.id %}">{{ task.project }}</a> /
-        <a href="{% url 'task' task.id %}">{{ task }}</a> /
-        <a href="{% url 'edittask' task.id %}">Edit task</a>
-    </div>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href={% url "projects" %}>Projets</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'project' task.project.id %}">{{ task.project }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'task' task.id %}">{{ task }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'edittask' task.id %}">Edit task</a>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block content %}
     <div class="container">
+        <h2>{{ task.project }}</h2>
+        <h4>Edit task</h4>
+        <br>
         <form action="{% url "edittask" task.id %}" method="post">
             {% csrf_token %}
-            {% bootstrap_form form %}
+            {% bootstrap_form form layout='horizontal'%}
             {% buttons %}
                 <button type="submit" class="btn btn-primary">Save</button>
             {% endbuttons %}

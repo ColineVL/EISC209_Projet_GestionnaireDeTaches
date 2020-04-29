@@ -45,4 +45,3 @@ class Journal(models.Model):
     def __str__(self):
         return self.entry
 
-#TODO rendre des champs optionnels ?

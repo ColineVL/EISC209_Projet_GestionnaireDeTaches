@@ -21,7 +21,6 @@
     <h5>Gérez simplement vos projets et vos tâches.</h5>
     <hr>
 
-    {#TODO simplement faire flotter l'icone a droite#}
     {% if user.is_authenticated %}
         <a href='{% url "logout" %}'>
             <p><i class="fa fa-sign-out fa-3x close text-primary" aria-hidden="true"></i></p>
@@ -34,10 +33,7 @@
 {% endblock %}
 </div>
 
-{#<nav>#}
-{#    {% block nav %}#}
-{#    {% endblock %}#}
-{#</nav>#}
+
 <div class="container-fluid">
     {% if user.is_authenticated %}
         <nav class="navbar navbar-light" style="background-color:#e9ecef">
@@ -45,11 +41,13 @@
             {% endblock %}
         </nav>
     {% endif %}
+    <br>
 </div>
 
 
 <section id="content">
     {% block content %}{% endblock %}
+    <br>
 </section>
 
 <footer>
@@ -57,5 +55,6 @@
         <p>&copy; Coline van Leeuwen, avril 2020</p>
     </div>
 </footer>
+
 </body>
 </html>
