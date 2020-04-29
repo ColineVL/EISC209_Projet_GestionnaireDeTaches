@@ -53,13 +53,12 @@ def newtask(request, idProjet):
 
 @login_required
 def edittask(request, idTask):
-    task = get_object_or_404(Task, id=idTask)
-    form = TaskForm(instance=task)
-    #form = TaskForm(request.POST, instance=task)
+    tache = get_object_or_404(Task, id=idTask)
+    form = TaskForm(request.POST, instance=tache)
     if form.is_valid():
         print("!!!!")
         form.save()
-        return redirect(task, id=task.id)
+        return redirect(task, id=tache.id)
     else:
         print("nooo")
         # TODO Apparemment le form n'est pas valide'

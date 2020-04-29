@@ -8,23 +8,23 @@
             <a class="nav-link" href={% url "projects" %}>Projets</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' task.project.id %}">{{ task.project }}</a>
+            <a class="nav-link" href="{% url 'project' tache.project.id %}">{{ tache.project }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'task' task.id %}">{{ task }}</a>
+            <a class="nav-link" href="{% url 'task' tache.id %}">{{ tache }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'edittask' task.id %}">Edit task</a>
+            <a class="nav-link" href="{% url 'edittask' tache.id %}">Edit task</a>
         </li>
     </ul>
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h2>{{ task.project }}</h2>
+        <h2>{{ tache.project }}</h2>
         <h4>Edit task</h4>
         <br>
-        <form action="{% url "edittask" task.id %}" method="post">
+        <form action="{% url "edittask" tache.id %}" method="post">
             {% csrf_token %}
             {% bootstrap_form form layout='horizontal'%}
             {% buttons %}
