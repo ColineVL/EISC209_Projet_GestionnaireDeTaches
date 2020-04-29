@@ -9,4 +9,4 @@ class TaskForm(forms.ModelForm):
 
 
 class NewEntryForm(forms.Form):
-    text = forms.CharField(max_length=200)
+    entry = forms.CharField(max_length=200)

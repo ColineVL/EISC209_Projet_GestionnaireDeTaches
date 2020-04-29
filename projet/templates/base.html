@@ -19,27 +19,36 @@
 <div class="jumbotron">
     <h1><a href='{% url "projects" %}'>Gestionnaire de tâches</a></h1>
     <h5>Gérez simplement vos projets et vos tâches.</h5>
-    <h6>Bienvenue {{ user.username }} !</h6>
+    <hr>
 
     {#TODO simplement faire flotter l'icone a droite#}
     {% if user.is_authenticated %}
         <a href='{% url "logout" %}'>
-            <p><i class="fa fa-sign-out fa-3x" aria-hidden="true"></i></p>
+            <p><i class="fa fa-sign-out fa-3x close text-primary" aria-hidden="true"></i></p>
         </a>
     {% endif %}
+    <h6>Bienvenue {{ user.username }} !</h6>
+
 </div>
 {% block jumbotron %}
 {% endblock %}
 </div>
 
-<nav>
-    {% block nav %}
-    {% endblock %}
-</nav>
+{#<nav>#}
+{#    {% block nav %}#}
+{#    {% endblock %}#}
+{#</nav>#}
+<div class="container-fluid">
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-light" style="background-color:#e9ecef">
+            {% block nav %}
+            {% endblock %}
+        </nav>
+    {% endif %}
+</div>
 
 
 <section id="content">
-
     {% block content %}{% endblock %}
 </section>
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
@@ -17,22 +17,22 @@ def projects(request):
 
 @login_required
 def project(request, id):
-    projet = Project.objects.get(id=id)
+    projet = get_object_or_404(Project, id=id)
     liste_taches = Task.objects.filter(project__id = id)
     return render(request, 'taskmanager/project.html', locals())
 
 
 @login_required
 def task(request, id):
-    task = Task.objects.get(id=id)
+    task = get_object_or_404(Task, id=id)
     liste_journal = Journal.objects.filter(task=task)
 
     form = NewEntryForm(request.POST or None)
     if form.is_valid():
-        text = form.cleaned_data['text']
+        entry = form.cleaned_data['entry']
         journal = Journal(task=task)
         journal.date = datetime.now()
-        journal.entry = text
+        journal.entry = entry
         journal.author = request.user
         journal.save()
 
@@ -41,7 +41,7 @@ def task(request, id):
 
 @login_required
 def newtask(request, idProjet):
-    projet = Project.objects.get(id=idProjet)
+    projet = get_object_or_404(Project, id=idProjet)
     form = TaskForm(request.POST or None)
     if form.is_valid():
         task = form.save(commit=False)
@@ -53,7 +53,7 @@ def newtask(request, idProjet):
 
 @login_required
 def edittask(request, idTask):
-    task = Task.objects.get(id=idTask)
+    task = get_object_or_404(Task, id=idTask)
     form = TaskForm(instance=task)
     #form = TaskForm(request.POST, instance=task)
     if form.is_valid():

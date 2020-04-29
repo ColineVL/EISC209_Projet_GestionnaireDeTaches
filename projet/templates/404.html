@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Error 404{% endblock %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="container text-center">
+        <br>
+        <i class="fa fa-frown-o fa-4x" aria-hidden="true"></i>
+        <h3>La page que vous avez demandé n'existe pas...</h3>
+        <h3><a href='{% url "projects" %}'>Revenir à l'accueil.</a></h3>
+
+        <br>
+    </div>
+
+
+{% endblock %}

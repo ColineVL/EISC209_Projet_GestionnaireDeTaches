@@ -1,11 +1,14 @@
 {% extends "base.html" %}
+{% load bootstrap4 %}
 
 {% block title %}Projects{% endblock %}
 
 {% block nav %}
-    <div class="container">
-        <a href={% url "projects" %}>Projets</a>
-    </div>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href={% url "projects" %}>Projets</a>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block content %}
@@ -13,15 +16,17 @@
         <h1>Vos projets</h1>
     </div>
     <div class="container">
-        <table class="table table-hover">
-            {% for projet in liste_projets %}
-                <tr>
-                    <td><a href="{% url 'project' projet.id %}">{{ projet }}</a></td>
-                </tr>
-            {% empty %}
-                <p>Vous n'avez pas de projet...</p>
-            {% endfor %}
-        </table>
+        {% if liste_projets %}
+            <table class="table table-hover">
+                {% for projet in liste_projets %}
+                    <tr>
+                        <td><a href="{% url 'project' projet.id %}">{{ projet }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>Vous n'avez pas de projet...</p>
+        {% endif %}
     </div>
 
 {% endblock %}

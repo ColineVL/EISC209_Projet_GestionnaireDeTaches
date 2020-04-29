@@ -1,73 +1,48 @@
 {% extends "base.html" %}
 {% block title %}Task{% endblock %}
+{% load bootstrap4 %}
+
 
 {% block nav %}
-    <div class="container">
-        <a href={% url "projects" %}>Projets</a> /
-        <a href="{% url 'project' task.project.id %}">{{ task.project }}</a> /
-        <a href="{% url 'task' task.id %}">{{ task }}</a>
-    </div>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href={% url "projects" %}>Projets</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'project' task.project.id %}">{{ task.project }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'task' task.id %}">{{ task }}</a>
+        </li>
+    </ul>
 {% endblock %}
-
-{#TODO autre manière d'afficher la barre de navigation. Comment faire pour avoir le fond bleu derrière ?#}
-{#{% block nav %}#}
-{#<div class="container">#}
-{#  <ul class="nav">#}
-{#    <li class="nav-item">#}
-{#      <a class="nav-link" href={% url "projects" %}>Projets</a>#}
-{#    </li>#}
-{#    <li class="nav-item">#}
-{#      <a class="nav-link" href={% url 'project' task.project.id %}>{{ task.project }}</a>#}
-{#    </li>#}
-{#    <li class="nav-item">#}
-{#      <a class="nav-link" href={% url 'task' task.id %}>{{ task }}</a>#}
-{#    </li>#}
-{#  </ul>#}
-{#</div>#}
-{#{% endblock %}#}
 
 
 {% block content %}
 
     <div class="container">
-        <h1>{{ task.project }}</h1>
-        <h3>{{ task }}</h3>
-        {#    TODO position du bouton modifier#}
-
         <a href={% url "edittask" task.id %}>
-            <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
-
+            <i class="fa fa-pencil-square-o fa-3x close text-primary" aria-hidden="true"></i>
         </a>
-        <h6>{{ task.description }}</h6>
+        <h2>{{ task.project }}</h2>
+        <h4>{{ task }}</h4>
+        <p>{{ task.description }}</p>
 
     </div>
-
-    {#    TODO ce code en commentaire essaie de bien placer le bouton modifier#}
-    {#    <div class="row justify-content-between">#}
-    {#        <div>#}
-    {#            <h3>{{ task }}</h3>#}
-    {#        </div>#}
-    {#        <div>#}
-    {#            <a href={% url "edittask" task.id %}>#}
-    {#                <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i></p>#}
-    {#            </a>#}
-    {#        </div>#}
-    {#    </div>#}
-
 
     <div class="container">
         <table class="table">
             <tr>
                 <th>Assignée</th>
-                <td>{{ task.assignee }}</td>
+                <td><span class="badge badge-primary">{{ task.assignee }}</span></td>
             </tr>
             <tr>
                 <th>Start date</th>
-                <td>{{ task.start_date }}</td>
+                <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
             </tr>
             <tr>
                 <th>Due date</th>
-                <td>{{ task.due_date }}</td>
+                <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
             </tr>
             <tr>
                 <th>Priority</th>
@@ -75,31 +50,29 @@
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ task.status }}</td>
+                <td><span class="badge badge-warning">{{ task.status }}</span></td>
             </tr>
         </table>
 
     </div>
 
     <div class="container">
-        <h4>History</h4>
-
-        <table class="table">
-            {% for info in liste_journal %}
+        <h6>History</h6>
+        {% if liste_journal %}
+            <table class="table">
+                {% for info in liste_journal %}
                 <tr>
-                    <td>{{ info.author }}</td>
-                    <td>{{ info.date }}</td>
+                    <td>
+                        <span class="badge badge-primary">{{ info.author }}</span>
+                        <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
+                    </td>
                     <td>{{ info.entry }}</td>
                 </tr>
-
-
-            {% empty %}
-                <p>Il n'y a pas d'entrée dans le journal...</p>
-            {% endfor %}
-        </table>
-
+            </table>
+        {% else %}
+            <p>Il n'y a pas d'entrée dans le journal...</p>
+        {% endif %}
     </div>
-
 
     <div class="container">
         <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New entry
@@ -107,14 +80,14 @@
         <div id="newentry" class="collapse">
             <form action="{% url "task" task.id %}" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit"/>
+                <br>
+                {% bootstrap_field form.entry show_label=False addon_before='<i class="fa fa-pencil" aria-hidden="true"></i>' %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">Send</button>
+                {% endbuttons %}
             </form>
         </div>
     </div>
-
-
-
 
 {% endblock %}
 

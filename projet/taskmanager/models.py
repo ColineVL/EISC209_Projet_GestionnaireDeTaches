@@ -37,7 +37,7 @@ class Task(models.Model):
 
 
 class Journal(models.Model):
-    date = models.DateField()
+    date = models.DateTimeField()
     entry = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
