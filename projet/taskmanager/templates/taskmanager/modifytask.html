@@ -49,7 +49,31 @@
         {% endif %}
         <!-- Dans les deux cas, affichage du form -->
         {% csrf_token %}
-        {% bootstrap_form form layout='horizontal' %}
+
+        {# debut test #}
+        {% bootstrap_field form.name layout='horizontal' %}
+        {% bootstrap_field form.description layout='horizontal' %}
+
+        <div class="form-group row"><label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
+            <div class="col-md-9">
+                <select name="assignee" class="form-control" title="" required id="id_assignee">
+                    <option value="">---------</option>
+                    {% for mem in list_members %}
+                        {% if task.assignee == mem.id %}
+                            <option value={{ mem.id }} selected>{{ mem }}</option>
+                        {% else %}
+                            <option value={{ mem.id }}>{{ mem }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% bootstrap_field form.start_date layout='horizontal' %}
+        {% bootstrap_field form.due_date layout='horizontal' %}
+        {% bootstrap_field form.priority layout='horizontal' %}
+        {% bootstrap_field form.status layout='horizontal' %}
+        {# fin test #}
         {% buttons %}
             <button type="submit" class="btn btn-primary">Save</button>
         {% endbuttons %}
