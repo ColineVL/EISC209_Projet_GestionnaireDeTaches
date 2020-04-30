@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-# Create your models here.
-
+# Modèle Project
 class Project(models.Model):
     name = models.CharField(max_length=200)
     members = models.ManyToManyField(User)
@@ -12,6 +11,7 @@ class Project(models.Model):
         return self.name
 
 
+# Modèle Status
 class Status(models.Model):
     name = models.CharField(max_length=200)
 
@@ -20,8 +20,10 @@ class Status(models.Model):
 
     class Meta:
         verbose_name_plural = "Status"
+        # Cette ligne sert à ne pas avoir "statuss" dans l'administration
 
 
+# Modèle Task
 class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
@@ -36,6 +38,7 @@ class Task(models.Model):
         return self.name
 
 
+# Modele Journal
 class Journal(models.Model):
     date = models.DateTimeField()
     entry = models.CharField(max_length=200)
@@ -44,4 +47,3 @@ class Journal(models.Model):
 
     def __str__(self):
         return self.entry
-

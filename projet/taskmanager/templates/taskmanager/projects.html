@@ -3,6 +3,7 @@
 
 {% block title %}Projects{% endblock %}
 
+{# Barre de navigation #}
 {% block nav %}
     <ul class="nav">
         <li class="nav-item">
@@ -11,12 +12,16 @@
     </ul>
 {% endblock %}
 
+{# Contenu de la page #}
 {% block content %}
-    <div class="container">
+    <!-- Titre de la page -->
+    <div class="container" id="titre">
         <h1>Vos projets</h1>
     </div>
-    <div class="container">
+    <!-- Affichage de la liste des projets -->
+    <div class="container" id="listeProjets">
         {% if liste_projets %}
+            <!-- Cas où l'utilisateur a des projets -->
             <table class="table table-hover">
                 {% for projet in liste_projets %}
                     <tr>
@@ -25,8 +30,8 @@
                 {% endfor %}
             </table>
         {% else %}
+            <!-- Cas où l'utilisateur n'a pas de projets -->
             <p>Vous n'avez pas de projet...</p>
         {% endif %}
     </div>
-
 {% endblock %}

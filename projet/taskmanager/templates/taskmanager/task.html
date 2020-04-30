@@ -2,7 +2,7 @@
 {% block title %}Task{% endblock %}
 {% load bootstrap4 %}
 
-
+{# Barre de navigation #}
 {% block nav %}
     <ul class="nav">
         <li class="nav-item">
@@ -17,14 +17,17 @@
     </ul>
 {% endblock %}
 
-
+{# Contenu de la page #}
 {% block content %}
 
-    <div class="container">
+    <!-- Titre de la page et bouton d'édition de la tâche -->
+    <div class="container" id="titre">
         <h2> {{ task.project }}</h2>
         <div class="row">
             <div class="col-sm-12">
-                <h4>{{ task }}
+                <h4>
+                    {{ task }}
+                    {# Bouton d'édition de la tâche #}
                     <a href={% url "edittask" task.id %}>
                         <i class="fa fa-pencil-square-o fa-2x fa-pull-right" title="Modify task" aria-hidden="true"></i>
                     </a>
@@ -34,68 +37,87 @@
         <p>{{ task.description }}</p>
     </div>
 
-    <div class="container">
+    <!-- Informations principales -->
+    <div class="container" id="mainInfos">
         <table class="table">
             <tr>
-                <th>Assignée</th>
+                <th>Assignée à</th>
                 <td><span class="badge badge-primary">{{ task.assignee }}</span></td>
             </tr>
             <tr>
-                <th>Start date</th>
+                <th>Date de début</th>
                 <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
             </tr>
             <tr>
-                <th>Due date</th>
+                <th>Date de fin</th>
                 <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
             </tr>
             <tr>
-                <th>Priority</th>
+                <th>Priorité</th>
                 <td>{{ task.priority }}</td>
             </tr>
             <tr>
-                <th>Status</th>
+                <th>Statut</th>
                 <td><span class="badge badge-warning">{{ task.status }}</span></td>
             </tr>
         </table>
-
     </div>
 
-    <div class="container">
-        <h6>History</h6>
+    <!-- Information complémentaires, ie les entrées du journal relatives à la tâche en question -->
+    <div class="container" id="history">
+        <h6>Journal</h6>
         {% if liste_journal %}
+            <!-- Cas où la tâche a des infos complémentaires -->
             <table class="table">
+                <!-- Boucle sur les entrées du journal -->
                 {% for info in liste_journal %}
                     <tr>
+                        <!-- Ce tag colHistory1 est défini dans taskmanager.css et permet de régler la largeur de la colonne -->
                         <td class="colHistory1">
+                            <!-- Affichage de l'auteur et de la date de l'info -->
                             <span class="badge badge-primary">{{ info.author }}</span>
                             <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
                         </td>
                         <td>
+                            <!-- Affichage de l'info -->
                             {{ info.entry }}
                         </td>
-
                     </tr>
                 {% endfor %}
             </table>
         {% else %}
+            <!-- Cas où la tâche n'a pas d'infos complémentaires -->
             <p>Il n'y a pas d'entrée dans le journal...</p>
         {% endif %}
     </div>
 
-    <div class="container">
-        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newentry">New entry
+    <!-- Ajout d'une entrée au journal -->
+    <div class="container" id="newentry">
+        <!-- Ce bouton, si cliqué, affiche le form -->
+        <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#newentry">
+            Ajouter une entrée au journal
         </button>
+        {# Grâce à collapse, cette div apparait #}
         <div id="newentry" class="collapse">
+            {# On récupère le form #}
             <form action="{% url "task" task.id %}" method="post">
                 {% csrf_token %}
                 <br>
-                {% bootstrap_field form.entry show_label=False addon_before='<i class="fa fa-pencil" aria-hidden="true"></i>' %}
-                {% buttons %}
-                    <button type="submit" class="btn btn-primary">Send</button>
-                {% endbuttons %}
+                <!-- On affiche le form et le bouton submit sur une seule ligne -->
+                <div class="row">
+                    <div class="col-lg-11">
+                        {# Le form #}
+                        {% bootstrap_field form.entry show_label=False addon_before='<i class="fa fa-pencil" aria-hidden="true"></i>' %}
+                    </div>
+                    <div class="col-lg-1">
+                        {# Le bouton #}
+                        {% buttons %}
+                            <button type="submit" class="btn btn-primary float-right">Publier</button>
+                        {% endbuttons %}
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 
 {% endblock %}
-

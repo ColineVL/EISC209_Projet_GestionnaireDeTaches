@@ -4,25 +4,17 @@
 
 
 {% block content %}
+
+    <!-- Le form de connexion -->
     <div class="container">
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            {% bootstrap_field form.username show_label=False addon_before='<i class="fa fa-user" aria-hidden="true"></i>'%}
-            {% bootstrap_field form.password show_label=False addon_before='<i class="fa fa-key" aria-hidden="true"></i>'%}
+            {% bootstrap_field form.username show_label=False addon_before='<i class="fa fa-user fa-fw" aria-hidden="true"></i>'%}
+            {% bootstrap_field form.password show_label=False addon_before='<i class="fa fa-key fa-fw" aria-hidden="true"></i>'%}
             {% buttons %}
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
             {% endbuttons %}
         </form>
-        {#    <div class="input-group margin-bottom-sm">#}
-        {#  <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i></span>#}
-        {#  <input class="form-control" type="text" placeholder="Email address">#}
-        {#</div>#}
-        {#<div class="input-group">#}
-        {#  <span class="input-group-addon"><i class="fa fa-key fa-fw" aria-hidden="true"></i></span>#}
-        {#  <input class="form-control" type="password" placeholder="Password">#}
-        {#</div>#}
-
-
     </div>
 
 {% endblock %}

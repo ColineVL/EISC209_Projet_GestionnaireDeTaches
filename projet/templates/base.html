@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     {% load bootstrap4 %}
     {% load static %}
 
     <title>{% block title %}Titre{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Inclusion de Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Inclusion de FontAwesome pour utiliser des icônes -->
     <script src="https://use.fontawesome.com/64f57eceaa.js"></script>
 
+    <!-- Inclusion d'un fichier CSS en plus pour gérer la taille d'une colonne dans l'affichage des tâches -->
     <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
-
-
 </head>
+
 <body>
 
+<!-- Jumbotron -->
+<div class="jumbotron" id="jumbotron">
+    <h1 class="display-3">Calend-me</h1>
+    <p class="lead">Une super app pour planifier d'incroyables projets</p>
 
-<div class="jumbotron">
-    <h1><a href='{% url "projects" %}'>Gestionnaire de tâches</a></h1>
-    <h5>Gérez simplement vos projets et vos tâches.</h5>
-    <hr>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <h6>
+    {% if user.is_authenticated %}
+        <!-- L'utilisateur est connecté, donc on affiche son nom. -->
+        <div class="row">
+            <div class="col-sm-12">
+                <hr>
                 Bienvenue {{ user.username }} !
-                {% if user.is_authenticated %}
-                    <a href='{% url "logout" %}'>
-                        <i class="fa fa-sign-out fa-3x fa-pull-right" title="logout" aria-hidden="true"></i>
-                    </a>
-                {% endif %}
-            </h6>
+                <a href='{% url "logout" %}'>
+                    <i class="fa fa-sign-out fa-3x fa-pull-right" title="logout" aria-hidden="true"></i>
+                </a>
+            </div>
         </div>
-    </div>
-</div>
-{% block jumbotron %}
-{% endblock %}
+    {% endif %}
 </div>
 
-
-<div class="container-fluid">
+<!-- Barre de navigation -->
+{# On ne l'affiche que si l'utilisateur est connecté #}
+<div class="container-fluid" id="navigation">
     {% if user.is_authenticated %}
         <nav class="navbar navbar-light" style="background-color:#e9ecef">
             {% block nav %}
@@ -53,12 +54,12 @@
     <br>
 </div>
 
+<!-- Contenu de la page -->
+{% block content %}
+{% endblock %}
+<br>
 
-<section id="content">
-    {% block content %}{% endblock %}
-    <br>
-</section>
-
+<!-- Footer -->
 <footer>
     <div class="container text-center">
         <p>&copy; Coline van Leeuwen, avril 2020</p>

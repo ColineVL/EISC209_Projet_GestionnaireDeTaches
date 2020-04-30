@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Project{% endblock %}
 
+{# Barre de navigation #}
 {% block nav %}
     <ul class="nav">
         <li class="nav-item">
@@ -12,13 +13,17 @@
     </ul>
 {% endblock %}
 
+{# Contenu de la page #}
 {% block content %}
 
-    <div class="container">
+    <!-- Titre de la page et bouton pour ajouter une tâche -->
+    <div class="container" id="titre">
         <div class="row">
             <div class="col-sm-12">
                 <h1>
-                    Projet : {{ projet }}
+                    {# Nom du projet #}
+                    {{ projet }}
+                    {# Bouton pour ajouter une tâche #}
                     <a href={% url "newtask" projet.id %}>
                         <i class="fa fa-plus-circle fa-pull-right" title="New task" aria-hidden="true"></i>
                     </a>
@@ -27,18 +32,23 @@
         </div>
     </div>
 
-    <div class="container">
+    <!-- Liste des tâches -->
+    <div class="container" id="listeTaches">
+
         {% if liste_taches %}
+            <!-- Cas où la liste des tâches n'est pas vide -->
             <table class="table table-hover">
+                <!-- Première ligne de la table, noms des colonnes -->
                 <thead class="thead-light">
                 <tr>
-                    <th>Task</th>
-                    <th>Assignee</th>
-                    <th>Start date</th>
-                    <th>Due date</th>
+                    <th>Tâche</th>
+                    <th>Assignée à</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
                     <th></th>
                 </tr>
                 </thead>
+                <!-- Corps de la table, boucle sur les tâches -->
                 <tbody>
                 {% for task in liste_taches %}
                     <tr>
@@ -53,9 +63,12 @@
                 {% endfor %}
                 </tbody>
             </table>
+
         {% else %}
+            <!-- Cas où le projet n'a aucune tâche associée -->
             <p>Aucune tâche !</p>
         {% endif %}
+
     </div>
 
 {% endblock %}

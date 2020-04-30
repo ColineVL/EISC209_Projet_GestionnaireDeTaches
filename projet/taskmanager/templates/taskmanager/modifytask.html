@@ -2,11 +2,9 @@
 {% block title %}{{ method }} task{% endblock %}
 {% load bootstrap4 %}
 
-{% if method == 'Edit' %}
-{% else %}
-{% endif %}
-
+{# Barre de navigation #}
 {% block nav %}
+    <!-- Ce n'est pas la même selon si on édite une tâche ou si on en crée une nouvelle -->
     <ul class="nav">
         <li class="nav-item">
             <a class="nav-link" href={% url "projects" %}>Projets</a>
@@ -15,6 +13,7 @@
             <a class="nav-link" href="{% url 'project' projet.id %}">{{ projet }}</a>
         </li>
         {% if method == 'Edit' %}
+            <!-- Cas édition de tâche -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'task' tache.id %}">{{ tache }}</a>
             </li>
@@ -22,6 +21,7 @@
                 <a class="nav-link" href="{% url 'edittask' tache.id %}">Edit task</a>
             </li>
         {% else %}
+            <!-- Cas création d'une nouvelle tâche -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'newtask' projet.id %}">New task</a>
             </li>
@@ -29,17 +29,25 @@
     </ul>
 {% endblock %}
 
-
+{# Contenu de la page #}
 {% block content %}
-    <div class="container">
+    <!-- Titre de la page -->
+    <div class="container" id="titre">
         <h2>{{ projet }}</h2>
         <h4>{{ method }} task</h4>
         <br>
+    </div>
+
+    <div class="container" id="form">
+        <!-- On n'appelle pas le même form selon si on est en édition ou en création -->
         {% if method == 'Edit' %}
+            <!-- Cas édition -->
             <form action="{% url "edittask" tache.id %}" method="post">
         {% else %}
+            <!-- Cas création -->
             <form action="{% url "newtask" projet.id %}" method="post">
         {% endif %}
+        <!-- Dans les deux cas, affichage du form -->
         {% csrf_token %}
         {% bootstrap_form form layout='horizontal' %}
         {% buttons %}
@@ -47,4 +55,5 @@
         {% endbuttons %}
         </form>
     </div>
+
 {% endblock %}
