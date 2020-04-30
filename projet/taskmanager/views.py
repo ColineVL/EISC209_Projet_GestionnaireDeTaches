@@ -54,14 +54,10 @@ def newtask(request, idProjet):
 @login_required
 def edittask(request, idTask):
     tache = get_object_or_404(Task, id=idTask)
-    form = TaskForm(request.POST, instance=tache)
+    form = TaskForm(request.POST or None, instance=tache)
     if form.is_valid():
-        print("!!!!")
         form.save()
         return redirect(task, id=tache.id)
-    else:
-        print("nooo")
-        # TODO Apparemment le form n'est pas valide'
     return render(request, 'taskmanager/edittask.html', locals())
 
 
