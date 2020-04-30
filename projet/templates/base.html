@@ -21,13 +21,18 @@
     <h5>Gérez simplement vos projets et vos tâches.</h5>
     <hr>
 
-    {% if user.is_authenticated %}
-        <a href='{% url "logout" %}'>
-            <p><i class="fa fa-sign-out fa-3x close text-primary" aria-hidden="true"></i></p>
-        </a>
-    {% endif %}
-    <h6>Bienvenue {{ user.username }} !</h6>
-
+    <div class="row">
+        <div class="col-sm-12">
+            <h6>
+                Bienvenue {{ user.username }} !
+                {% if user.is_authenticated %}
+                    <a href='{% url "logout" %}'>
+                        <i class="fa fa-sign-out fa-3x fa-pull-right" title="logout" aria-hidden="true"></i>
+                    </a>
+                {% endif %}
+            </h6>
+        </div>
+    </div>
 </div>
 {% block jumbotron %}
 {% endblock %}

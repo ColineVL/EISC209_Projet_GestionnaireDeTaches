@@ -21,13 +21,17 @@
 {% block content %}
 
     <div class="container">
-        <a href={% url "edittask" task.id %}>
-            <i class="fa fa-pencil-square-o fa-3x close text-primary" aria-hidden="true"></i>
-        </a>
-        <h2>{{ task.project }}</h2>
-        <h4>{{ task }}</h4>
+        <h2> {{ task.project }}</h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>{{ task }}
+                    <a href={% url "edittask" task.id %}>
+                        <i class="fa fa-pencil-square-o fa-2x fa-pull-right" title="Modify task" aria-hidden="true"></i>
+                    </a>
+                </h4>
+            </div>
+        </div>
         <p>{{ task.description }}</p>
-
     </div>
 
     <div class="container">
@@ -62,18 +66,13 @@
             <table class="table">
                 {% for info in liste_journal %}
                     <tr>
-                        <td>
-
+                        <td class="colHistory1">
                             <span class="badge badge-primary">{{ info.author }}</span>
                             <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
                         </td>
                         <td>
                             {{ info.entry }}
                         </td>
-                        <td>ab</td>
-                        <td>cd</td>
-                        <td>ef</td>
-                        <td>gh</td>
 
                     </tr>
                 {% endfor %}
