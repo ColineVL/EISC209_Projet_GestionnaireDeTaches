@@ -7,11 +7,12 @@ from .forms import TaskForm, NewEntryForm, TestForm
 from .models import Project, Task, Journal
 
 
-# Create your views here.
-
 @login_required
 def projects(request):
     liste_projets = request.user.project_set.all()
+    for pr in liste_projets:
+        pr.nbMembers = len(pr.members.all())
+        pr.nbTasks = len(pr.task_set.all())
     return render(request, 'taskmanager/projects.html', locals())
 
 
@@ -42,13 +43,14 @@ def task(request, id):
 @login_required
 def newtask(request, idProjet):
     projet = get_object_or_404(Project, id=idProjet)
+    list_members = projet.members.all()
     form = TaskForm(request.POST or None)
     method = "New"
     if form.is_valid():
-        task = form.save(commit=False)
-        task.project = projet
-        task.save()
-        return redirect('task', id=task.id)
+        tache = form.save(commit=False)
+        tache.project = projet
+        tache.save()
+        return redirect('task', id=tache.id)
     return render(request, 'taskmanager/modifytask.html', locals())
 
 
@@ -56,6 +58,7 @@ def newtask(request, idProjet):
 def edittask(request, idTask):
     tache = get_object_or_404(Task, id=idTask)
     projet = tache.project
+    list_members = projet.members.all()
     form = TaskForm(request.POST or None, instance=tache)
     method = "Edit"
     if form.is_valid():

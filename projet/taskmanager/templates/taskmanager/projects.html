@@ -17,17 +17,31 @@
     <!-- Titre de la page -->
     <div class="container" id="titre">
         <h1>Vos projets</h1>
+        <br>
     </div>
     <!-- Affichage de la liste des projets -->
     <div class="container" id="listeProjets">
         {% if liste_projets %}
             <!-- Cas où l'utilisateur a des projets -->
-            <table class="table table-hover">
+            <table class="table table-hover text-center">
+                <!-- En-tête de la table -->
+                <thead class="thead-light">
+                <tr>
+                    <th>Nom du projet</th>
+                    <th>Nombre de membres</th>
+                    <th>Nombre de tâches</th>
+                </tr>
+                </thead>
+                <!-- Corps de la table, boucle sur les projets -->
+                <tbody>
                 {% for projet in liste_projets %}
                     <tr>
                         <td><a href="{% url 'project' projet.id %}">{{ projet }}</a></td>
+                        <td>{{ projet.nbMembers }}</td>
+                        <td>{{ projet.nbTasks }}</td>
                     </tr>
                 {% endfor %}
+                </tbody>
             </table>
         {% else %}
             <!-- Cas où l'utilisateur n'a pas de projets -->
