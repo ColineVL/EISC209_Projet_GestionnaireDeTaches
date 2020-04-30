@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import TaskForm, NewEntryForm, TestForm
+from .forms import TaskForm, NewEntryForm, TestForm, DateForm
 from .models import Project, Task, Journal
 
 
@@ -75,3 +75,10 @@ def test(request):
         ok = "yes"
     return render(request, 'taskmanager/test.html', locals())
 
+
+def testCalendar(request):
+    form = DateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        print("ok")
+    return render(request, 'taskmanager/testCal.html', locals())

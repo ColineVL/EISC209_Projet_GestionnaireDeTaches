@@ -25,3 +25,14 @@ class TestForm(forms.Form):
     ]
     favorite_fruit = forms.CharField(label='What is your favorite fruit?',
                                      widget=forms.Select(choices=FRUIT_CHOICES))
+
+
+# TODO enlever : c'est un test
+class DateForm(forms.Form):
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
