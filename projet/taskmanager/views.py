@@ -65,13 +65,3 @@ def edittask(request, idTask):
         form.save()
         return redirect(task, id=tache.id)
     return render(request, 'taskmanager/modifytask.html', locals())
-
-
-def test(request):
-    ok = "no"
-    form = TestForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        ok = "yes"
-    return render(request, 'taskmanager/test.html', locals())
-

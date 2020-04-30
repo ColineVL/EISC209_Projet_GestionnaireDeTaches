@@ -49,12 +49,9 @@
         {% endif %}
         <!-- Dans les deux cas, affichage du form -->
         {% csrf_token %}
-{#    TODO test#}
-        {{ form.start_date.value|date:"d/m/Y" }}
         <!-- Début du form, simple -->
         {% bootstrap_field form.name layout='horizontal' %}
         {% bootstrap_field form.description layout='horizontal' %}
-
         <!-- Choix de l'assignee -->
         <div class="form-group row"><label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
             <div class="col-md-9">
@@ -70,35 +67,34 @@
                 </select>
             </div>
         </div>
-
         <!-- Choix de la start_date -->
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="id_start_date">Start date</label>
             <div class="col-md-9">
                 <div class="input-group date" id="id_start_date" data-target-input="nearest">
-                    <input type="text" name="start_date" value={{ form.start_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
-                           placeholder="Start date" title="" required id="id_start_date">
+                    <input type="text" name="start_date"
+                           value={{ form.start_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
+                    placeholder="Start date" title="" required id="id_start_date">
                     <div class="input-group-append" data-target="#id_start_date" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Choix de la due_date -->
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="id_due_date">Due date</label>
             <div class="col-md-9">
                 <div class="input-group date" id="id_due_date" data-target-input="nearest">
-                    <input type="text" name="due_date" value={{ form.due_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
-                           placeholder="Due date" title="" required id="id_due_date">
+                    <input type="text" name="due_date" value={{ form.due_date.value|date:"d/m/Y" }} class="form-control
+                           datetimepicker-input"
+                    placeholder="Due date" title="" required id="id_due_date">
                     <div class="input-group-append" data-target="#id_due_date" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Fin du form, simple -->
         {% bootstrap_field form.priority layout='horizontal' %}
         {% bootstrap_field form.status layout='horizontal' %}
