@@ -43,22 +43,25 @@ def task(request, id):
 def newtask(request, idProjet):
     projet = get_object_or_404(Project, id=idProjet)
     form = TaskForm(request.POST or None)
+    method = "New"
     if form.is_valid():
         task = form.save(commit=False)
         task.project = projet
         task.save()
         return redirect('task', id = task.id)
-    return render(request, 'taskmanager/newtask.html', locals())
+    return render(request, 'taskmanager/modifytask.html', locals())
 
 
 @login_required
 def edittask(request, idTask):
     tache = get_object_or_404(Task, id=idTask)
+    projet = tache.project
     form = TaskForm(request.POST or None, instance=tache)
+    method = "Edit"
     if form.is_valid():
         form.save()
         return redirect(task, id=tache.id)
-    return render(request, 'taskmanager/edittask.html', locals())
+    return render(request, 'taskmanager/modifytask.html', locals())
 
 
 def test(request):
