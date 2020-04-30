@@ -71,3 +71,6 @@ def test(request):
         form.save()
         ok = "yes"
     return render(request, 'taskmanager/test.html', locals())
+
+def testCSS(request):
+    return render(request, 'taskmanager/testCSS.html')
