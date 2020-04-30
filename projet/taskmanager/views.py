@@ -36,7 +36,7 @@ def task(request, id):
         journal.entry = entry
         journal.author = request.user
         journal.save()
-
+        form = NewEntryForm()
     return render(request, 'taskmanager/task.html', locals())
 
 
