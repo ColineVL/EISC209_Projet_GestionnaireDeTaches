@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    {% load bootstrap4 %}
+    {% load static %}
+
     <title>{% block title %}Titre{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,10 +13,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/64f57eceaa.js"></script>
 
+    <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
+
+
 </head>
 <body>
-{% load bootstrap4 %}
-{% load static %}
 
 
 <div class="jumbotron">

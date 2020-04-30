@@ -18,7 +18,7 @@ def projects(request):
 @login_required
 def project(request, id):
     projet = get_object_or_404(Project, id=id)
-    liste_taches = Task.objects.filter(project__id = id)
+    liste_taches = Task.objects.filter(project__id=id)
     return render(request, 'taskmanager/project.html', locals())
 
 
@@ -48,7 +48,7 @@ def newtask(request, idProjet):
         task = form.save(commit=False)
         task.project = projet
         task.save()
-        return redirect('task', id = task.id)
+        return redirect('task', id=task.id)
     return render(request, 'taskmanager/modifytask.html', locals())
 
 
@@ -72,5 +72,3 @@ def test(request):
         ok = "yes"
     return render(request, 'taskmanager/test.html', locals())
 
-def testCSS(request):
-    return render(request, 'taskmanager/testCSS.html')
