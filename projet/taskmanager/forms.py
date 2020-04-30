@@ -13,26 +13,3 @@ class TaskForm(forms.ModelForm):
 # Form pour entrer une nouvelle information complémentaire dans un journal
 class NewEntryForm(forms.Form):
     entry = forms.CharField(max_length=200)
-
-
-# TODO enlever : c'est un test
-class TestForm(forms.Form):
-    FRUIT_CHOICES = [
-        ('orange', 'Oranges'),
-        ('cantaloupe', 'Cantaloupes'),
-        ('mango', 'Mangoes'),
-        ('honeydew', 'Honeydews'),
-    ]
-    favorite_fruit = forms.CharField(label='What is your favorite fruit?',
-                                     widget=forms.Select(choices=FRUIT_CHOICES))
-
-
-# TODO enlever : c'est un test
-class DateForm(forms.Form):
-    date = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )

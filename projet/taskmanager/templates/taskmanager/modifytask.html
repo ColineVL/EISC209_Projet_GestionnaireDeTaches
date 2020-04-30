@@ -50,10 +50,11 @@
         <!-- Dans les deux cas, affichage du form -->
         {% csrf_token %}
 
-        {# debut test #}
+        <!-- Début du form, simple -->
         {% bootstrap_field form.name layout='horizontal' %}
         {% bootstrap_field form.description layout='horizontal' %}
 
+        <!-- Choix de l'assignee -->
         <div class="form-group row"><label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
             <div class="col-md-9">
                 <select name="assignee" class="form-control" title="" required id="id_assignee">
@@ -69,7 +70,7 @@
             </div>
         </div>
 
-        {# Essai calendrier #}
+        <!-- Choix de la start_date -->
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="id_start_date">Start date</label>
             <div class="col-md-9">
@@ -82,18 +83,22 @@
                 </div>
             </div>
         </div>
-        <script>
-            $(function () {
-                $("#id_start_date").datetimepicker({
-                    {#format: 'L',#}
-                    format: 'DD/MM/YYYY',
-                });
-            });
-        </script>
-        {# Fin de l'essai #}
 
-        {#        {% bootstrap_field form.start_date layout='horizontal' %}#}
-        {% bootstrap_field form.due_date layout='horizontal' %}
+        <!-- Choix de la due_date -->
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_due_date">Due date</label>
+            <div class="col-md-9">
+                <div class="input-group date" id="id_due_date" data-target-input="nearest">
+                    <input type="text" name="due_date" class="form-control datetimepicker-input"
+                           placeholder="Due date" title="" required id="id_due_date">
+                    <div class="input-group-append" data-target="#id_due_date" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fin du form, simple -->
         {% bootstrap_field form.priority layout='horizontal' %}
         {% bootstrap_field form.status layout='horizontal' %}
         {# fin test #}
@@ -102,5 +107,26 @@
         {% endbuttons %}
         </form>
     </div>
+
+
+    {# Script pour faire fonctionner le calendrier #}
+    {# TODO voir si je peux pas le mettre ailleurs, dans un fichier js #}
+    <script type="text/javascript">
+        $(function () {
+            $('#id_start_date').datetimepicker({
+                format: 'DD/MM/YYYY',
+            });
+            $('#id_due_date').datetimepicker({
+                useCurrent: false,
+                format: 'DD/MM/YYYY',
+            });
+            $("#id_start_date").on("change.datetimepicker", function (e) {
+                $('#id_due_date').datetimepicker('minDate', e.date);
+            });
+            $("#id_due_date").on("change.datetimepicker", function (e) {
+                $('#id_start_date').datetimepicker('maxDate', e.date);
+            });
+        });
+    </script>
 
 {% endblock %}

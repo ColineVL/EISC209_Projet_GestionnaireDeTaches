@@ -75,10 +75,3 @@ def test(request):
         ok = "yes"
     return render(request, 'taskmanager/test.html', locals())
 
-
-def testCalendar(request):
-    form = DateForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        print("ok")
-    return render(request, 'taskmanager/testCal.html', locals())
