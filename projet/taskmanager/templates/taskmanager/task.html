@@ -61,14 +61,22 @@
         {% if liste_journal %}
             <table class="table">
                 {% for info in liste_journal %}
-                <tr>
-                    <td>
-                        <span class="badge badge-primary">{{ info.author }}</span>
-                        <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
-                    </td>
-                    <td>{{ info.entry }}</td>
-                </tr>
-            {% endfor %}
+                    <tr>
+                        <td>
+
+                            <span class="badge badge-primary">{{ info.author }}</span>
+                            <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
+                        </td>
+                        <td>
+                            {{ info.entry }}
+                        </td>
+                        <td>ab</td>
+                        <td>cd</td>
+                        <td>ef</td>
+                        <td>gh</td>
+
+                    </tr>
+                {% endfor %}
             </table>
         {% else %}
             <p>Il n'y a pas d'entrée dans le journal...</p>

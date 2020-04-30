@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import TaskForm, NewEntryForm
+from .forms import TaskForm, NewEntryForm, TestForm
 from .models import Project, Task, Journal
 
 
@@ -65,4 +65,9 @@ def edittask(request, idTask):
 
 
 def test(request):
-    return render(request, 'taskmanager/test.html')
+    ok = "no"
+    form = TestForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        ok = "yes"
+    return render(request, 'taskmanager/test.html', locals())
