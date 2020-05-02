@@ -5,14 +5,14 @@ from .models import Project, Task, Status, Journal
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'nbMembers')
+    list_display = ('name', 'nb_members')
     ordering = ('name',)
     search_fields = ('name',)
 
-    def nbMembers(self, project):
+    def nb_members(self, project):
         return len(project.members.all())
 
-    nbMembers.short_description = "Number of members"
+    nb_members.short_description = "Number of members"
 
 
 class TaskAdmin(admin.ModelAdmin):

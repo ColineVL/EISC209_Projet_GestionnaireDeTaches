@@ -5,8 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.projects),
     path('projects', views.projects, name='projects'),
-    path('project/<int:id>', views.project, name='project'),
-    path('task/<int:id>', views.task, name='task'),
-    path('newtask/<int:idProjet>', views.newtask, name='newtask'),
-    path('edittask/<int:idTask>', views.edittask, name='edittask'),
+    path('project/<int:id_project>', views.project, name='project'),
+    path('task/<int:id_task>', views.task, name='task'),
+    path('newtask/<int:id_project>', views.newtask, name='newtask'),
+    path('edittask/<int:id_task>', views.edittask, name='edittask'),
 ]

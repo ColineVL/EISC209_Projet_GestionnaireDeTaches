@@ -21,7 +21,7 @@
     </div>
     <!-- Affichage de la liste des projets -->
     <div class="container" id="listeProjets">
-        {% if liste_projets %}
+        {% if list_projects %}
             <!-- Cas où l'utilisateur a des projets -->
             <table class="table table-hover text-center">
                 <!-- En-tête de la table -->
@@ -34,11 +34,11 @@
                 </thead>
                 <!-- Corps de la table, boucle sur les projets -->
                 <tbody>
-                {% for projet in liste_projets %}
+                {% for project in list_projects %}
                     <tr>
-                        <td><a href="{% url 'project' projet.id %}">{{ projet }}</a></td>
-                        <td>{{ projet.nbMembers }}</td>
-                        <td>{{ projet.nbTasks }}</td>
+                        <td><a href="{% url 'project' project.id %}">{{ project }}</a></td>
+                        <td>{{ project.nbMembers }}</td>
+                        <td>{{ project.nbTasks }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

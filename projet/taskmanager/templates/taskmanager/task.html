@@ -9,10 +9,10 @@
             <a class="nav-link" href={% url "projects" %}>Projets</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' task.project.id %}">{{ task.project }}</a>
+            <a class="nav-link" href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'task' task.id %}">{{ task }}</a>
+            <a class="nav-link" href="{% url 'task' id_task %}">{{ task_to_display }}</a>
         </li>
     </ul>
 {% endblock %}
@@ -22,19 +22,19 @@
 
     <!-- Titre de la page et bouton d'édition de la tâche -->
     <div class="container" id="titre">
-        <h2> {{ task.project }}</h2>
+        <h2> {{ task_to_display.project }}</h2>
         <div class="row">
             <div class="col-sm-12">
                 <h4>
-                    {{ task }}
+                    {{ task_to_display }}
                     {# Bouton d'édition de la tâche #}
-                    <a href={% url "edittask" task.id %}>
+                    <a href={% url "edittask" id_task %}>
                         <i class="fa fa-pencil-square-o fa-2x fa-pull-right" title="Modify task" aria-hidden="true"></i>
                     </a>
                 </h4>
             </div>
         </div>
-        <p>{{ task.description }}</p>
+        <p>{{ task_to_display.description }}</p>
     </div>
 
     <!-- Informations principales -->
@@ -42,23 +42,23 @@
         <table class="table">
             <tr>
                 <th>Assignée à</th>
-                <td><span class="badge badge-primary">{{ task.assignee }}</span></td>
+                <td><span class="badge badge-primary">{{ task_to_display.assignee }}</span></td>
             </tr>
             <tr>
                 <th>Date de début</th>
-                <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                <td><i>{{ task_to_display.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
             </tr>
             <tr>
                 <th>Date de fin</th>
-                <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                <td><i>{{ task_to_display.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
             </tr>
             <tr>
                 <th>Priorité</th>
-                <td>{{ task.priority }}</td>
+                <td>{{ task_to_display.priority }}</td>
             </tr>
             <tr>
                 <th>Statut</th>
-                <td><span class="badge badge-warning">{{ task.status }}</span></td>
+                <td><span class="badge badge-warning">{{ task_to_display.status }}</span></td>
             </tr>
         </table>
     </div>
@@ -66,11 +66,11 @@
     <!-- Information complémentaires, ie les entrées du journal relatives à la tâche en question -->
     <div class="container" id="history">
         <h6>Journal</h6>
-        {% if liste_journal %}
+        {% if list_journal %}
             <!-- Cas où la tâche a des infos complémentaires -->
             <table class="table">
                 <!-- Boucle sur les entrées du journal -->
-                {% for info in liste_journal %}
+                {% for info in list_journal %}
                     <tr>
                         <!-- Ce tag colHistory1 est défini dans taskmanager.css et permet de régler la largeur de la colonne -->
                         <td class="colHistory1">
@@ -100,7 +100,7 @@
         {# Grâce à collapse, cette div apparait #}
         <div id="newentry" class="collapse">
             {# On récupère le form #}
-            <form action="{% url "task" task.id %}" method="post">
+            <form action="{% url "task" task_to_display.id %}" method="post">
                 {% csrf_token %}
                 <br>
                 <!-- On affiche le form et le bouton submit sur une seule ligne -->

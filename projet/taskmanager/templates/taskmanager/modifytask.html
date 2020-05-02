@@ -10,20 +10,20 @@
             <a class="nav-link" href={% url "projects" %}>Projets</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' projet.id %}">{{ projet }}</a>
+            <a class="nav-link" href="{% url 'project' project_related.id %}">{{ project_related }}</a>
         </li>
         {% if method == 'Edit' %}
             <!-- Cas édition de tâche -->
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'task' tache.id %}">{{ tache }}</a>
+                <a class="nav-link" href="{% url 'task' task_formed.id %}">{{ task_formed }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'edittask' tache.id %}">Edit task</a>
+                <a class="nav-link" href="{% url 'edittask' task_formed.id %}">Edit task</a>
             </li>
         {% else %}
             <!-- Cas création d'une nouvelle tâche -->
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'newtask' projet.id %}">New task</a>
+                <a class="nav-link" href="{% url 'newtask' project_related.id %}">New task</a>
             </li>
         {% endif %}
     </ul>
@@ -33,7 +33,7 @@
 {% block content %}
     <!-- Titre de la page -->
     <div class="container" id="titre">
-        <h2>{{ projet }}</h2>
+        <h2>{{ project_related }}</h2>
         <h4>{{ method }} task</h4>
         <br>
     </div>
@@ -42,10 +42,10 @@
         <!-- On n'appelle pas le même form selon si on est en édition ou en création -->
         {% if method == 'Edit' %}
             <!-- Cas édition -->
-            <form action="{% url "edittask" tache.id %}" method="post">
+            <form action="{% url "edittask" task_formed.id %}" method="post">
         {% else %}
             <!-- Cas création -->
-            <form action="{% url "newtask" projet.id %}" method="post">
+            <form action="{% url "newtask" project_related.id %}" method="post">
         {% endif %}
         <!-- Dans les deux cas, affichage du form -->
         {% csrf_token %}
@@ -76,7 +76,9 @@
                            value={{ form.start_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
                     placeholder="Start date" title="" required id="id_start_date">
                     <div class="input-group-append" data-target="#id_start_date" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        <div class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,10 +89,11 @@
             <div class="col-md-9">
                 <div class="input-group date" id="id_due_date" data-target-input="nearest">
                     <input type="text" name="due_date" value={{ form.due_date.value|date:"d/m/Y" }} class="form-control
-                           datetimepicker-input"
-                    placeholder="Due date" title="" required id="id_due_date">
+                           datetimepicker-input" placeholder="Due date" title="" required id="id_due_date">
                     <div class="input-group-append" data-target="#id_due_date" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        <div class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                        </div>
                     </div>
                 </div>
             </div>
