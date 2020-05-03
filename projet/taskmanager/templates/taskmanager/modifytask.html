@@ -36,6 +36,7 @@
         <h2>{{ project_related }}</h2>
         <h4>{{ method }} task</h4>
         <br>
+        {{ form.assignee.value }}
     </div>
 
     <div class="container" id="form">
@@ -58,7 +59,8 @@
                 <select name="assignee" class="form-control" title="" required id="id_assignee">
                     <option value="">---------</option>
                     {% for mem in list_members %}
-                        {% if form.assignee.value == mem.id %}
+                        {% if form.assignee.value|add:0 == mem.id %}
+                            {# Ce tag add permet de transformer la value de str en int #}
                             <option value={{ mem.id }} selected>{{ mem }}</option>
                         {% else %}
                             <option value={{ mem.id }}>{{ mem }}</option>
@@ -75,7 +77,7 @@
                     {% if form.start_date.value %}
                         {# Cas où on a déjà une valeur à mettre dans la case #}
                         <input type="text" name="start_date"
-                               value={{ form.start_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
+                               value={{ form.start_date.value }} class="form-control datetimepicker-input"
                         placeholder="Start date" title="" required id="id_start_date">
                     {% else %}
                         {# Cas où on n'a pas de valeur à mettre dans la case #}
@@ -96,13 +98,14 @@
             <div class="col-md-9">
                 <div class="input-group date" id="id_due_date" data-target-input="nearest">
                     {% if form.due_date.value %}
-                    {# Cas où on a déjà une valeur à mettre dans la case #}
-                    <input type="text" name="due_date" value={{ form.due_date.value|date:"d/m/Y" }} class="form-control
-                           datetimepicker-input" placeholder="Due date" title="" required id="id_due_date">
+                        {# Cas où on a déjà une valeur à mettre dans la case #}
+                        <input type="text" name="due_date" value={{ form.due_date.value }} class="form-control
+                               datetimepicker-input" placeholder="Due date" title="" required id="id_due_date">
                     {% else %}
-                    {# Cas où on n'a pas de valeur à mettre dans la case #}
-                    <input type="text" name="due_date" class="form-control datetimepicker-input" placeholder="Due date"
-                           title="" required id="id_due_date">
+                        {# Cas où on n'a pas de valeur à mettre dans la case #}
+                        <input type="text" name="due_date" class="form-control datetimepicker-input"
+                               placeholder="Due date"
+                               title="" required id="id_due_date">
                     {% endif %}
                     <div class="input-group-append" data-target="#id_due_date" data-toggle="datetimepicker">
                         <div class="input-group-text">
