@@ -101,7 +101,6 @@
         <!-- Fin du form, simple -->
         {% bootstrap_field form.priority layout='horizontal' %}
         {% bootstrap_field form.status layout='horizontal' %}
-        {# fin test #}
         {% buttons %}
             <button type="submit" class="btn btn-primary">Save</button>
         {% endbuttons %}
@@ -110,7 +109,6 @@
 
 
     {# Script pour faire fonctionner le calendrier #}
-    {# TODO voir si je peux pas le mettre ailleurs, dans un fichier js #}
     <script type="text/javascript">
         $(function () {
             $('#id_start_date').datetimepicker({

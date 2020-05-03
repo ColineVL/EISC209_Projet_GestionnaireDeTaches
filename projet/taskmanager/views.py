@@ -49,7 +49,6 @@ def newtask(request, id_project):
         task_formed = form.save(commit=False)
         task_formed.project = project_related
         task_formed.save()
-        print("ici") #TODO
         return redirect('task', id_task=task_formed.id)
     return render(request, 'taskmanager/modifytask.html', locals())
 
@@ -63,5 +62,5 @@ def edittask(request, id_task):
     method = "Edit"
     if form.is_valid():
         form.save()
-        return redirect(task, id_task=task_formed.id)
+        return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
