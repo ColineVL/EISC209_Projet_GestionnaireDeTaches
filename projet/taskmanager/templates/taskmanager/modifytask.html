@@ -72,9 +72,16 @@
             <label class="col-md-3 col-form-label" for="id_start_date">Start date</label>
             <div class="col-md-9">
                 <div class="input-group date" id="id_start_date" data-target-input="nearest">
-                    <input type="text" name="start_date"
-                           value={{ form.start_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
-                    placeholder="Start date" title="" required id="id_start_date">
+                    {% if form.start_date.value %}
+                        {# Cas où on a déjà une valeur à mettre dans la case #}
+                        <input type="text" name="start_date"
+                               value={{ form.start_date.value|date:"d/m/Y" }} class="form-control datetimepicker-input"
+                        placeholder="Start date" title="" required id="id_start_date">
+                    {% else %}
+                        {# Cas où on n'a pas de valeur à mettre dans la case #}
+                        <input type="text" name="start_date" class="form-control datetimepicker-input"
+                               placeholder="Start date" title="" required id="id_start_date">
+                    {% endif %}
                     <div class="input-group-append" data-target="#id_start_date" data-toggle="datetimepicker">
                         <div class="input-group-text">
                             <i class="fa fa-calendar"></i>
@@ -88,8 +95,15 @@
             <label class="col-md-3 col-form-label" for="id_due_date">Due date</label>
             <div class="col-md-9">
                 <div class="input-group date" id="id_due_date" data-target-input="nearest">
+                    {% if form.due_date.value %}
+                    {# Cas où on a déjà une valeur à mettre dans la case #}
                     <input type="text" name="due_date" value={{ form.due_date.value|date:"d/m/Y" }} class="form-control
                            datetimepicker-input" placeholder="Due date" title="" required id="id_due_date">
+                    {% else %}
+                    {# Cas où on n'a pas de valeur à mettre dans la case #}
+                    <input type="text" name="due_date" class="form-control datetimepicker-input" placeholder="Due date"
+                           title="" required id="id_due_date">
+                    {% endif %}
                     <div class="input-group-append" data-target="#id_due_date" data-toggle="datetimepicker">
                         <div class="input-group-text">
                             <i class="fa fa-calendar"></i>
