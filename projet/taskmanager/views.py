@@ -9,6 +9,7 @@ from .models import Project, Task, Journal
 
 @login_required
 def projects(request):
+    
     list_projects = request.user.project_set.all()
     for pr in list_projects:
         pr.nbMembers = len(pr.members.all())
@@ -19,6 +20,8 @@ def projects(request):
 @login_required
 def project(request, id_project):
     project_to_display = get_object_or_404(Project, id=id_project)
+    if not request.user in project_to_display.members.all():
+        return redirect('projects')
     list_tasks = Task.objects.filter(project__id=id_project)
     return render(request, 'taskmanager/project.html', locals())
 
@@ -27,6 +30,8 @@ def project(request, id_project):
 def task(request, id_task):
     task_to_display = get_object_or_404(Task, id=id_task)
     list_journal = Journal.objects.filter(task=task_to_display)
+    if not request.user in task_to_display.project.members.all():
+        return redirect('projects')
     form = NewEntryForm(request.POST or None)
     if form.is_valid():
         entry = form.cleaned_data['entry']
@@ -43,6 +48,8 @@ def task(request, id_task):
 def newtask(request, id_project):
     project_related = get_object_or_404(Project, id=id_project)
     list_members = project_related.members.all()
+    if not request.user in list_members:
+        return redirect('projects')
     form = TaskForm(request.POST or None)
     method = "New"
     if form.is_valid():
@@ -58,6 +65,8 @@ def edittask(request, id_task):
     task_formed = get_object_or_404(Task, id=id_task)
     project_related = task_formed.project
     list_members = project_related.members.all()
+    if not request.user in list_members:
+        return redirect('projects')
     form = TaskForm(request.POST or None, instance=task_formed)
     method = "Edit"
     if form.is_valid():
