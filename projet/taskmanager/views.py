@@ -93,3 +93,8 @@ def edittask(request, id_task):
         # On redirige vers la tâche modifiée
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
+
+
+# TODO ceci est un test
+def test(request):
+    return render(request, 'taskmanager/test.html')

@@ -9,4 +9,7 @@ urlpatterns = [
     path('task/<int:id_task>', views.task, name='task'),
     path('newtask/<int:id_project>', views.newtask, name='newtask'),
     path('edittask/<int:id_task>', views.edittask, name='edittask'),
+
+    #TODO enlever ça, c'est un test
+    path('test', views.test, name="test"),
 ]
