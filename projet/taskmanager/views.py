@@ -96,5 +96,5 @@ def edittask(request, id_task):
 
 @login_required
 def userdata(request, id_user):
-    # On récupère les projets où participent l'utilisateur
+    # On récupère les projets où participe l'utilisateur
     return render(request, 'taskmanager/userdata.html', locals())

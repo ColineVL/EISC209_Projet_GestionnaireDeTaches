@@ -62,22 +62,36 @@
 {# On ne l'affiche que si l'utilisateur est connecté #}
 <div class="container-fluid" id="navigation">
     {% if user.is_authenticated %}
-        <nav class="navbar navbar-light" style="background-color:#e9ecef">
-{#            {% block nav %}#}
-{#            {% endblock %}#}
-          <ul class="navbar-nav">
+        <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#e9ecef">
+            <ul class="navbar-nav">
+                <!-- Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'projects' %}">Tous vos projets</a>
+                </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Projets
-                </a>
-                <div class="dropdown-menu">
-                    {% for pr in user.project_set.all %}
-                        <a class="dropdown-item" href="{% url 'project' pr.id %}">{{ pr }}</a>
-                    {% endfor %}
-                </div>
-            </li>
-          </ul>
+                <!-- Dropdown par projet -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Par projet
+                    </a>
+                    <div class="dropdown-menu">
+                        {% for pr in user.project_set.all %}
+                            <a class="dropdown-item" href="{% url 'project' pr.id %}">{{ pr }}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+
+                <!-- Dropdown tableau de bord -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Tableau de bord
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Mes tâches</a>
+                        <a class="dropdown-item" href="#">Mes tâches terminées</a>
+                    </div>
+                </li>
+            </ul>
         </nav>
     {% endif %}
     <br>
