@@ -64,15 +64,16 @@
     {% if user.is_authenticated %}
         <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#e9ecef">
             <ul class="navbar-nav">
-                <!-- Links -->
+
+                <!-- Tous les projets -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'projects' %}">Tous vos projets</a>
+                    <a class="nav-link" href="{% url 'projects' %}">Tous mes projets</a>
                 </li>
 
                 <!-- Dropdown par projet -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Par projet
+                        Projet
                     </a>
                     <div class="dropdown-menu">
                         {% for pr in user.project_set.all %}
@@ -81,16 +82,49 @@
                     </div>
                 </li>
 
-                <!-- Dropdown tableau de bord -->
+                <!-- Dropdown liste des membres -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Tableau de bord
+                        Membres par projet
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Mes tâches</a>
-                        <a class="dropdown-item" href="#">Mes tâches terminées</a>
+                        <a class="dropdown-item" href="#">Tous les projets</a>
+                        {% for pr in user.project_set.all %}
+                            <a class="dropdown-item" href="#">{{ pr }}</a>
+                        {% endfor %}
                     </div>
                 </li>
+
+                <!-- Dropdown Mes tâches -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Mes tâches
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Toutes</a>
+                        <a class="dropdown-item" href="#">Terminées</a>
+                        {#                        TODO on pourrait rajouter des lignes : en cours, en attente etc #}
+                    </div>
+                </li>
+
+                <!-- Dropdown Activité -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Activité
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Tous les projets</a>
+                        {% for pr in user.project_set.all %}
+                            <a class="dropdown-item" href="#">{{ pr }}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+
+                <!-- Exportation -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Exportation</a>
+                </li>
+
             </ul>
         </nav>
     {% endif %}
