@@ -123,5 +123,5 @@ def usertasks_all(request):
 @login_required
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
-    list_tasks = request.user.task_set.filter(status_name="Terminée")
+    list_tasks = request.user.task_set.filter(status__name="Terminée")
     return render(request, "taskmanager/usertasks-done.html", locals())
