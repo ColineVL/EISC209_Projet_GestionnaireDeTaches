@@ -117,11 +117,11 @@ def edittask(request, id_task):
 
 @login_required
 def usertasks_all(request):
-    tasks = request.user.task_set.all()
-    return render(request, "usertasks-all.html", locals())
+    list_tasks = request.user.task_set.all()
+    return render(request, "taskmanager/usertasks-all.html", locals())
 
 @login_required
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
-    tasks = request.user.task_set.filter(status="Terminé")
-    return render(request, "usertasks-done.html", locals())
+    list_tasks = request.user.task_set.filter(status="Terminé")
+    return render(request, "taskmanager/usertasks-done.html", locals())
