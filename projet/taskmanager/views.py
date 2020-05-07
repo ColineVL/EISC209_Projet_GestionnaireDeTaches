@@ -84,6 +84,7 @@ def editproject(request, id_project):
         return redirect(project, id_project=id_project)
     return render(request, 'taskmanager/modifyproject.html', locals())
 
+
 @login_required
 def task(request, id_task):
     # On récupère la tâche demandée et la liste des entrées du journal
@@ -160,3 +161,13 @@ def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
     list_tasks = request.user.task_set.filter(status__name="Terminée")
     return render(request, "taskmanager/usertasks-done.html", locals())
+
+
+@login_required
+def membrestousprojets(request):
+    # On récupère tous les projets de l'utilisateur
+    list_projects = request.user.project_set.all()
+    # On récupère tous les membres de chaque projet
+    for pr in list_projects:
+        pr.list_members = pr.members.all()
+    return render(request, 'taskmanager/membrestousprojets.html', locals())

@@ -13,5 +13,6 @@ urlpatterns = [
     path('usertasks/done', views.usertasks_done, name='usertasks_done'),
     path('newproject', views.newproject, name='newproject'),
     path('editproject/<int:id_project>', views.editproject, name='editproject'),
+    path('membres/tousprojets', views.membrestousprojets, name="membrestousprojets"),
 
 ]
