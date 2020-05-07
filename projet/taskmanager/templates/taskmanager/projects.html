@@ -30,6 +30,7 @@
                     <th>Nom du projet</th>
                     <th>Nombre de membres</th>
                     <th>Nombre de tâches</th>
+                    <th>Taux d'avancement</th>
                 </tr>
                 </thead>
                 <!-- Corps de la table, boucle sur les projets -->
@@ -39,6 +40,7 @@
                         <td><a href="{% url 'project' project.id %}">{{ project }}</a></td>
                         <td>{{ project.nbMembers }}</td>
                         <td>{{ project.nbTasks }}</td>
+                        <td>{{ project.progress }} %</td>
                     </tr>
                 {% endfor %}
                 </tbody>
