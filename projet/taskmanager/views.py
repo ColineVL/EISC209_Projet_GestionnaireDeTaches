@@ -115,4 +115,13 @@ def edittask(request, id_task):
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
 
+@login_required
+def usertasks_all(request):
+    tasks = request.user.task_set.all()
+    return render(request, "usertasks-all.html", locals())
 
+@login_required
+def usertasks_done(request):
+    # Dans l'argument, mettre le statut qui correspond à une tâche terminé
+    tasks = request.user.task_set.filter(status="Terminé")
+    return render(request, "usertasks-done.html", locals())
