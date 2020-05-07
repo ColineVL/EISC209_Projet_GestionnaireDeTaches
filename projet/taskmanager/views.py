@@ -8,6 +8,8 @@ from .models import *
 from .resources import *
 from django.http import HttpResponse
 from zipfile import ZipFile
+import os
+from .export import *
 
 @login_required
 def projects(request):
@@ -107,20 +109,9 @@ def export_data(request):
         response = HttpResponse('content_type=application/zip')
         zipObj = ZipFile(response, 'w')
         for resource in resources:
-            dataset = resource.export()
-            file = open(resource._meta.model._meta.verbose_name+'.'+file_type,"wb")
-            if file_type == 'csv':
-                file.write(dataset.csv.encode())
-            elif file_type == 'xls':
-                file.write(dataset.xls)
-            elif file_type == 'json':
-                file.write(dataset.json.encode())
-            elif file_type == 'html':
-                file.write(dataset.html.encode())
-            elif file_type == 'yaml':
-                file.write(dataset.yaml.encode())
-            file.close()
+            create_file(file_type,resource._meta.model._meta.verbose_name+'.'+file_type,resource._meta.model.objects.all(),resource)
             zipObj.write(resource._meta.model._meta.verbose_name+'.'+file_type)
+            os.remove(resource._meta.model._meta.verbose_name+'.'+file_type)
         response['Content-Disposition'] = 'attachment; filename="'+archive_name+'.zip"'
         return response
     return render(request, 'taskmanager/export_data.html', locals())

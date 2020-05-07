@@ -2,10 +2,22 @@
 {% load bootstrap4 %}
 
 {% block title %}Export data{% endblock %}
+
+{% block nav %}
+    <!-- Ce n'est pas la même selon si on édite une tâche ou si on en crée une nouvelle -->
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href={% url "projects" %}>Projets</a>
+        </li>
+    </ul>
+{% endblock %}
+
 {% block content %}
+<div class ='container col-8'>
 <form action="{% url 'export_data' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Export Data">
 </form>
+</div>
 {% endblock %}
