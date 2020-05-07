@@ -94,3 +94,7 @@ def edittask(request, id_task):
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
 
+@login_required
+def userdata(request, id_user):
+    # On récupère les projets où participent l'utilisateur
+    return render(request, 'taskmanager/userdata.html', locals())
