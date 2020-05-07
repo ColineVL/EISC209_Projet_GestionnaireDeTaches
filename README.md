@@ -1,7 +1,8 @@
 # GestionnaireDeTaches
 Projet de groupe AWNG
-fait par
-Coline van Leeuwen
-Martin Delage
-Alexis Vandewalle
+
+## Authors
+Coline van Leeuwen <br>
+Martin Delage <br>
+Alexis Vandewalle <br>
 Nicola Imperatore
