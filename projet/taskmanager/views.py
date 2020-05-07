@@ -3,9 +3,11 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import TaskForm, NewEntryForm
-from .models import Project, Task, Journal
-
+from .forms import TaskForm, NewEntryForm, ExportForm
+from .models import *
+from .resources import *
+from django.http import HttpResponse
+from zipfile import ZipFile
 
 @login_required
 def projects(request):
@@ -93,3 +95,28 @@ def edittask(request, id_task):
         # On redirige vers la tâche modifiée
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
+
+@login_required
+def export_data(request):
+    form = ExportForm(request.POST or None)
+    if form.is_valid():
+        file_type = form.cleaned_data['file_type']
+        archive_name = form.cleaned_data['archive_name']
+
+        resources = [TaskResource(),ProjectRessource(),StatusResource(),JournalResource()]
+        response = HttpResponse('content_type=application/zip')
+        zipObj = ZipFile(response, 'w')
+        for resource in resources:
+            dataset = resource.export()
+            file = open(resource._meta.model._meta.verbose_name+'.'+file_type,"w")
+            if file_type == 'csv':
+                file.write(dataset.csv)
+            elif file_type == 'xls':
+                file.write(dataset.xls)
+            elif file_type == 'json':
+                file.write(dataset.json)
+            file.close()
+            zipObj.write(resource._meta.model._meta.verbose_name+'.'+file_type)
+        response['Content-Disposition'] = 'attachment; filename="'+archive_name+'.zip"'
+        return response
+    return render(request, 'taskmanager/export_data.html', locals())
