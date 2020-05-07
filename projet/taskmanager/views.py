@@ -1,11 +1,16 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
 
+#TODO test
+import json
 
 @login_required
 def projects(request):
@@ -97,4 +102,33 @@ def edittask(request, id_task):
 
 # TODO ceci est un test
 def test(request):
+    project_to_display = get_object_or_404(Project, id=1)
+    # On récupère la liste des tâches du projet
+    list_tasks = Task.objects.filter(project__id=1)
     return render(request, 'taskmanager/test.html')
+
+
+def json(request):
+    return render(request, 'json_example.html')
+
+
+def chart_data(request):
+    dataset = Task.objects \
+        .values('assignee') \
+        .annotate(value=Count('assignee'))
+
+    data = Task.objects.values('assignee', 'id')
+    lista = [{'as': i['assignee'], 'id': i['id']} for i in data]
+    resp = json.dumps(lista, cls=DjangoJSONEncoder)
+    return HttpResponse(resp)
+
+    # chart = {
+    #     'chart': {'type': 'pie'},
+    #     'title': {'text': 'Tasks by user'},
+    #     'series': [{
+    #         'name': 'tasks',
+    #         'data': Task.objects.values('assignee','id')
+    #     }]
+    # }
+    #
+    # return JsonResponse(chart)

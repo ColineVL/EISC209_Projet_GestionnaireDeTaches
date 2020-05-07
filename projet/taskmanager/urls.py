@@ -12,4 +12,6 @@ urlpatterns = [
 
     #TODO enlever ça, c'est un test
     path('test', views.test, name="test"),
+    path('json', views.json, name='json_example'),
+    path('test_HC', views.chart_data, name="chart_data")
 ]

@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Project{% endblock %}
+{% load bootstrap4 %}
+{% load static %}
+
 
 {# Barre de navigation #}
 {% block nav %}
@@ -69,6 +72,11 @@
             <p>Aucune tâche !</p>
         {% endif %}
 
+    </div>
+
+    <!-- Affichage d'un diagramme de Gantt -->
+    <div class="container" id="container">
+        <script type="text/javascript" src="{% static 'js/basicGanttChart.js' %}"></script>
     </div>
 
 {% endblock %}
