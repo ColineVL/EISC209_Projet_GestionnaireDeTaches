@@ -25,7 +25,7 @@ class ExportForm(forms.Form):
     archive_name = forms.CharField(max_length=100)
     choice_types = [
         ('csv','csv'),
-        ('xml','xml'),
+        ('html','html'),
         ('xls','xls'),
         ('json','json'),
         ('yaml','yaml'),

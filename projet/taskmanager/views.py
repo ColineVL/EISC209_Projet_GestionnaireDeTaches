@@ -108,13 +108,17 @@ def export_data(request):
         zipObj = ZipFile(response, 'w')
         for resource in resources:
             dataset = resource.export()
-            file = open(resource._meta.model._meta.verbose_name+'.'+file_type,"w")
+            file = open(resource._meta.model._meta.verbose_name+'.'+file_type,"wb")
             if file_type == 'csv':
-                file.write(dataset.csv)
+                file.write(dataset.csv.encode())
             elif file_type == 'xls':
                 file.write(dataset.xls)
             elif file_type == 'json':
-                file.write(dataset.json)
+                file.write(dataset.json.encode())
+            elif file_type == 'html':
+                file.write(dataset.html.encode())
+            elif file_type == 'yaml':
+                file.write(dataset.yaml.encode())
             file.close()
             zipObj.write(resource._meta.model._meta.verbose_name+'.'+file_type)
         response['Content-Disposition'] = 'attachment; filename="'+archive_name+'.zip"'
