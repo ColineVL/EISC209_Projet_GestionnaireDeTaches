@@ -33,6 +33,7 @@ class Task(models.Model):
     due_date = models.DateField()
     priority = models.IntegerField()
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    progress = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
