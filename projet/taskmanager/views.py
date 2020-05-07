@@ -7,6 +7,23 @@ from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
 
 
+def progress(project):
+    # On récupère les tâches au sein du projet
+    tasks = Task.objects.filter(project=project)
+
+    # On calcule le taux d'avancement du projet
+    # On considère que toutes les tâches ont le même poids
+    nb_tasks = 0
+    total_progress = 0
+    for task in tasks:
+        nb_tasks += 1
+        total_progress += task.progress
+
+    if nb_tasks == 0:
+        return 0
+
+    return total_progress / nb_tasks
+
 @login_required
 def projects(request):
     # On récupère la liste des projets
@@ -15,6 +32,10 @@ def projects(request):
     for pr in list_projects:
         pr.nbMembers = len(pr.members.all())
         pr.nbTasks = len(pr.task_set.all())
+
+        # Taux d'avancement pour chaque projet
+        pr.progress = progress(pr)
+
     return render(request, 'taskmanager/projects.html', locals())
 
 
@@ -95,7 +116,3 @@ def edittask(request, id_task):
     return render(request, 'taskmanager/modifytask.html', locals())
 
 
-@login_required
-def userdata(request, id_user):
-    # On récupère les projets où participe l'utilisateur
-    return render(request, 'taskmanager/userdata.html', locals())
