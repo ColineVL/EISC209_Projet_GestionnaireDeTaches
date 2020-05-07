@@ -3,15 +3,17 @@
 
 {% block title %}My tasks{% endblock %}
 
-
-{# Contenu de la page #}
-{% block content %}
-    <!-- Titre de la page -->
+{# Haut de page #}
+{% block head %}
+  <!-- Titre de la page -->
     <div class="container" id="titre">
         <h1>Toutes mes tâches</h1>
         <br>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Liste des tâches -->
     <div class="container" id="listeTaches">
 

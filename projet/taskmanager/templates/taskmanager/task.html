@@ -2,12 +2,9 @@
 {% block title %}Task{% endblock %}
 {% load bootstrap4 %}
 
-
-
-{# Contenu de la page #}
-{% block content %}
-
-    <!-- Titre de la page et bouton d'édition de la tâche -->
+{# Haut de page #}
+{% block head %}
+<!-- Titre de la page et bouton d'édition de la tâche -->
     <div class="container" id="titre">
         <h2> <a href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a></h2>
         <div class="row">
@@ -23,7 +20,10 @@
         </div>
         <p>{{ task_to_display.description }}</p>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Informations principales -->
     <div class="container" id="mainInfos">
         <table class="table">

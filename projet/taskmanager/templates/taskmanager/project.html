@@ -2,9 +2,8 @@
 {% block title %}Project{% endblock %}
 
 
-{# Contenu de la page #}
-{% block content %}
-
+{# Haut de page #}
+{% block head %}
     <!-- Titre de la page et boutons -->
     <div class="container" id="titre">
         <div class="row">
@@ -12,6 +11,7 @@
                 <h1>
                     {# Nom du projet #}
                     {{ project_to_display }}
+
                     {# Bouton pour ajouter une tâche #}
                     <button class="btn btn-primary float-right">
                         <a class="text-white " href={% url "newtask" id_project %}>
@@ -32,7 +32,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Liste des tâches -->
     <div class="container" id="listeTaches">
 

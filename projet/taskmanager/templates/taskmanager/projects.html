@@ -3,10 +3,8 @@
 
 {% block title %}Projects{% endblock %}
 
-
-
-{# Contenu de la page #}
-{% block content %}
+{# Haut de page #}
+{% block head %}
     <!-- Titre de la page et bouton pour ajouter un nouveau projet -->
     <div class="container" id="titre">
         <div class="row">
@@ -22,7 +20,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Affichage de la liste des projets -->
     <div class="container" id="listeProjets">
         {% if list_projects %}
