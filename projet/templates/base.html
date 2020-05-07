@@ -101,9 +101,9 @@
                         Mes tâches
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Toutes</a>
-                        <a class="dropdown-item" href="#">Terminées</a>
-                        {#                        TODO on pourrait rajouter des lignes : en cours, en attente etc #}
+                        <a class="dropdown-item" href="{% url 'usertasks_all' %}">Toutes</a>
+                        <a class="dropdown-item" href="{% url 'usertasks_done' %}">Terminées</a>
+
                     </div>
                 </li>
 
