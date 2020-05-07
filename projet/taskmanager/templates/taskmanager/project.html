@@ -5,7 +5,7 @@
 {# Contenu de la page #}
 {% block content %}
 
-    <!-- Titre de la page et bouton pour ajouter une tâche -->
+    <!-- Titre de la page et boutons -->
     <div class="container" id="titre">
         <div class="row">
             <div class="col-sm-12">
@@ -13,9 +13,21 @@
                     {# Nom du projet #}
                     {{ project_to_display }}
                     {# Bouton pour ajouter une tâche #}
-                    <a href={% url "newtask" id_project %}>
-                        <i class="fa fa-plus-circle fa-pull-right" title="New task" aria-hidden="true"></i>
-                    </a>
+                    <button class="btn btn-primary float-right">
+                        <a class="text-white " href={% url "newtask" id_project %}>
+                            <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
+                            Nouvelle tâche
+                        </a>
+                    </button>
+
+                    {# Bouton pour modifier le projet #}
+                    <button class="btn btn-primary float-right">
+                        <a class="text-white" href={% url "editproject" id_project %}>
+                            <i class="fa fa-plus-circle fa-lg" title="Edit project" aria-hidden="true"></i>
+                            Modifier le projet
+                        </a>
+                    </button>
+
                 </h1>
             </div>
         </div>

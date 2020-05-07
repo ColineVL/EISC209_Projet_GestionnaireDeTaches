@@ -7,11 +7,22 @@
 
 {# Contenu de la page #}
 {% block content %}
-    <!-- Titre de la page -->
+    <!-- Titre de la page et bouton pour ajouter un nouveau projet -->
     <div class="container" id="titre">
-        <h1>Mes projets</h1>
-        <br>
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>
+                    Mes projets
+                    {# Bouton pour ajouter un projet #}
+                    <a class="btn btn-primary text-white float-right" href={% url "newproject" %}>
+                        <i class="fa fa-plus-circle fa-lg" title="New project" aria-hidden="true"></i>
+                        Nouveau projet
+                    </a>
+                </h1>
+            </div>
+        </div>
     </div>
+
     <!-- Affichage de la liste des projets -->
     <div class="container" id="listeProjets">
         {% if list_projects %}

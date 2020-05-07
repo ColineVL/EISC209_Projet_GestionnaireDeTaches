@@ -3,8 +3,9 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import TaskForm, NewEntryForm
+from .forms import TaskForm, NewEntryForm, ProjectForm
 from .models import Project, Task, Journal
+
 
 # Pas une view, c'est une fonction utile
 def progress(project):
@@ -23,6 +24,7 @@ def progress(project):
         return 0
 
     return total_progress / nb_tasks
+
 
 @login_required
 def projects(request):
@@ -50,6 +52,37 @@ def project(request, id_project):
     list_tasks = Task.objects.filter(project__id=id_project)
     return render(request, 'taskmanager/project.html', locals())
 
+
+@login_required
+def newproject(request):
+    # On crée un formulaire pour créer un nouveau projet
+    form = ProjectForm(request.POST or None)
+    # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
+    method = "New"
+    if form.is_valid():
+        project_formed = form.save()
+        # On redirige vers le projet nouvellement créé
+        return redirect('project', id_project=project_formed.id)
+    return render(request, 'taskmanager/modifyproject.html', locals())
+
+
+@login_required
+def editproject(request, id_project):
+    # On récupère le projet à modifier
+    project_formed = get_object_or_404(Project, id=id_project)
+    list_members = project_formed.members.all()
+    # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
+    if not request.user in list_members:
+        return redirect('accueil')
+    # On crée un form pour modifier le projet demandé
+    form = ProjectForm(request.POST or None, instance=project_formed)
+    # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
+    method = "Edit"
+    if form.is_valid():
+        form.save()
+        # On redirige vers le projet modifié
+        return redirect(project, id_project=id_project)
+    return render(request, 'taskmanager/modifyproject.html', locals())
 
 @login_required
 def task(request, id_task):
@@ -115,10 +148,12 @@ def edittask(request, id_task):
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
 
+
 @login_required
 def usertasks_all(request):
     list_tasks = request.user.task_set.all()
     return render(request, "taskmanager/usertasks-all.html", locals())
+
 
 @login_required
 def usertasks_done(request):

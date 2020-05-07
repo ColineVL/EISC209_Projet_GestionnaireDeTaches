@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task
+from .models import Task, Project
 
 
 # Form à partir de Task
@@ -20,3 +20,11 @@ class TaskForm(forms.ModelForm):
 # Form pour entrer une nouvelle information complémentaire dans un journal
 class NewEntryForm(forms.Form):
     entry = forms.CharField(max_length=200)
+
+
+# Form pour créer un nouveau projet, à partir de Project
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'
+
