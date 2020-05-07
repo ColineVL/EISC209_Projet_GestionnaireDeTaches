@@ -2,20 +2,7 @@
 {% block title %}Task{% endblock %}
 {% load bootstrap4 %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'task' id_task %}">{{ task_to_display }}</a>
-        </li>
-    </ul>
-{% endblock %}
+
 
 {# Contenu de la page #}
 {% block content %}

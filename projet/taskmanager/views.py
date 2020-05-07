@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
 
+
 # Pas une view, c'est une fonction utile
 def progress(project):
     # On récupère les tâches au sein du projet
@@ -23,6 +24,7 @@ def progress(project):
         return 0
 
     return total_progress / nb_tasks
+
 
 @login_required
 def projects(request):
@@ -115,10 +117,12 @@ def edittask(request, id_task):
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
 
+
 @login_required
 def usertasks_all(request):
     tasks = request.user.task_set.all()
     return render(request, "usertasks-all.html", locals())
+
 
 @login_required
 def usertasks_done(request):
