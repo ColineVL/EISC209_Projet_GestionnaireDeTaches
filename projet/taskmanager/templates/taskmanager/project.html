@@ -76,7 +76,34 @@
 
     <!-- Affichage d'un diagramme de Gantt -->
     <div class="container" id="container">
-        <script type="text/javascript" src="{% static 'js/basicGanttChart.js' %}"></script>
+
+        {#        TODO : faire passer le script dans un autre fichier#}
+        {#        <script type="text/javascript" src="{% static 'js/basicGanttChart.js' %}"></script>#}
+        
+        <script>
+            //_projet = {{ project_to_display|safe }};
+            //alert(_projet);
+            var options = {
+                series: [{
+                    name: "test",
+                    data: [{
+                        name: 'Start prototype',
+                        start: Date.UTC(2014, 10, 18),
+                        end: Date.UTC(2014, 10, 20)
+                    }]
+                }]
+            };
+
+            options.series[0].data.push({
+                name: 'End prototype',
+                start: Date.UTC(2014, 10, 28),
+                end: Date.UTC(2014, 10, 30)
+            })
+
+            var chart = new Highcharts.ganttChart('container', options);
+
+        </script>
+
     </div>
 
 {% endblock %}
