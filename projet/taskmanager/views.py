@@ -164,10 +164,19 @@ def usertasks_done(request):
 
 
 @login_required
-def membrestousprojets(request):
+def membersallprojects(request):
     # On récupère tous les projets de l'utilisateur
     list_projects = request.user.project_set.all()
     # On récupère tous les membres de chaque projet
     for pr in list_projects:
         pr.list_members = pr.members.all()
-    return render(request, 'taskmanager/membrestousprojets.html', locals())
+    return render(request, 'taskmanager/membersallprojects.html', locals())
+
+
+@login_required
+def membersbyproject(request, id_project):
+    # On récupère le projet demandé
+    project_to_display = get_object_or_404(Project, id=id_project)
+    # On récupère tous les membres du projet
+    list_members = project_to_display.members.all()
+    return render(request, 'taskmanager/membersbyproject.html', locals())

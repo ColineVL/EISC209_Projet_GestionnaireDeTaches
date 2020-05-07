@@ -88,9 +88,9 @@
                         Membres par projet
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href={% url 'membrestousprojets' %}>Tous les projets</a>
+                        <a class="dropdown-item" href={% url 'membersallprojects' %}>Tous les projets</a>
                         {% for pr in user.project_set.all %}
-                            <a class="dropdown-item" href="#">{{ pr }}</a>
+                            <a class="dropdown-item" href="{% url 'membersbyproject' pr.id %}">{{ pr }}</a>
                         {% endfor %}
                     </div>
                 </li>
@@ -133,6 +133,7 @@
 <!-- Titre de la page -->
 {% block head %}
 {% endblock %}
+<br>
 
 <!-- Contenu de la page -->
 {% block content %}
