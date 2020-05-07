@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
 
-
+# Pas une view, c'est une fonction utile
 def progress(project):
     # On récupère les tâches au sein du projet
     tasks = Task.objects.filter(project=project)
@@ -33,8 +33,8 @@ def projects(request):
         pr.nbMembers = len(pr.members.all())
         pr.nbTasks = len(pr.task_set.all())
 
-        # Taux d'avancement pour chaque projet
-        pr.progress = progress(pr)
+        # Taux d'avancement pour chaque projet (avec int on arrondit à l'entier)
+        pr.progress = int(progress(pr))
 
     return render(request, 'taskmanager/projects.html', locals())
 
