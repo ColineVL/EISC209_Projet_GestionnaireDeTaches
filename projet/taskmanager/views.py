@@ -180,3 +180,11 @@ def membersbyproject(request, id_project):
     # On récupère tous les membres du projet
     list_members = project_to_display.members.all()
     return render(request, 'taskmanager/membersbyproject.html', locals())
+
+@login_required
+def activity_all(request):
+    return render(request, 'taskmanager/activity-all.html', locals())
+
+@login_required
+def activity_per_project(request, id_project):
+    return render(request, 'taskmanager/activity-per-project.html', locals())
