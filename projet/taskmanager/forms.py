@@ -16,6 +16,14 @@ class TaskForm(forms.ModelForm):
         return priority
     # L'utilisateur ne pourra pas entrer de priorité négative
 
+    def clean_progress(self):
+        progress = self.cleaned_data['progress']
+        if progress > 100:
+            raise forms.ValidationError("Le taux d'avancement ne peut supérieur à 100%")
+
+        return progress
+    # On spécifie que le taux d'avancement doit rester entre 0 et 100
+
 
 # Form pour entrer une nouvelle information complémentaire dans un journal
 class NewEntryForm(forms.Form):
