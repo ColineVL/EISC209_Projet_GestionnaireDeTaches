@@ -9,8 +9,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TaskForm, NewEntryForm
 from .models import Project, Task, Journal
 
-#TODO test
+# TODO test
 import json
+
 
 @login_required
 def projects(request):
@@ -32,7 +33,22 @@ def project(request, id_project):
         return redirect('accueil')
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
+    # On prépare le diagramme de Gantt
+    # Pour chaque tâche, on stocke la date de début et la date de fin
+    names = []
+    starts = []
+    ends = []
+    for task_to_display in list_tasks:
+        print(task_to_display.name)
+        names.append(task_to_display.name)
+        start = task_to_display.start_date
+        end = task_to_display.due_date
+        starts.append([start.year, start.month, start.day])
+        ends.append([end.year, end.month, end.day])
     return render(request, 'taskmanager/project.html', locals())
+
+
+
 
 
 @login_required
