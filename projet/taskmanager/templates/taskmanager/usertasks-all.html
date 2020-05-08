@@ -36,8 +36,8 @@
                 <tbody>
                 {% for task in list_tasks %}
                     <tr>
-                        <td><a href="{% url 'project' task.project_id %}">{{ task.project }}</a></td>
-                        <td><a href="{% url 'task' task.id %}">{{ task }}</a></td>
+                        <td><a href="{% url 'project' task.project_id %}">{{task.project|truncatechars:20}}</a></td>
+                        <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:30 }}</a></td>
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><span class="badge badge-warning">{{ task.status }}</span></td>

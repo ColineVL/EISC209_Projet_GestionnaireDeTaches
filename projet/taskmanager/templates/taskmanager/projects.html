@@ -42,7 +42,7 @@
                 <tbody>
                 {% for project in list_projects %}
                     <tr>
-                        <td><a href="{% url 'project' project.id %}">{{ project }}</a></td>
+                        <td><a href="{% url 'project' project.id %}">{{ project|truncatechars:50 }}</a></td>
                         <td>{{ project.nbMembers }}</td>
                         <td>{{ project.nbTasks }}</td>
                         <td>{{ project.progress }} %</td>
