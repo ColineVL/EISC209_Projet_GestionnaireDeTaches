@@ -5,6 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-
+{% for entry in list_entries %}
+<p>{{ entry }}</p>
+<p>{{ entry.date }}</p>
+{% empty %} Rien
+{% endfor %}
 </body>
 </html>

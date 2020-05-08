@@ -181,10 +181,40 @@ def membersbyproject(request, id_project):
     list_members = project_to_display.members.all()
     return render(request, 'taskmanager/membersbyproject.html', locals())
 
+
 @login_required
 def activity_all(request):
+    # On récupère tous les projets de l'utilisateur
+    list_projects = request.user.project_set.all()
+
+    # On récupère les tâches correspondantes
+    list_tasks = Task.objects.none()
+    for project in list_projects:
+        list_tasks = list_tasks.union(project.task_set.all())
+
+    # On récupère toutes les entrées de journal
+    list_entries = Journal.objects.none()
+    for task in list_tasks:
+        list_entries = list_entries.union(task.journal_set.all())
+    # Qu'on trie par date décroissante
+    list_entries = list_entries.order_by('-date')
+
     return render(request, 'taskmanager/activity-all.html', locals())
+
 
 @login_required
 def activity_per_project(request, id_project):
+    # On récupère le projet correspondant
+    projet = get_object_or_404(Project, id=id_project)
+
+    # On récupère les tâches
+    list_tasks = projet.task_set.all()
+
+    # On récupère toutes les entrées de journal
+    list_entries = Journal.objects.none()
+    for task in list_tasks:
+        list_entries = list_entries.union(task.journal_set.all())
+    # Qu'on trie par date décroissante
+    list_entries = list_entries.order_by('-date')
+
     return render(request, 'taskmanager/activity-per-project.html', locals())
