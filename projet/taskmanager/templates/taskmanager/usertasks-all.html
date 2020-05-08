@@ -23,6 +23,7 @@
                 <!-- En-tête de la table -->
                 <thead class="thead-light">
                 <tr>
+                    <th>Projet</th>
                     <th>Tâche</th>
                     <th>Date de début</th>
                     <th>Date de fin</th>
@@ -34,7 +35,8 @@
                 <!-- Corps de la table, boucle sur les tâches -->
                 <tbody>
                 {% for task in list_tasks %}
-                    <tr >
+                    <tr>
+                        <td><a href="{% url 'project' task.project_id %}">{{ task.project }}</a></td>
                         <td><a href="{% url 'task' task.id %}">{{ task }}</a></td>
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
