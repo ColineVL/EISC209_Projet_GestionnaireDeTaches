@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+#TO DO: commenter les path
 urlpatterns = [
     path('', views.projects, name='accueil'),
     path('projects', views.projects, name='projects'),
@@ -15,5 +16,8 @@ urlpatterns = [
     path('editproject/<int:id_project>', views.editproject, name='editproject'),
     path('members/allprojects', views.membersallprojects, name="membersallprojects"),
     path('members/<int:id_project>', views.membersbyproject, name='membersbyproject'),
-
+    # URLs vers la page d'activité, pour voir les dernières entrées de journal par tâche
+    path('activity/allprojects', views.activity_all, name="activity_all"),
+    # Même URL que la précédente, mais trié pour un seul projet
+    path('activity/<int:id_project>', views.activity_per_project, name="activity_per_project"),
 ]

@@ -112,9 +112,9 @@
                         Activité
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Tous les projets</a>
+                        <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
                         {% for pr in user.project_set.all %}
-                            <a class="dropdown-item" href="#">{{ pr|truncatechars:60 }}</a>
+                            <a class="dropdown-item" href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
                         {% endfor %}
                     </div>
                 </li>
