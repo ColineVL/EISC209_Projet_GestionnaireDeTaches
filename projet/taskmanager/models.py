@@ -23,7 +23,8 @@ class Status(models.Model):
         # Cette ligne sert à ne pas avoir "statuss" dans l'administration
 
 
-
+# TODO mettre automatiquement l'avancement à 0 si on est nouvelle et à 100 si on est terminée ?
+ 
 # Modèle Task
 class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -38,8 +39,6 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 
 # Modele Journal

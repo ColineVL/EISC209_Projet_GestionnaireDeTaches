@@ -68,7 +68,12 @@
                         <!-- Ce tag colHistory1 est défini dans taskmanager.css et permet de régler la largeur de la colonne -->
                         <td class="colHistory1">
                             <!-- Affichage de l'auteur et de la date de l'info -->
-                            <span class="badge badge-primary">{{ info.author }}</span>
+                            {# Cet if permet de mettre en avant les entrées de l'utilisateur connecté #}
+                            {% if request.user == info.author %}
+                                <span class="badge badge-primary">{{ info.author }}</span>
+                            {% else %}
+                                <span class="badge badge-secondary">{{ info.author }}</span>
+                            {% endif %}
                             <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
                         </td>
                         <td>
