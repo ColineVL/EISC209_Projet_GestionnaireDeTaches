@@ -31,16 +31,12 @@
                 <div class="col-sm-6" id="fichiers souhaités">
                     <h2>Fichiers souhaités</h2>
                     <div class="form-row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             {% bootstrap_field form.bool_project %}
-                        </div>
-                        <div class="col-md-6">
                             {% bootstrap_field form.bool_status %}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {% bootstrap_field form.bool_task %}
-                        </div>
-                        <div class="col-md-6">
                             {% bootstrap_field form.bool_Journal %}
                         </div>
                     </div>
@@ -54,8 +50,8 @@
                 {#            </div>#}
                 <div class="col-sm-6" id="organisation">
                     <h2>Organisation du répertoire</h2>
-                        {% bootstrap_field form.one_dir_by_project %}
-                        {% bootstrap_field form.ordered_journal_by_task %}
+                    {% bootstrap_field form.one_dir_by_project %}
+                    {% bootstrap_field form.ordered_journal_by_task %}
                 </div>
             </div>
             <br>
