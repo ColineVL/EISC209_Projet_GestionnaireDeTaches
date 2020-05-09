@@ -8,16 +8,13 @@
     <!-- Titre de la page et bouton pour ajouter un nouveau projet -->
     <div class="container" id="titre">
         <div class="row">
-            <div class="col-sm-12">
-                <h1>
-                    Mes projets
+                <h1 class="col-sm-6">Mes projets</h1>
+
                     {# Bouton pour ajouter un projet #}
-                    <a class="btn btn-primary text-white float-right" href={% url "newproject" %}>
+                <button class="col-sm-6 btn btn-primary" onclick="window.location.href='{% url "newproject" %}'" >
                         <i class="fa fa-plus-circle fa-lg" title="New project" aria-hidden="true"></i>
                         Nouveau projet
-                    </a>
-                </h1>
-            </div>
+                </button>
         </div>
     </div>
 {% endblock %}
@@ -25,12 +22,10 @@
 {# Contenu de la page #}
 {% block content %}
     <!-- Affichage de la liste des projets -->
-    {# TODO tableau pas responsive sur l'iphone #}
-    {# TODO bouton nouveau projet mal placé sur l'iphone #}
     <div class="container" id="listeProjets">
         {% if list_projects %}
             <!-- Cas où l'utilisateur a des projets -->
-            <table class="table table-hover text-center">
+            <table class="table table-hover text-center table-responsive">
                 <!-- En-tête de la table -->
                 <thead class="thead-light">
                 <tr>
