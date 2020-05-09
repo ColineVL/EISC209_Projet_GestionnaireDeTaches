@@ -4,45 +4,69 @@
 
 {% block title %}Export data{% endblock %}
 
-{% block nav %}
-    <!-- Ce n'est pas la même selon si on édite une tâche ou si on en crée une nouvelle -->
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'export_data' %}">Exporter les données</a>
-        </li>
-    </ul>
-{% endblock %}
-
+{# Contenu de la page #}
 {% block content %}
-<div class ='container col-8'>
-<form action="{% url 'export_data' %}" method="post">
-    {% csrf_token %}
-    <h2>Nom et type de fichiers voulus</h2>
-    <div class="form-row">
-        <div class="form-group col-md-6">{{ form.archive_name|as_crispy_field }}</div>
-        <div class="form-group col-md-6">{{ form.file_type|as_crispy_field }}</div>
+    <div class='container' id="form">
+        <form action="{% url 'export_data' %}" method="post">
+            {% csrf_token %}
+            <h2>Nom et type de fichiers voulus</h2>
+
+            <div class="form-row">
+                <div class="col-sm-6">
+                    {% bootstrap_field form.archive_name layout='horizontal' %}
+                </div>
+                <div class="col-md-4 offset-md-1">
+                    {% bootstrap_field form.file_type layout='horizontal' horizontal_field_class="col-md-4" %}
+                </div>
+            </div>
+
+            {#            <div class="form-row">#}
+            {#                <div class="form-group col-md-6">{{ form.archive_name|as_crispy_field }}</div>#}
+            {#                <div class="form-group col-md-6">{{ form.file_type|as_crispy_field }}</div>#}
+            {#            </div>#}
+
+            <h2>Fichiers souhaités</h2>
+            <div class="form-row">
+                <div class="col-sm-3">
+                    {% bootstrap_field form.bool_project layout='horizontal' %}
+                </div>
+                <div class="col-md-3">
+                    {% bootstrap_field form.bool_status layout='horizontal' %}
+                </div>
+                <div class="col-md-3">
+                    {% bootstrap_field form.bool_task layout='horizontal' %}
+                </div>
+                <div class="col-md-3">
+                    {% bootstrap_field form.bool_Journal layout='horizontal' %}
+                </div>
+            </div>
+            {#            <div class="form-row">#}
+            {#                <div class="form-group col-md-3">{{ form.bool_project|as_crispy_field }}</div>#}
+            {#                <div class="form-group col-md-3">{{ form.bool_status|as_crispy_field }}</div>#}
+            {#                <div class="form-group col-md-3">{{ form.bool_task|as_crispy_field }}</div>#}
+            {#                <div class="form-group col-md-3">{{ form.bool_Journal|as_crispy_field }}</div>#}
+            {#            </div>#}
+
+            <h2>Organisation du répertoire</h2>
+            <div class="form-row">
+                <div class="col-sm-6">
+                    {% bootstrap_field form.one_dir_by_project layout='horizontal' %}
+                </div>
+                <div class="col-md-6">
+                    {% bootstrap_field form.ordered_journal_by_task layout='horizontal' %}
+                </div>
+            </div>
+            {#            <div class="form-row">#}
+            {#                <div class="form-group col-md-6">{{ form.one_dir_by_project|as_crispy_field }}</div>#}
+            {#                <div class="form-group col-md-6">{{ form.ordered_journal_by_task|as_crispy_field }}</div>#}
+            {#            </div>#}
+
+            <h2>Projet souhaité</h2>
+            {% bootstrap_field form.all_projects %}
+            {% bootstrap_field form.project %}
+            {#                {{ form.all_projects|as_crispy_field }}#}
+            {#                {{ form.project|as_crispy_field }}#}
+            <input type="submit" value="Download Data" class="btn btn-primary">
+        </form>
     </div>
-    <h2>Fichiers souhaités</h2>
-    <div class="form-row">
-        <div class="form-group col-md-3">{{ form.bool_project|as_crispy_field }}</div>
-        <div class="form-group col-md-3">{{ form.bool_status|as_crispy_field }}</div>
-        <div class="form-group col-md-3">{{ form.bool_task|as_crispy_field }}</div>
-        <div class="form-group col-md-3">{{ form.bool_Journal|as_crispy_field }}</div>
-    </div>
-    <h2>Organisation du répertoire</h2>
-    <div class="form-row">
-        <div class="form-group col-md-6">{{ form.one_dir_by_project|as_crispy_field }}</div>
-        <div class="form-group col-md-6">{{ form.ordered_journal_by_task|as_crispy_field }}</div>
-    </div>
-    <h2>Projet souhaité</h2>
-    <div>
-        {{ form.all_projects|as_crispy_field }}
-        {{ form.project|as_crispy_field }}
-    </div>
-    <input type="submit" value="Export Data" class="btn btn-primary">
-</form>
-</div>
 {% endblock %}
