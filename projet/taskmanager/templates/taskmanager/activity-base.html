@@ -14,6 +14,7 @@
                 <div class="col-sm-2">
                     <select name="affiche" class="form-control" title="" id="choix-afficher">
                         {% for aff, val in dict_choices.items %}
+                            {# Cet if permet d'afficher la bonne valeur pour la sélection quand on charge la page #}
                             {% if val == affiche %}
                                 <option value={{ val }} selected>{{ aff }}</option>
                             {% else %}
@@ -25,10 +26,15 @@
 
                 <!-- Option pour ne pas afficher les entrées de l'utilisateur -->
                 <label class="col-sm-3 col-form-label text-right" for="entrees-user">
-                    Ne pas afficher mes entrées
+                    Ne pas afficher mes entrées:
                 </label>
                 <div class = "col-sm-1">
-                    <input class="form-control" type="checkbox" name="notmyentries" id="entrees-user">
+                    {# Cet if permet d'afficher la bonne valeur pour la checkbox quand on charge la page #}
+                    {% if notmyentries == "off" %}
+                        <input class="form-control" type="checkbox" name="notmyentries" id="entrees-user">
+                    {% else %}
+                        <input class="form-control" type="checkbox" name="notmyentries" id="entrees-user" checked>
+                    {% endif %}
                 </div>
 
                 <!-- Bouton de mise à jour -->

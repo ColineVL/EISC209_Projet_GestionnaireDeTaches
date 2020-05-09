@@ -236,7 +236,7 @@ def get_list_entries(list_tasks, request):
 
     # TODO afficher depuis telle date ?
 
-    return list_entries
+    return list_entries, affiche, notmyentries
 
 
 # Cette vue permet d'afficher les dernières activités de tous les projets où participent l'utilisateur
@@ -250,7 +250,7 @@ def activity_all(request):
     for project in list_projects:
         list_tasks = list_tasks.union(project.task_set.all())
 
-    list_entries = get_list_entries(list_tasks, request)
+    (list_entries, affiche, notmyentries) = get_list_entries(list_tasks, request)
 
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
@@ -273,7 +273,7 @@ def activity_per_project(request, id_project):
     # On récupère les tâches
     list_tasks = projet.task_set.all()
 
-    list_entries = get_list_entries(list_tasks, request)
+    (list_entries, affiche, notmyentries) = get_list_entries(list_tasks, request)
 
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
