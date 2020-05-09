@@ -41,7 +41,11 @@
 
 <!-- Jumbotron -->
 <div class="jumbotron" id="jumbotron">
-    <h1 class="display-3">Calend-me</h1>
+    <h1 class="display-3">
+        <a href="{% url 'accueil' %}">
+            Calend-me
+        </a>
+    </h1>
     <p class="lead">Une super app pour planifier d'incroyables projets</p>
 
     {% if user.is_authenticated %}

@@ -27,6 +27,11 @@ def progress(project):
 
 
 @login_required
+def accueil(request):
+    return render(request, 'taskmanager/accueil.html')
+
+
+@login_required
 def projects(request):
     # On récupère la liste des projets
     list_projects = request.user.project_set.all()
