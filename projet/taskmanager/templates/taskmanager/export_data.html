@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
+{% load crispy_forms_tags %}
 
 {% block title %}Export data{% endblock %}
 
@@ -17,10 +18,10 @@
 
 {% block content %}
 <div class ='container col-8'>
-<form action="{% url 'export_data' %}" method="post">
+<form class="form-group" action="{% url 'export_data' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Export Data">
+    {{ form|crispy }}
+    <input type="submit" value="Export Data" class="btn btn-primary">
 </form>
 </div>
 {% endblock %}
