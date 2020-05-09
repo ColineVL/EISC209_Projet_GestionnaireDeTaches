@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "taskmanager/activity-base.html" %}
 {% block title %}Members of all projects{% endblock %}
 {% load bootstrap4 %}
 
@@ -9,41 +9,11 @@
     </div>
 {% endblock %}
 
+{# url à afficher dans activity-base.html #}
+{% block url %}{% url 'activity_all' %}{% endblock %}
+
 {# Contenu de la page #}
 {% block content %}
-
-    <div class="container" id="nombre-a-afficher">
-        <form method="get" action="{% url 'activity_all' %}">
-            <div class="form-group row">
-                <!-- Option pour choisir combien d'entrées on affiche -->
-                {#                TODO affichage pas parfait#}
-                <label class="col-sm-3 col-form-label text-right" for="choix-afficher">
-                    Nombre de tâches à afficher :
-                </label>
-                <div class="col-sm-2">
-                    <select name="affiche" class="form-control" title="" id="choix-afficher">
-                        {% for aff, val in dict_choices.items %}
-                            {% if val == affiche %}
-                                <option value={{ val }} selected>{{ aff }}</option>
-                            {% else %}
-                                <option value={{ val }}>{{ aff }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <!-- Option pour ne pas afficher les entrées de l'utilisateur -->
-                <input type="checkbox" name="notmyentries" id="entrees-user">
-                <label for="entrees-user">
-                    Ne pas afficher mes entrées
-                </label>
-
-                <button type="submit" class="btn btn-primary">Mettre à jour</button>
-
-            </div>
-        </form>
-
-    </div>
 
     <!-- Affichage des entrées -->
     <div class="container" id="activite">

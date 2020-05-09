@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    {% load bootstrap4 %}
+    {% load static %}
+
+    <title>{% block title %}Titre{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link href='{% static "favicon.png" %}' rel='shortcut icon' type='image/png'/>
+
+    <!-- Inclusion de Bootstrap et jQuery -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Inclusion de FontAwesome pour utiliser des icônes -->
+    <script src="https://use.fontawesome.com/64f57eceaa.js"></script>
+
+    <!-- Inclusion d'un fichier CSS en plus pour gérer la taille d'une colonne dans l'affichage des tâches -->
+    <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
+
+    <!-- Inclusion de Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"
+            integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+    <!-- Inclusion de Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css"
+          integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"
+            integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<!-- Jumbotron -->
+<div class="jumbotron" id="jumbotron">
+    <h1 class="display-3">
+        <a href="{% url 'accueil' %}">
+            Calend-me
+        </a>
+    </h1>
+    <p class="lead">Une super app pour planifier d'incroyables projets</p>
+
+    {% if user.is_authenticated %}
+        <!-- L'utilisateur est connecté, donc on affiche son nom. -->
+        <div class="row">
+            <div class="col-sm-12">
+                <hr>
+                Bienvenue {{ user.username }} !
+                <a href='{% url "logout" %}'>
+                    <i class="fa fa-sign-out fa-3x fa-pull-right" title="logout" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Barre de navigation -->
+{# On ne l'affiche que si l'utilisateur est connecté #}
+{#TODO faire une barre de nav sticky collapse pour small screens#}
+<div class="container-fluid" id="navigation">
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-sm justify-content-around" style="background-color:#e9ecef">
+
+            <!-- Tous les projets -->
+            <a class="nav-link" href="{% url 'projects' %}">Tous mes projets</a>
+
+            <!-- Dropdown par projet -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Projet
+                </a>
+                <div class="dropdown-menu">
+                    {% for pr in user.project_set.all %}
+                        <a class="dropdown-item" href="{% url 'project' pr.id %}">{{ pr|truncatechars:60 }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Dropdown liste des membres -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Membres par projet
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href={% url 'membersallprojects' %}>Tous les projets</a>
+                    {% for pr in user.project_set.all %}
+                        <a class="dropdown-item"
+                           href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <!-- Dropdown Mes tâches -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Mes tâches
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'usertasks_all' %}">Toutes</a>
+                    <a class="dropdown-item" href="{% url 'usertasks_done' %}">Terminées</a>
+                </div>
+            </div>
+
+            <!-- Dropdown Activité -->
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Activité
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
+                    {% for pr in user.project_set.all %}
+                        <a class="dropdown-item"
+                           href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Exportation -->
+            <a class="nav-link" href="{% url 'export_data' %}">Exportation</a>
+        </nav>
+    {% endif %}
+    <br>
+</div>
+
+<!-- Titre de la page -->
+{% block head %}
+{% endblock %}
+<br>
+
+<!-- Sélection des entrées -->
+{% block selection %}
+    <div class="container" id="nombre-a-afficher">
+        <form method="get" action="{% block url %}{% endblock %}">
+            <div class="form-group row">
+                <!-- Option pour choisir combien d'entrées on affiche -->
+                {#                TODO affichage pas parfait#}
+                <label class="col-sm-3 col-form-label text-right" for="choix-afficher">
+                    Nombre de tâches à afficher :
+                </label>
+                <div class="col-sm-2">
+                    <select name="affiche" class="form-control" title="" id="choix-afficher">
+                        {% for aff, val in dict_choices.items %}
+                            {% if val == affiche %}
+                                <option value={{ val }} selected>{{ aff }}</option>
+                            {% else %}
+                                <option value={{ val }}>{{ aff }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Option pour ne pas afficher les entrées de l'utilisateur -->
+                <input type="checkbox" name="notmyentries" id="entrees-user">
+                <label for="entrees-user">
+                    Ne pas afficher mes entrées
+                </label>
+
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+<!-- Contenu de la page -->
+{% block content %}
+{% endblock %}
+<br>
+
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>&copy; Coline van Leeuwen, Martin Delage, Alexis Vandewalle, Nicola Imperatore, avril-mai 2020</p>
+    </div>
+</footer>
+
+</body>
+</html>
