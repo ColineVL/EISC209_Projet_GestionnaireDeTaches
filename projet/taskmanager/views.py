@@ -135,7 +135,7 @@ def export_data(request):
                         if ordered_journal_by_task:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('task')
                         else:
-                            set = Journal.objects.filter(task__in=Task.objects.filter(project=project))
+                            set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
                         create_file(file_type, project.name+'/journal.'+file_type, set,JournalResource(),zipObj)
                     shutil.rmtree(project.name)
             else:
