@@ -35,16 +35,17 @@ def project(request, id_project):
     list_tasks = Task.objects.filter(project__id=id_project)
     # On prépare le diagramme de Gantt
     # Pour chaque tâche, on stocke la date de début et la date de fin
-    names = []
-    starts = []
-    ends = []
-    for task_to_display in list_tasks:
-        print(task_to_display.name)
-        names.append(task_to_display.name)
-        start = task_to_display.start_date
-        end = task_to_display.due_date
-        starts.append([start.year, start.month, start.day])
-        ends.append([end.year, end.month, end.day])
+    #names = []
+    #starts = []
+    #ends = []
+    test = "blabla"
+    # for task_to_display in list_tasks:
+    #     print(task_to_display.name)
+    #     names.append(task_to_display.name)
+    #     start = task_to_display.start_date
+    #     end = task_to_display.due_date
+    #     starts.append([start.year, start.month, start.day])
+    #     ends.append([end.year, end.month, end.day])
     return render(request, 'taskmanager/project.html', locals())
 
 
