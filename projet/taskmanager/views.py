@@ -33,24 +33,19 @@ def project(request, id_project):
         return redirect('accueil')
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
+
     # On prépare le diagramme de Gantt
-    # Pour chaque tâche, on stocke la date de début et la date de fin
-    #names = []
-    #starts = []
-    #ends = []
-    test = "blabla"
-    test2 = "truc"
-    # for task_to_display in list_tasks:
-    #     print(task_to_display.name)
-    #     names.append(task_to_display.name)
-    #     start = task_to_display.start_date
-    #     end = task_to_display.due_date
-    #     starts.append([start.year, start.month, start.day])
-    #     ends.append([end.year, end.month, end.day])
+    list_dicts = []
+    for task_to_display in list_tasks:
+        # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
+        dict_task = {
+            "name": task_to_display.name,
+            "start": [task_to_display.start_date.year, task_to_display.start_date.month, task_to_display.start_date.day],
+            "end": [task_to_display.due_date.year, task_to_display.due_date.month, task_to_display.due_date.day],
+            # TODO ajouter le taux d'avancement
+        }
+        list_dicts.append(dict_task)
     return render(request, 'taskmanager/project.html', locals())
-
-
-
 
 
 @login_required

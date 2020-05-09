@@ -1,26 +1,25 @@
-var options = {
+// On récupère les données utiles
+const name_project = JSON.parse(document.getElementById('name_project').textContent);
+const list_dicts = JSON.parse(document.getElementById('list_dicts').textContent);
+
+// On initialise les options du chart
+const options = {
     series: [{
-        name: "name",
-        data: [{
-            name: test,
-            start: Date.UTC(2014, 10, 18),
-            end: Date.UTC(2014, 10, 20)
-        }]
+        name: name_project,
+        data: []
     }]
 };
-//
-// for (var i = 0; i<3; i++) {
-//     options.series[0].data.push({
-//         name: names[i],
-//         start: Date.UTC(starts[i][0], starts[i][1], starts[i][2]),
-//         end: Date.UTC(ends[i][0], ends[i][1], ends[i][2]),
-//     })
-// }
 
-options.series[0].data.push({
-    name: JSON.parse(document.getElementById('myID').textContent),
-    start: Date.UTC(2014, 10, 28),
-    end: Date.UTC(2014, 10, 30)
-})
+// On remplit les options
+for (var dict of list_dicts) {
+    let start = dict["start"];
+    let end = dict["end"];
+    options.series[0].data.push({
+        name: dict["name"],
+        start: Date.UTC(start[0], start[1], start[2]),
+        end: Date.UTC(end[0], end[1], end[2])
+    })
+}
 
-var chart = new Highcharts.ganttChart('container', options);
+// On affiche le chart
+Highcharts.ganttChart('container', options);
