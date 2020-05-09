@@ -17,6 +17,8 @@ class TaskForm(forms.ModelForm):
         return progress
     # On spécifie que le taux d'avancement doit rester entre 0 et 100
 
+    # TODO vérifier que les dates sont start < end
+
 
 # Form pour entrer une nouvelle information complémentaire dans un journal
 class NewEntryForm(forms.Form):

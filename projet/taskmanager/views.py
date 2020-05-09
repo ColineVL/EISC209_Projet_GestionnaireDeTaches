@@ -270,6 +270,8 @@ def activity_per_project(request, id_project):
     if affiche > 0:
         list_entries = list_entries[:affiche]
 
+        # TODO afficher depuis telle date ?
+
     return render(request, 'taskmanager/activity-per-project.html', locals())
 
   
