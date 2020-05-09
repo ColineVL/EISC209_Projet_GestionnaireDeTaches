@@ -54,4 +54,6 @@ class ExportForm(forms.Form):
     def __init__(self,*args,**kwargs):
         user = kwargs.pop('user')
         super().__init__(*args,**kwargs)
-        self.fields['project'] = forms.MultipleChoiceField(choices=[(proj.name, proj.name) for proj in user.project_set.all()],required=False)
+        self.fields['project'] = forms.MultipleChoiceField(choices=[(proj.name, proj.name) for proj in user.project_set.all()],
+                                                           required=False,
+                                                           help_text="Only require if all projects is deselect")

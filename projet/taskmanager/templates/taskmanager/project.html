@@ -8,6 +8,9 @@
             <a class="nav-link" href={% url "projects" %}>Projets</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{% url 'export_data' %}">Exporter les données</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'project' id_project %}">{{ project_to_display }}</a>
         </li>
     </ul>
