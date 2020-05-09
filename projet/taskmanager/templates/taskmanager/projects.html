@@ -3,25 +3,27 @@
 
 {% block title %}Projects{% endblock %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'export_data' %}">Exporter les données</a>
-        </li>
-    </ul>
+{# Haut de page #}
+{% block head %}
+    <!-- Titre de la page et bouton pour ajouter un nouveau projet -->
+    <div class="container" id="titre">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>
+                    Mes projets
+                    {# Bouton pour ajouter un projet #}
+                    <a class="btn btn-primary text-white float-right" href={% url "newproject" %}>
+                        <i class="fa fa-plus-circle fa-lg" title="New project" aria-hidden="true"></i>
+                        Nouveau projet
+                    </a>
+                </h1>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {# Contenu de la page #}
 {% block content %}
-    <!-- Titre de la page -->
-    <div class="container" id="titre">
-        <h1>Vos projets</h1>
-        <br>
-    </div>
     <!-- Affichage de la liste des projets -->
     <div class="container" id="listeProjets">
         {% if list_projects %}
@@ -33,15 +35,17 @@
                     <th>Nom du projet</th>
                     <th>Nombre de membres</th>
                     <th>Nombre de tâches</th>
+                    <th>Taux d'avancement</th>
                 </tr>
                 </thead>
                 <!-- Corps de la table, boucle sur les projets -->
                 <tbody>
                 {% for project in list_projects %}
                     <tr>
-                        <td><a href="{% url 'project' project.id %}">{{ project }}</a></td>
+                        <td><a href="{% url 'project' project.id %}">{{ project|truncatechars:50 }}</a></td>
                         <td>{{ project.nbMembers }}</td>
                         <td>{{ project.nbTasks }}</td>
+                        <td>{{ project.progress }} %</td>
                     </tr>
                 {% endfor %}
                 </tbody>
