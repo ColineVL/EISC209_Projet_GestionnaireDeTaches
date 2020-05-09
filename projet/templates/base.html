@@ -40,6 +40,7 @@
 <body>
 
 <!-- Jumbotron -->
+{# TODO Calend-me avec retour a la ligne sur iphone #}
 <div class="jumbotron" id="jumbotron">
     <h1 class="display-3">
         <a href="{% url 'accueil' %}">
@@ -64,6 +65,7 @@
 
 <!-- Barre de navigation -->
 {# On ne l'affiche que si l'utilisateur est connecté #}
+{# TODO Sur iphone quand on etire un onglet, une case blanche est affichée #}
 <div class="container-fluid" id="navigation">
     {% if user.is_authenticated %}
         <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#e9ecef">
