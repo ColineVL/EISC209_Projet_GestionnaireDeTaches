@@ -46,13 +46,15 @@
 
                 <!-- Corps de la table -->
                 {% for entry in list_entries %}
-                <tr>
-                    <td><a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project|truncatechars:50 }}</a></td>
-                    <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatewords:50 }}</a></td>
-                    <td>{{ entry }}</td>
-                    <td>{{ entry.author }}</td>
-                    <td>{{ entry.date }}</td>
-                </tr>
+                    <tr>
+                        <td>
+                            <a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project|truncatechars:50 }}</a>
+                        </td>
+                        <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatewords:50 }}</a></td>
+                        <td>{{ entry }}</td>
+                        <td><span class="badge badge-primary">{{ entry.author }}</span></td>
+                        <td><i>{{ entry.date }}</i></td>
+                    </tr>
                 {% endfor %}
             </table>
 
