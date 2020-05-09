@@ -18,7 +18,7 @@ var options = {
 // }
 
 options.series[0].data.push({
-    name: 'End prototype',
+    name: JSON.parse(document.getElementById('myID').textContent),
     start: Date.UTC(2014, 10, 28),
     end: Date.UTC(2014, 10, 30)
 })

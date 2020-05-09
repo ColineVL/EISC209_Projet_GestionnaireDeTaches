@@ -39,6 +39,7 @@ def project(request, id_project):
     #starts = []
     #ends = []
     test = "blabla"
+    test2 = "truc"
     # for task_to_display in list_tasks:
     #     print(task_to_display.name)
     #     names.append(task_to_display.name)

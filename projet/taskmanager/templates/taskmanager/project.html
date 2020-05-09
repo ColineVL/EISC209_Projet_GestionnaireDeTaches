@@ -77,8 +77,11 @@
     <!-- Affichage d'un diagramme de Gantt -->
     <div class="container" id="container">
 
+        {{ test2 | json_script:"myID" }}
+
         <script>
             var test = "{{ test }}";
+
           //  var names = {{ names }};
           //  var starts = {{ starts }};
           //  var ends = {{ ends }};
