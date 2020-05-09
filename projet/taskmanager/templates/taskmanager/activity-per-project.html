@@ -1,14 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% for entry in list_entries %}
-<p>{{ entry }}</p>
-<p>{{ entry.date }}</p>
-{% empty %} Rien
-{% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Members of all projects{% endblock %}
+{% load bootstrap4 %}
+
+{# Haut de page #}
+{% block head %}
+    <div class="container" id="titre">
+        <h2>Dernière activité dans <i>{{ projet }}</i></h2>
+    </div>
+{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+    <div class="container" id="activite">
+
+
+        {% if list_entries %}
+            <!-- Dans le cas où list_entries n'est pas vide -->
+            <table class="table table-hover">
+                <!-- Entête de la table -->
+                <thead class="thead-light">
+                <tr>
+                    <th>Tâche</th>
+                    <th>Entrée du journal</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+
+                <!-- Corps de la table -->
+                {% for entry in list_entries %}
+                <tr>
+                    <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatewords:50 }}</a></td>
+                    <td>{{ entry }}</td>
+                    <td>{{ entry.author }}</td>
+                    <td>{{ entry.date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        {% else %}
+            <!-- Dans le cas où list_entries est vide -->
+            <p>Pas d'activité récente</p>
+        {% endif %}
+    </div>
+{% endblock %}
