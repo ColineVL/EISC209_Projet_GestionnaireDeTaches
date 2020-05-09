@@ -100,6 +100,8 @@ def task(request, id_task):
     # On récupère la tâche demandée et la liste des entrées du journal
     task_to_display = get_object_or_404(Task, id=id_task)
     list_journal = Journal.objects.filter(task=task_to_display)
+    # Trie des entrées dans l'ordre décroissant des dates
+    list_journal = list_journal.order_by('-date')
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
     if request.user not in task_to_display.project.members.all():
         return redirect('accueil')
