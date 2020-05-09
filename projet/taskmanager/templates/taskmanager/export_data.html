@@ -9,8 +9,8 @@
     <div class='container' id="form">
         <form action="{% url 'export_data' %}" method="post">
             {% csrf_token %}
-            <h2>Nom et type de fichiers voulus</h2>
 
+            <h2>Nom et type de fichiers voulus</h2>
             <div class="form-row">
                 <div class="col-sm-6">
                     {% bootstrap_field form.archive_name layout='horizontal' %}
@@ -25,37 +25,37 @@
             {#                <div class="form-group col-md-6">{{ form.file_type|as_crispy_field }}</div>#}
             {#            </div>#}
 
-            <h2>Fichiers souhaités</h2>
-            <div class="form-row">
-                <div class="col-sm-3">
-                    {% bootstrap_field form.bool_project layout='horizontal' %}
-                </div>
-                <div class="col-md-3">
-                    {% bootstrap_field form.bool_status layout='horizontal' %}
-                </div>
-                <div class="col-md-3">
-                    {% bootstrap_field form.bool_task layout='horizontal' %}
-                </div>
-                <div class="col-md-3">
-                    {% bootstrap_field form.bool_Journal layout='horizontal' %}
-                </div>
-            </div>
-            {#            <div class="form-row">#}
-            {#                <div class="form-group col-md-3">{{ form.bool_project|as_crispy_field }}</div>#}
-            {#                <div class="form-group col-md-3">{{ form.bool_status|as_crispy_field }}</div>#}
-            {#                <div class="form-group col-md-3">{{ form.bool_task|as_crispy_field }}</div>#}
-            {#                <div class="form-group col-md-3">{{ form.bool_Journal|as_crispy_field }}</div>#}
-            {#            </div>#}
+            <br>
 
-            <h2>Organisation du répertoire</h2>
-            <div class="form-row">
-                <div class="col-sm-6">
-                    {% bootstrap_field form.one_dir_by_project layout='horizontal' %}
+            <div class="row">
+                <div class="col-sm-6" id="fichiers souhaités">
+                    <h2>Fichiers souhaités</h2>
+                    <div class="form-row">
+                        <div class="col-sm-4">
+                            {% bootstrap_field form.bool_project %}
+                            {% bootstrap_field form.bool_status %}
+                        </div>
+                        <div class="col-md-4">
+                            {% bootstrap_field form.bool_task %}
+                            {% bootstrap_field form.bool_Journal %}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    {% bootstrap_field form.ordered_journal_by_task layout='horizontal' %}
+
+                {#            <div class="form-row">#}
+                {#                <div class="form-group col-md-3">{{ form.bool_project|as_crispy_field }}</div>#}
+                {#                <div class="form-group col-md-3">{{ form.bool_status|as_crispy_field }}</div>#}
+                {#                <div class="form-group col-md-3">{{ form.bool_task|as_crispy_field }}</div>#}
+                {#                <div class="form-group col-md-3">{{ form.bool_Journal|as_crispy_field }}</div>#}
+                {#            </div>#}
+                <div class="col-sm-6" id="organisation">
+                    <h2>Organisation du répertoire</h2>
+                    {% bootstrap_field form.one_dir_by_project %}
+                    {% bootstrap_field form.ordered_journal_by_task %}
                 </div>
             </div>
+            <br>
+
             {#            <div class="form-row">#}
             {#                <div class="form-group col-md-6">{{ form.one_dir_by_project|as_crispy_field }}</div>#}
             {#                <div class="form-group col-md-6">{{ form.ordered_journal_by_task|as_crispy_field }}</div>#}

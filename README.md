@@ -6,9 +6,10 @@ Clonez le répertoire sur votre ordinateur.
 ```
 git clone https://github.com/ColineVL/GestionnaireDeTaches.git
 ```
-Dans PyCharm, ouvrez le dossier. Dans le terminal, installer Django-Bootstrap avec la commande : 
+Dans PyCharm, ouvrez le dossier. Dans le terminal, installez les modules nécessaires. 
 ```
 pip install django-bootstrap4
+pip install django-import-export
 ```
 Placez-vous dans le dossier *projet*, et lancez les migrations.
 ```
