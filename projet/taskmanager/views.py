@@ -132,7 +132,11 @@ def export_data(request):
                     if bool_task:
                         create_file(file_type,project.name+'/task.'+file_type, Task.objects.filter(project=project), TaskResource(),zipObj)
                     if bool_journal:
-                        create_file(file_type, project.name+'/journal.'+file_type, Journal.objects.filter(task__in=Task.objects.filter(project=project)),JournalResource(),zipObj)
+                        if ordered_journal_by_task:
+                            set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('task')
+                        else:
+                            set = Journal.objects.filter(task__in=Task.objects.filter(project=project))
+                        create_file(file_type, project.name+'/journal.'+file_type, set,JournalResource(),zipObj)
                     shutil.rmtree(project.name)
             else:
                 if bool_task:
