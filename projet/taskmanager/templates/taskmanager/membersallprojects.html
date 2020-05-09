@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Members of all projects{% endblock %}
+{% load bootstrap4 %}
+
+{# Haut de page #}
+{% block head %}
+    <!-- Titre de la page -->
+    <div class="container" id="titre">
+        <h2>Membres des projets auxquels je participe</h2>
+    </div>
+{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+    <div class="container" id="projets">
+        <div class="row">
+            {# Boucle sur les projets #}
+            {% for pr in list_projects %}
+                <div class="col-sm-3">
+                    {# Boucle sur les membres #}
+                    <table class="table table-hover">
+                        <!-- En-tête de la table -->
+                        <thead class="thead-light">
+                        <tr>
+                            <th>{{ pr|truncatechars:80 }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for mem in pr.list_members %}
+                            <tr>
+                                <td>{{ mem }}</td>
+                            </tr>
+                        {% empty %}
+                            <td>Aucun membre</td>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% empty %}
+                <p>Aucun projet</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

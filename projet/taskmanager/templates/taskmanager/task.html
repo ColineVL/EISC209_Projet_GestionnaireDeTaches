@@ -2,30 +2,11 @@
 {% block title %}Task{% endblock %}
 {% load bootstrap4 %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'export_data' %}">Exporter les données</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'task' id_task %}">{{ task_to_display }}</a>
-        </li>
-    </ul>
-{% endblock %}
-
-{# Contenu de la page #}
-{% block content %}
-
-    <!-- Titre de la page et bouton d'édition de la tâche -->
+{# Haut de page #}
+{% block head %}
+<!-- Titre de la page et bouton d'édition de la tâche -->
     <div class="container" id="titre">
-        <h2> {{ task_to_display.project }}</h2>
+        <h2> <a href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a></h2>
         <div class="row">
             <div class="col-sm-12">
                 <h4>
@@ -39,7 +20,10 @@
         </div>
         <p>{{ task_to_display.description }}</p>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Informations principales -->
     <div class="container" id="mainInfos">
         <table class="table">
@@ -62,6 +46,10 @@
             <tr>
                 <th>Statut</th>
                 <td><span class="badge badge-warning">{{ task_to_display.status }}</span></td>
+            </tr>
+            <tr>
+                <th>Taux d'avancement</th>
+                <td>{{ task_to_display.progress }} %</td>
             </tr>
         </table>
     </div>

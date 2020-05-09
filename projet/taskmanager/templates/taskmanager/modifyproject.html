@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ method }} project{% endblock %}
+{% load bootstrap4 %}
+
+{# Haut de page #}
+{% block head %}
+    <div class="container" id="head">
+        <h2>{{ method }} project</h2>
+    </div>
+{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+
+    <!-- Form -->
+    <div class="container" id="form">
+        <!-- On n'appelle pas le même form selon si on est en édition ou en création -->
+        {% if method == 'Edit' %}
+            <!-- Cas édition -->
+            <form action="{% url "editproject" id_project %}" method="post">
+        {% else %}
+            <!-- Cas création -->
+            <form action="{% url "newproject" %}" method="post">
+        {% endif %}
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">Save</button>
+        {% endbuttons %}
+        </form>
+    </div>
+
+{% endblock %}

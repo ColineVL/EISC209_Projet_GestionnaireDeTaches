@@ -1,40 +1,43 @@
 {% extends "base.html" %}
 {% block title %}Project{% endblock %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'export_data' %}">Exporter les données</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' id_project %}">{{ project_to_display }}</a>
-        </li>
-    </ul>
-{% endblock %}
 
-{# Contenu de la page #}
-{% block content %}
-
-    <!-- Titre de la page et bouton pour ajouter une tâche -->
+{# Haut de page #}
+{% block head %}
+    <!-- Titre de la page et boutons -->
     <div class="container" id="titre">
         <div class="row">
             <div class="col-sm-12">
                 <h1>
                     {# Nom du projet #}
                     {{ project_to_display }}
+
+{#                    TODO les deux boutons sont trop collé#}
+
                     {# Bouton pour ajouter une tâche #}
-                    <a href={% url "newtask" id_project %}>
-                        <i class="fa fa-plus-circle fa-pull-right" title="New task" aria-hidden="true"></i>
-                    </a>
+                    <button class="btn btn-primary float-right">
+                        <a class="text-white " href={% url "newtask" id_project %}>
+                            <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
+                            Nouvelle tâche
+                        </a>
+                    </button>
+
+                    {# Bouton pour modifier le projet #}
+                    <button class="btn btn-primary float-right">
+                        <a class="text-white" href={% url "editproject" id_project %}>
+                            <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
+                            Modifier le projet
+                        </a>
+                    </button>
+
                 </h1>
             </div>
         </div>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Liste des tâches -->
     <div class="container" id="listeTaches">
 
@@ -55,7 +58,7 @@
                 <tbody>
                 {% for task in list_tasks %}
                     <tr>
-                        <td><a href="{% url 'task' task.id %}">{{ task }}</a></td>
+                        <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:100 }}</a></td>
                         <td><span class="badge badge-primary">{{ task.assignee }}</span></td>
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
