@@ -1,46 +1,64 @@
 {% extends "base.html" %}
-{% block title %}Activity by project{% endblock %}
+{% block title %}Members of all projects{% endblock %}
+{% load bootstrap4 %}
 
 {# Haut de page #}
 {% block head %}
-    <!-- Titre de la page -->
     <div class="container" id="titre">
-        <h1>Activité de tous mes projets</h1>
+        <h2>Dernière activité</h2>
     </div>
 {% endblock %}
 
 {# Contenu de la page #}
 {% block content %}
-    <div class="container" id="listeTaches">
+
+    <!-- Option pour choisir combien d'entrées on affiche -->
+    <div class="container" id="nombre-a-afficher">
+        <form method="get" action="{% url 'activity_all' %}">
+            <label id="choix-afficher">Afficher combien de tâches?</label>
+            <select name="affiche" id="choix-afficher">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="100">100</option>
+                <option value="-1">Toutes</option>
+            </select>
+            <input type="submit" value="Mettre à jour">
+        </form>
+    </div>
+
+    <div class="container" id="activite">
+
+
         {% if list_entries %}
-            <!-- Cas où la liste des entrées n'est pas vide -->
-            <!-- Liste des dernières entrées des projets -->
+            <!-- Dans le cas où list_entries n'est pas vide -->
             <table class="table table-hover">
-                <!-- En-tête de la table -->
+                <!-- Entête de la table -->
                 <thead class="thead-light">
                 <tr>
                     <th>Projet</th>
                     <th>Tâche</th>
-                    <th>Assignée à</th>
-                    <th>Dernière entrée</th>
-                    <th>Date de la dernière entrée</th>
+                    <th>Entrée du journal</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
                 </tr>
                 </thead>
-                <tbody>
+
+                <!-- Corps de la table -->
                 {% for entry in list_entries %}
-                    <tr>
-                        <td><a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project }}</a></td>
-                        <td><a href="{% url 'task' task.id %}">{{ entry.task|truncatechars:100 }}</a></td>
-                        <td><span class="badge badge-primary">{{ entry.task.assignee }}</span></td>
-                        <td>{{ entry }}</td>
-                        <td><i>{{ entry.date }}</i></td>
-                    </tr>
+                <tr>
+                    <td><a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project|truncatechars:50 }}</a></td>
+                    <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatewords:50 }}</a></td>
+                    <td>{{ entry }}</td>
+                    <td>{{ entry.author }}</td>
+                    <td>{{ entry.date }}</td>
+                </tr>
                 {% endfor %}
-                </tbody>
             </table>
+
         {% else %}
-            Pas d'entrée à afficher
+            <!-- Dans le cas où list_entries est vide -->
+            <p>Pas d'activité récente</p>
         {% endif %}
     </div>
-
 {% endblock %}
