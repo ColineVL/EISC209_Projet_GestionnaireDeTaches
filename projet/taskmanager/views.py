@@ -115,7 +115,7 @@ def newtask(request, id_project):
     project_related = get_object_or_404(Project, id=id_project)
     list_members = project_related.members.all()
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
-    if not request.user in list_members:
+    if request.user not in list_members:
         return redirect('accueil')
     # On crée un formulaire pour créer une nouvelle tâche
     form = TaskForm(request.POST or None)
@@ -184,6 +184,7 @@ def membersbyproject(request, id_project):
 
 @login_required
 def activity_all(request):
+
     # On récupère tous les projets de l'utilisateur
     list_projects = request.user.project_set.all()
 
@@ -196,8 +197,23 @@ def activity_all(request):
     list_entries = Journal.objects.none()
     for task in list_tasks:
         list_entries = list_entries.union(task.journal_set.all())
-    # Qu'on trie par date décroissante
+    # Qu'on trie par date décroissante, en prenant les affiche premier
     list_entries = list_entries.order_by('-date')
+
+    # On récupère le paramètre GET affiche
+    # Ce paramètre sert à afficher un nombre précis d'entrées
+    try:
+        affiche = request.GET['affiche' or None]
+    except:
+        # Par défaut, affiche vaut 5
+        affiche = 5
+
+    # Sinon, on prend l'entier correspondant
+    affiche = int(affiche)
+
+    # Enfin, on slash la liste des entrées, si affiche ne vaut pas -1
+    if affiche > 0:
+        list_entries = list_entries[:affiche]
 
     return render(request, 'taskmanager/activity-all.html', locals())
 
@@ -216,5 +232,20 @@ def activity_per_project(request, id_project):
         list_entries = list_entries.union(task.journal_set.all())
     # Qu'on trie par date décroissante
     list_entries = list_entries.order_by('-date')
+
+    # On récupère le paramètre GET affiche
+    # Ce paramètre sert à afficher un nombre précis d'entrées
+    try:
+        affiche = request.GET['affiche' or None]
+    except:
+        # Par défaut, affiche vaut 5
+        affiche = 5
+
+    # Sinon, on prend l'entier correspondant
+    affiche = int(affiche)
+
+    # Enfin, on slash la liste des entrées, si affiche ne vaut pas -1
+    if affiche > 0:
+        list_entries = list_entries[:affiche]
 
     return render(request, 'taskmanager/activity-per-project.html', locals())

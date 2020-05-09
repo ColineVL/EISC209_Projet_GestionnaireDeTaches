@@ -11,6 +11,22 @@
 
 {# Contenu de la page #}
 {% block content %}
+
+    <!-- Option pour choisir combien d'entrées on affiche -->
+    <div class="container" id="nombre-a-afficher">
+        <form method="get" action="{% url 'activity_all' %}">
+            <label id="choix-afficher">Afficher combien de tâches?</label>
+            <select name="affiche" id="choix-afficher">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="100">100</option>
+                <option value="-1">Toutes</option>
+            </select>
+            <input type="submit" value="Mettre à jour">
+        </form>
+    </div>
+
     <div class="container" id="activite">
 
 
