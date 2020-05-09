@@ -1,14 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% for entry in list_entries %}
-<p>{{ entry }}</p>
-<p>{{ entry.date }}</p>
-{% empty %} Rien
-{% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Activity by project{% endblock %}
+
+{# Haut de page #}
+{% block head %}
+    <!-- Titre de la page -->
+    <div class="container" id="titre">
+        <h1>Activité de tous mes projets</h1>
+    </div>
+{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+    <div class="container" id="listeTaches">
+        {% if list_entries %}
+            <!-- Cas où la liste des entrées n'est pas vide -->
+            <!-- Liste des dernières entrées des projets -->
+            <table class="table table-hover">
+                <!-- En-tête de la table -->
+                <thead class="thead-light">
+                <tr>
+                    <th>Projet</th>
+                    <th>Tâche</th>
+                    <th>Assignée à</th>
+                    <th>Dernière entrée</th>
+                    <th>Date de la dernière entrée</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entry in list_entries %}
+                    <tr>
+                        <td><a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project }}</a></td>
+                        <td><a href="{% url 'task' task.id %}">{{ entry.task|truncatechars:100 }}</a></td>
+                        <td><span class="badge badge-primary">{{ entry.task.assignee }}</span></td>
+                        <td>{{ entry }}</td>
+                        <td><i>{{ entry.date }}</i></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            Pas d'entrée à afficher
+        {% endif %}
+    </div>
+
+{% endblock %}
