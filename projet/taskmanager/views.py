@@ -56,7 +56,7 @@ def project(request, id_project):
     # On récupère le projet demandé
     project_to_display = get_object_or_404(Project, id=id_project)
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
-    if not request.user in project_to_display.members.all():
+    if request.user not in project_to_display.members.all():
         return redirect('accueil')
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
@@ -82,7 +82,7 @@ def editproject(request, id_project):
     project_formed = get_object_or_404(Project, id=id_project)
     list_members = project_formed.members.all()
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
-    if not request.user in list_members:
+    if request.user not in list_members:
         return redirect('accueil')
     # On crée un form pour modifier le projet demandé
     form = ProjectForm(request.POST or None, instance=project_formed)
@@ -101,7 +101,7 @@ def task(request, id_task):
     task_to_display = get_object_or_404(Task, id=id_task)
     list_journal = Journal.objects.filter(task=task_to_display)
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
-    if not request.user in task_to_display.project.members.all():
+    if request.user not in task_to_display.project.members.all():
         return redirect('accueil')
     # On crée un fom pour ajouter une entrée au journal
     form = NewEntryForm(request.POST or None)
@@ -147,7 +147,7 @@ def edittask(request, id_task):
     project_related = task_formed.project
     list_members = project_related.members.all()
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
-    if not request.user in list_members:
+    if request.user not in list_members:
         return redirect('accueil')
     # On crée un form pour modifier la tâche demandée
     form = TaskForm(request.POST or None, instance=task_formed)
@@ -191,10 +191,10 @@ def membersbyproject(request, id_project):
     list_members = project_to_display.members.all()
     return render(request, 'taskmanager/membersbyproject.html', locals())
 
+
 # Pas une vue
 # Cette fonction permet de récupérer la liste des entries à partir d'une liste de tâche
 def get_list_entries(list_tasks, request):
-
     # On récupère les paramètres GET affiche et notmyentries
     # affiche sert à afficher un nombre précis d'entrées
     # notmyentries sert à afficher ou non les entrées de l'utilisateur connecté
@@ -213,7 +213,8 @@ def get_list_entries(list_tasks, request):
     # On prend l'entier correspondant à afficher
     affiche = int(affiche)
 
-    # On récupère toutes les entrées de journal dont l'auteur n'est pas l'utilisateur, dans le cas où notmyentries vaut on
+    # On récupère toutes les entrées de journal dont l'auteur n'est pas l'utilisateur, dans le cas où notmyentries
+    # vaut on
     if notmyentries == "on":
         list_entries = Journal.objects.none()
         for task in list_tasks:
@@ -236,6 +237,7 @@ def get_list_entries(list_tasks, request):
     # TODO afficher depuis telle date ?
 
     return list_entries
+
 
 # Cette vue permet d'afficher les dernières activités de tous les projets où participent l'utilisateur
 @login_required
@@ -260,6 +262,7 @@ def activity_all(request):
     }
 
     return render(request, 'taskmanager/activity-all.html', locals())
+
 
 # Cette vue permet d'afficher les dernières activités d'un projet où participent l'utilisateur
 @login_required
