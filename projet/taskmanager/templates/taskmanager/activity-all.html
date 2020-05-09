@@ -12,10 +12,10 @@
 {# Contenu de la page #}
 {% block content %}
 
-    <!-- Option pour choisir combien d'entrées on affiche -->
     <div class="container" id="nombre-a-afficher">
         <form method="get" action="{% url 'activity_all' %}">
             <div class="form-group row">
+                <!-- Option pour choisir combien d'entrées on affiche -->
                 {#                TODO affichage pas parfait#}
                 <label class="col-sm-3 col-form-label text-right" for="choix-afficher">
                     Nombre de tâches à afficher :
@@ -31,9 +31,18 @@
                         {% endfor %}
                     </select>
                 </div>
+
+                <!-- Option pour ne pas afficher les entrées de l'utilisateur -->
+                <input type="checkbox" name="notmyentries" id="entrees-user">
+                <label for="entrees-user">
+                    Ne pas afficher mes entrées
+                </label>
+
                 <button type="submit" class="btn btn-primary">Mettre à jour</button>
+
             </div>
         </form>
+
     </div>
 
     <!-- Affichage des entrées -->
