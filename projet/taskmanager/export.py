@@ -1,5 +1,8 @@
-def create_file(file_type, fileneame, queryset, resource):
-    file = open(fileneame, "wb")
+import os
+
+
+def create_file(file_type, filename, queryset, resource, zipObj):
+    file = open(filename, "wb")
     dataset = resource.export(queryset)
     if file_type == 'csv':
         file.write(dataset.csv.encode())
@@ -12,4 +15,6 @@ def create_file(file_type, fileneame, queryset, resource):
     elif file_type == 'yaml':
         file.write(dataset.yaml.encode())
     file.close()
+    zipObj.write(filename)
+    os.remove(filename)
 
