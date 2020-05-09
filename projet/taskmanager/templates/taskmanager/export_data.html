@@ -18,9 +18,30 @@
 
 {% block content %}
 <div class ='container col-8'>
-<form class="form-group" action="{% url 'export_data' %}" method="post">
+<form action="{% url 'export_data' %}" method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+    <h2>Nom et type de fichiers voulus</h2>
+    <div class="form-row">
+        <div class="form-group col-md-6">{{ form.archive_name|as_crispy_field }}</div>
+        <div class="form-group col-md-6">{{ form.file_type|as_crispy_field }}</div>
+    </div>
+    <h2>Fichiers souhaités</h2>
+    <div class="form-row">
+        <div class="form-group col-md-3">{{ form.bool_project|as_crispy_field }}</div>
+        <div class="form-group col-md-3">{{ form.bool_status|as_crispy_field }}</div>
+        <div class="form-group col-md-3">{{ form.bool_task|as_crispy_field }}</div>
+        <div class="form-group col-md-3">{{ form.bool_Journal|as_crispy_field }}</div>
+    </div>
+    <h2>Organisation du répertoire</h2>
+    <div class="form-row">
+        <div class="form-group col-md-6">{{ form.one_dir_by_project|as_crispy_field }}</div>
+        <div class="form-group col-md-6">{{ form.ordered_journal_by_task|as_crispy_field }}</div>
+    </div>
+    <h2>Projet souhaité</h2>
+    <div>
+        {{ form.all_projects|as_crispy_field }}
+        {{ form.project|as_crispy_field }}
+    </div>
     <input type="submit" value="Export Data" class="btn btn-primary">
 </form>
 </div>
