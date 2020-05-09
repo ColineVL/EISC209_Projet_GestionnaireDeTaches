@@ -100,6 +100,13 @@ def edittask(request, id_task):
 
 @login_required
 def export_data(request):
+    """
+    This views allows the exportation of data to a specified format.
+    It is able to handle five different formats 'csv','xls','json','html' and 'yaml'.
+    The function construct the asked file, add them to a zip file and then destroy the temporary files
+    :param request:
+    :return:
+    """
     form = ExportForm(request.POST or None,user=request.user)
 
     if form.is_valid():
@@ -113,14 +120,17 @@ def export_data(request):
         ordered_journal_by_task = form.cleaned_data['ordered_journal_by_task']
         all_projects = form.cleaned_data['all_projects']
 
+        # here we get the table of the project file
         project_set = request.user.project_set.all()
         if  not all_projects:
             projects_name = form.cleaned_data['project']
             project_set = project_set.filter(name__in=projects_name)
 
+        # we create the http response and we link a zip file to it
         response = HttpResponse('content_type=application/zip')
         zipObj = ZipFile(response, 'w')
 
+        # depending on the entry we create the different files an directory and add them to the zip file
         if bool_project:
             create_file(file_type,'projects.'+file_type,project_set, ProjectRessource(),zipObj)
         if bool_status:
@@ -137,7 +147,7 @@ def export_data(request):
                         else:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
                         create_file(file_type, project.name+'/journal.'+file_type, set,JournalResource(),zipObj)
-                    shutil.rmtree(project.name)
+                    shutil.rmtree(project.name) # we remove the tempory directories
             else:
                 if bool_task:
                     create_file(file_type,'task.'+file_type, Task.objects.filter(project__in=project_set),TaskResource(),zipObj)

@@ -1,6 +1,8 @@
 from import_export import resources
 from .models import *
 
+# This file contains classes wich allows model and queryset to be exported in several format
+
 class ProjectRessource(resources.ModelResource):
     class Meta:
         model = Project
