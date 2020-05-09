@@ -100,7 +100,8 @@ def edittask(request, id_task):
 
 @login_required
 def export_data(request):
-    form = ExportForm(request.POST or None)
+    form = ExportForm(request.POST or None,user=request.user)
+
     if form.is_valid():
         file_type = form.cleaned_data['file_type']
         archive_name = form.cleaned_data['archive_name']
