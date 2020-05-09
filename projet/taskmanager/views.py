@@ -189,7 +189,6 @@ def membersbyproject(request, id_project):
 
 @login_required
 def activity_all(request):
-
     # On récupère tous les projets de l'utilisateur
     list_projects = request.user.project_set.all()
 
@@ -207,6 +206,13 @@ def activity_all(request):
 
     # On récupère le paramètre GET affiche
     # Ce paramètre sert à afficher un nombre précis d'entrées
+    dict_choices = {
+        "5": 5,
+        "10": 10,
+        "20": 20,
+        "100": 100,
+        "Toutes": -1
+    }
     try:
         affiche = request.GET['affiche' or None]
     except:
@@ -240,6 +246,13 @@ def activity_per_project(request, id_project):
 
     # On récupère le paramètre GET affiche
     # Ce paramètre sert à afficher un nombre précis d'entrées
+    dict_choices = {
+        "5": 5,
+        "10": 10,
+        "20": 20,
+        "100": 100,
+        "Toutes": -1
+    }
     try:
         affiche = request.GET['affiche' or None]
     except:
