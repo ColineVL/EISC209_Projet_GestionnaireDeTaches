@@ -3,9 +3,13 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import TaskForm, NewEntryForm, ProjectForm
-from .models import Project, Task, Journal
-
+from .forms import TaskForm, NewEntryForm, ExportForm, ProjectForm
+from .models import *
+from .resources import *
+from django.http import HttpResponse
+from zipfile import ZipFile
+import shutil
+from .export import *
 
 # Pas une view, c'est une fonction utile
 def progress(project):
@@ -267,3 +271,55 @@ def activity_per_project(request, id_project):
         list_entries = list_entries[:affiche]
 
     return render(request, 'taskmanager/activity-per-project.html', locals())
+
+  
+@login_required
+def export_data(request):
+    form = ExportForm(request.POST or None,user=request.user)
+
+    if form.is_valid():
+        file_type = form.cleaned_data['file_type']
+        archive_name = form.cleaned_data['archive_name']
+        bool_project = form.cleaned_data['bool_project']
+        bool_task = form.cleaned_data['bool_task']
+        bool_status = form.cleaned_data['bool_status']
+        bool_journal = form.cleaned_data['bool_Journal']
+        one_dir_by_project = form.cleaned_data['one_dir_by_project']
+        ordered_journal_by_task = form.cleaned_data['ordered_journal_by_task']
+        all_projects = form.cleaned_data['all_projects']
+
+        project_set = request.user.project_set.all()
+        if  not all_projects:
+            projects_name = form.cleaned_data['project']
+            project_set = project_set.filter(name__in=projects_name)
+
+        response = HttpResponse('content_type=application/zip')
+        zipObj = ZipFile(response, 'w')
+
+        if bool_project:
+            create_file(file_type,'projects.'+file_type,project_set, ProjectRessource(),zipObj)
+        if bool_status:
+            create_file(file_type,'status.'+file_type,Status.objects.all(), StatusResource(),zipObj)
+        if bool_task or bool_journal:
+            if one_dir_by_project:
+                for project in project_set:
+                    os.mkdir(project.name)
+                    if bool_task:
+                        create_file(file_type,project.name+'/task.'+file_type, Task.objects.filter(project=project), TaskResource(),zipObj)
+                    if bool_journal:
+                        if ordered_journal_by_task:
+                            set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('task')
+                        else:
+                            set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
+                        create_file(file_type, project.name+'/journal.'+file_type, set,JournalResource(),zipObj)
+                    shutil.rmtree(project.name)
+            else:
+                if bool_task:
+                    create_file(file_type,'task.'+file_type, Task.objects.filter(project__in=project_set),TaskResource(),zipObj)
+                if bool_journal:
+                    create_file(file_type,'journal.'+file_type, Journal.objects.filter(task__in=Task.objects.filter(project__in=project_set)),JournalResource(),zipObj)
+
+        response['Content-Disposition'] = 'attachment; filename="' + archive_name + '.zip"'
+        return response
+
+    return render(request, 'taskmanager/export_data.html', locals())

@@ -23,6 +23,7 @@ class Status(models.Model):
         # Cette ligne sert à ne pas avoir "statuss" dans l'administration
 
 
+
 # Modèle Task
 class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -37,6 +38,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
+
 
 
 # Modele Journal

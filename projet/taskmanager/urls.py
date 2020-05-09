@@ -28,4 +28,7 @@ urlpatterns = [
     path('activity/allprojects', views.activity_all, name="activity_all"),
     # Même URL que la précédente, mais trié pour un seul projet
     path('activity/<int:id_project>', views.activity_per_project, name="activity_per_project"),
+  
+    # Exportation de données
+    path('export_data',views.export_data, name="export_data")
 ]
