@@ -7,31 +7,24 @@
     <!-- Titre de la page et boutons -->
     <div class="container" id="titre">
         <div class="row">
-            <div class="col-sm-12">
-                <h1>
+
+                <h1 class="col-sm-7">
                     {# Nom du projet #}
                     {{ project_to_display }}
-
-{#                    TODO les deux boutons sont trop collés#}
-
+                </h1>
                     {# Bouton pour ajouter une tâche #}
-                    <button class="btn btn-primary float-right">
-                        <a class="text-white " href={% url "newtask" id_project %}>
-                            <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
-                            Nouvelle tâche
-                        </a>
+                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href={% url "newtask" id_project %}">
+                        <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
+                        Nouvelle tâche
                     </button>
 
                     {# Bouton pour modifier le projet #}
-                    <button class="btn btn-primary float-right">
-                        <a class="text-white" href={% url "editproject" id_project %}>
-                            <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
-                            Modifier le projet
-                        </a>
+                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href={% url "editproject" id_project %}">
+                        <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
+                        Modifier le projet
                     </button>
 
-                </h1>
-            </div>
+
         </div>
     </div>
 {% endblock %}
@@ -43,7 +36,7 @@
 
         {% if list_tasks %}
             <!-- Cas où la liste des tâches n'est pas vide -->
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive">
                 <!-- En-tête de la table -->
                 <thead class="thead-light">
                 <tr>
