@@ -312,6 +312,7 @@ def export_data(request):
         response = HttpResponse('content_type=application/zip')
         zipObj = ZipFile(response, 'w')
 
+
         if bool_project:
             create_file(file_type, 'projects.' + file_type, project_set, ProjectRessource(), zipObj)
         if bool_status:
