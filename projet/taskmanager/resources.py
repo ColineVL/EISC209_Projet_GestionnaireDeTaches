@@ -1,9 +1,12 @@
 from import_export import resources
 from .models import *
+from import_export.fields import Field
 
 # This file contains classes wich allows model and queryset to be exported in several format
 
 class ProjectRessource(resources.ModelResource):
+    number_of_members = Field()
+
     class Meta:
         model = Project
         exclude = ('id',)
@@ -14,6 +17,9 @@ class ProjectRessource(resources.ModelResource):
         for member in project.members.all():
             result += member.username+';'
         return result
+
+    def dehydrate_number_of_members(self, project):
+        return len(project.members.all())
 
 class StatusResource(resources.ModelResource):
     class Meta:
