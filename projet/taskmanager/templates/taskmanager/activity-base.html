@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Sélection des entrées -->
+    <div class="container" id="nombre-a-afficher">
+        <form method="get" action="{% block url %}{% endblock %}">
+            <div class="form-group row">
+                <!-- Option pour choisir combien d'entrées on affiche -->
+                {#                TODO affichage pas parfait#}
+                <div class="row col-sm-5">
+                    <label class="col-8 col-form-label text-right" for="choix-afficher">
+                        Nombre d'entrées à afficher :
+                    </label>
+
+                    <select name="affiche" class="col-4 form-control" title="" id="choix-afficher">
+                        {% for aff, val in dict_choices.items %}
+                            {# Cet if permet d'afficher la bonne valeur pour la sélection quand on charge la page #}
+                            {% if val == affiche %}
+                                <option value={{ val }} selected>{{ aff }}</option>
+                            {% else %}
+                                <option value={{ val }}>{{ aff }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Option pour ne pas afficher les entrées de l'utilisateur -->
+                <div class = "row col-sm-5">
+                    <label class="col-8 col-form-label text-right" for="entrees-user">
+                        Ne pas afficher mes entrées:
+                    </label>
+
+                    {# Cet if permet d'afficher la bonne valeur pour la checkbox quand on charge la page #}
+                    {% if notmyentries == "off" %}
+                        <input class="form-control col-4" type="checkbox" name="notmyentries" id="entrees-user">
+                    {% else %}
+                        <input class="form-control col-4" type="checkbox" name="notmyentries" id="entrees-user" checked>
+                    {% endif %}
+                </div>
+{#            TODO mettre un form ce serait pas plus simple ? Et la case ne pas afficher mes entrées est énorme#}
+
+                <!-- Bouton de mise à jour -->
+                <button type="submit" class="col-sm-2 btn btn-primary">Mettre à jour</button>
+
+            </div>
+        </form>
+    </div>
+
+    {% block entrees %}
+    {% endblock %}
+{% endblock %}

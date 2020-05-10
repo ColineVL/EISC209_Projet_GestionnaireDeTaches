@@ -1,49 +1,48 @@
 {% extends "base.html" %}
 {% block title %}Project{% endblock %}
+{% load bootstrap4 %}
+{% load static %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' id_project %}">{{ project_to_display }}</a>
-        </li>
-    </ul>
+
+{# Haut de page #}
+{% block head %}
+    <!-- Titre de la page et boutons -->
+    <div class="container" id="titre">
+        <div class="row">
+
+            <h1 class="col-sm-7">
+                {# Nom du projet #}
+                {{ project_to_display }}
+            </h1>
+            {# Bouton pour ajouter une tâche #}
+            {# TODO c'est quoi ce m-3 ? #}
+            {# TODO en mode tablette, les boutons ne s'affichent pas bien (l'un va à la ligne)#}
+            <button class="col-sm-2 btn btn-primary m-3"
+                    onclick="window.location.href='{% url "newtask" id_project %}'">
+                <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
+                Nouvelle tâche
+            </button>
+
+            {# Bouton pour modifier le projet #}
+            <button class="col-sm-2 btn btn-primary m-3"
+                    onclick="window.location.href='{% url "editproject" id_project %}'">
+                <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
+                Modifier le projet
+            </button>
+
+
+        </div>
+    </div>
 {% endblock %}
 
 {# Contenu de la page #}
 {% block content %}
-
-    <form method="get">
-        {{ f.form.as_p }}
-        <input type="submit" />
-    </form>
-
-
-    <!-- Titre de la page et bouton pour ajouter une tâche -->
-    <div class="container" id="titre">
-        <div class="row">
-            <div class="col-sm-12">
-                <h1>
-                    {# Nom du projet #}
-                    {{ project_to_display }}
-                    {# Bouton pour ajouter une tâche #}
-                    <a href={% url "newtask" id_project %}>
-                        <i class="fa fa-plus-circle fa-pull-right" title="New task" aria-hidden="true"></i>
-                    </a>
-                </h1>
-            </div>
-        </div>
-    </div>
-
     <!-- Liste des tâches -->
     <div class="container" id="listeTaches">
 
         {% if list_tasks %}
             <!-- Cas où la liste des tâches n'est pas vide -->
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive-sm">
                 <!-- En-tête de la table -->
                 <thead class="thead-light">
                 <tr>
@@ -57,15 +56,34 @@
                 <!-- Corps de la table, boucle sur les tâches -->
                 <tbody>
                 {% for task in list_tasks %}
-                    <tr>
-                        <td><a href="{% url 'task' task.id %}">{{ task }}</a></td>
-                        <td><span class="badge badge-primary">{{ task.assignee }}</span></td>
-                        <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
-                        <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
-                        <td><a href="{% url 'edittask' task.id %}">
-                            <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task" aria-hidden="true"></i></p>
-                        </a></td>
-                    </tr>
+                    {# Cet if permet de mettre en avant les tâches de l'utilisateur connecté #}
+                    {% if task.assignee == request.user %}
+                        <tr class="table-primary">
+                            <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:100 }}</a></td>
+                            <td><span class="badge badge-primary">{{ task.assignee }}</span></td>
+                            <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                            <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                            <td>
+                                <a href="{% url 'edittask' task.id %}">
+                                    <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task"
+                                          aria-hidden="true"></i></p>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:100 }}</a></td>
+                            <td><span class="badge badge-secondary">{{ task.assignee }}</span></td>
+                            <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                            <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                            <td>
+                                <a href="{% url 'edittask' task.id %}">
+                                    <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task"
+                                          aria-hidden="true"></i></p>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
@@ -75,6 +93,15 @@
             <p>Aucune tâche !</p>
         {% endif %}
 
+    </div>
+
+    <!-- Affichage d'un diagramme de Gantt -->
+    <div class="container" id="gantt">
+        {# On fait passer les variables utiles au javascript#}
+        {{ project_to_display.name | json_script:"name_project" }}
+        {{ list_dicts | json_script:"list_dicts" }}
+        {# On appelle le script #}
+        <script type="text/javascript" src="{% static 'js/basicGanttChart.js' %}"></script>
     </div>
 
 {% endblock %}
