@@ -6,7 +6,7 @@
 {% block head %}
     <!-- Titre de la page -->
     <div class="container" id="titre">
-        <h2>Membres de {{ project_to_display }}</h2>
+        <h2>Membres de <a href="{% url 'project' id_project%}">{{ project_to_display }}</a></h2>
     </div>
 {% endblock %}
 

@@ -237,6 +237,7 @@ def get_list_entries(list_tasks, request):
         list_entries = list_entries[:affiche]
 
     # TODO afficher depuis telle date ?
+    # TODO si je choisis 5 et "pas mes entrées", afficher 5 entrées, pas 5-les miennes...
 
     return list_entries, affiche, notmyentries
 
@@ -244,7 +245,7 @@ def get_list_entries(list_tasks, request):
 # Cette vue permet d'afficher les dernières activités de tous les projets où participent l'utilisateur
 @login_required
 def activity_all(request):
-    # On récupère tous les p rojets de l'utilisateur
+    # On récupère tous les projets de l'utilisateur
     list_projects = request.user.project_set.all()
 
     # On récupère les tâches correspondantes
@@ -291,6 +292,7 @@ def activity_per_project(request, id_project):
 
 @login_required
 def export_data(request):
+    # TODO commenter !!!
     form = ExportForm(request.POST or None, user=request.user)
 
     if form.is_valid():
@@ -311,7 +313,6 @@ def export_data(request):
 
         response = HttpResponse('content_type=application/zip')
         zipObj = ZipFile(response, 'w')
-
 
         if bool_project:
             create_file(file_type, 'projects.' + file_type, project_set, ProjectRessource(), zipObj)
