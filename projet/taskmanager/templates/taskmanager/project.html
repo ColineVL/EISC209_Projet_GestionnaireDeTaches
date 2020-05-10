@@ -13,13 +13,13 @@
                     {{ project_to_display }}
                 </h1>
                     {# Bouton pour ajouter une tâche #}
-                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href={% url "newtask" id_project %}">
+                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href='{% url "newtask" id_project %}'">
                         <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
                         Nouvelle tâche
                     </button>
 
                     {# Bouton pour modifier le projet #}
-                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href={% url "editproject" id_project %}">
+                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href='{% url "editproject" id_project %}'">
                         <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
                         Modifier le projet
                     </button>
