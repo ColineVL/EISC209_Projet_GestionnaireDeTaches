@@ -2,41 +2,19 @@
 {% block title %}{{ method }} task{% endblock %}
 {% load bootstrap4 %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <!-- Ce n'est pas la même selon si on édite une tâche ou si on en crée une nouvelle -->
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' project_related.id %}">{{ project_related }}</a>
-        </li>
-        {% if method == 'Edit' %}
-            <!-- Cas édition de tâche -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'task' task_formed.id %}">{{ task_formed }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'edittask' task_formed.id %}">Edit task</a>
-            </li>
-        {% else %}
-            <!-- Cas création d'une nouvelle tâche -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'newtask' project_related.id %}">New task</a>
-            </li>
-        {% endif %}
-    </ul>
-{% endblock %}
-
-{# Contenu de la page #}
-{% block content %}
-    <!-- Titre de la page -->
+{# Haut de page #}
+{% block head %}
+   <!-- Titre de la page -->
     <div class="container" id="titre">
         <h2>{{ project_related }}</h2>
         <h4>{{ method }} task</h4>
         <br>
     </div>
+{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+
 
     <div class="container" id="form">
         <!-- On n'appelle pas le même form selon si on est en édition ou en création -->
@@ -53,7 +31,8 @@
         {% bootstrap_field form.name layout='horizontal' %}
         {% bootstrap_field form.description layout='horizontal' %}
         <!-- Choix de l'assignee -->
-        <div class="form-group row"><label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
             <div class="col-md-9">
                 <select name="assignee" class="form-control" title="" required id="id_assignee">
                     <option value="">---------</option>
@@ -117,6 +96,8 @@
         <!-- Fin du form, simple -->
         {% bootstrap_field form.priority layout='horizontal' %}
         {% bootstrap_field form.status layout='horizontal' %}
+        {% bootstrap_field form.progress layout='horizontal' %}
+
         {% buttons %}
             <button type="submit" class="btn btn-primary">Save</button>
         {% endbuttons %}

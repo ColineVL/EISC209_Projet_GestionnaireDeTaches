@@ -1,0 +1,59 @@
+{% extends "taskmanager/activity-base.html" %}
+{% block title %}Members of all projects{% endblock %}
+{% load bootstrap4 %}
+
+{# Haut de page #}
+{% block head %}
+    <div class="container" id="titre">
+        <h2>Dernières activités</h2>
+    </div>
+{% endblock %}
+
+{# url à afficher dans activity-base.html #}
+{% block url %}{% url 'activity_all' %}{% endblock %}
+
+{# Contenu de la page #}
+{% block entrees %}
+
+    <!-- Affichage des entrées -->
+    <div class="container" id="activite">
+        {% if list_entries %}
+            <!-- Dans le cas où list_entries n'est pas vide -->
+            <table class="table table-responsive-sm table-hover">
+                <!-- Entête de la table -->
+                <thead class="thead-light">
+                <tr>
+                    <th>Projet</th>
+                    <th>Tâche</th>
+                    <th>Entrée du journal</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+
+                <!-- Corps de la table -->
+                {% for entry in list_entries %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project|truncatechars:50 }}</a>
+                        </td>
+                        <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatewords:50 }}</a></td>
+                        <td>{{ entry }}</td>
+                        {# Cet if permet de mettre en avant les entrées écrites par l'utilisateur connecté #}
+                        {% if entry.author == request.user %}
+                            <td><span class="badge badge-primary">{{ entry.author }}</span></td>
+                        {% else %}
+                            <td><span class="badge badge-secondary">{{ entry.author }}</span></td>
+                        {% endif %}
+                        <td><i>{{ entry.date }}</i></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        {% else %}
+            <!-- Dans le cas où list_entries est vide -->
+            <p>Pas d'activité récente</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

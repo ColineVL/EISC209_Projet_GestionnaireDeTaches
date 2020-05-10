@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}My tasks{% endblock %}
+
+{# Haut de page #}
+{% block head %}
+  <!-- Titre de la page -->
+    <div class="container" id="titre">
+        <h1>Toutes mes tâches</h1>
+        <br>
+    </div>
+{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+    <!-- Liste des tâches -->
+    <div class="container" id="listeTaches">
+
+        {% if list_tasks %}
+            <!-- Cas où la liste des tâches n'est pas vide -->
+            <table class="table table-hover table-responsive-sm">
+                <!-- En-tête de la table -->
+                <thead class="thead-light">
+                <tr>
+                    <th>Projet</th>
+                    <th>Tâche</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Statut</th>
+                    <th>Taux d'avancement</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <!-- Corps de la table, boucle sur les tâches -->
+                <tbody>
+                {% for task in list_tasks %}
+                    <tr>
+                        <td><a href="{% url 'project' task.project_id %}">{{task.project|truncatechars:20}}</a></td>
+                        <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:30 }}</a></td>
+                        <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                        <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
+                        <td><span class="badge badge-warning">{{ task.status }}</span></td>
+{#                        TODO : changer la couleur en fonction du statut ?#}
+
+                        <td class="text-center">{{ task.progress }} %</td>
+                        <td><a href="{% url 'edittask' task.id %}">
+                            <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task" aria-hidden="true"></i></p>
+                        </a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <!-- Cas où l'utilisateur n'a aucune tâche -->
+            <p>Aucune tâche !</p>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

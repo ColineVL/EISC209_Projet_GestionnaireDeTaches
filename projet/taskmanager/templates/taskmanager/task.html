@@ -2,27 +2,11 @@
 {% block title %}Task{% endblock %}
 {% load bootstrap4 %}
 
-{# Barre de navigation #}
-{% block nav %}
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link" href={% url "projects" %}>Projets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'task' id_task %}">{{ task_to_display }}</a>
-        </li>
-    </ul>
-{% endblock %}
-
-{# Contenu de la page #}
-{% block content %}
-
+{# Haut de page #}
+{% block head %}
     <!-- Titre de la page et bouton d'édition de la tâche -->
     <div class="container" id="titre">
-        <h2> {{ task_to_display.project }}</h2>
+        <h2><a href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a></h2>
         <div class="row">
             <div class="col-sm-12">
                 <h4>
@@ -36,12 +20,15 @@
         </div>
         <p>{{ task_to_display.description }}</p>
     </div>
+{% endblock %}
 
+{# Contenu de la page #}
+{% block content %}
     <!-- Informations principales -->
     <div class="container" id="mainInfos">
         <table class="table">
             <tr>
-                <th>Assignée à</th>
+                <th class="colTask1">Assignée à</th>
                 <td><span class="badge badge-primary">{{ task_to_display.assignee }}</span></td>
             </tr>
             <tr>
@@ -60,22 +47,38 @@
                 <th>Statut</th>
                 <td><span class="badge badge-warning">{{ task_to_display.status }}</span></td>
             </tr>
+            <tr>
+                <th>Taux d'avancement</th>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" style="width:{{ task_to_display.progress }}%">
+                            {{ task_to_display.progress }} %
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
         </table>
     </div>
 
     <!-- Information complémentaires, ie les entrées du journal relatives à la tâche en question -->
     <div class="container" id="history">
-        <h6>Journal</h6>
+        <h5>Journal</h5>
         {% if list_journal %}
             <!-- Cas où la tâche a des infos complémentaires -->
-            <table class="table">
+            <table class="table table-responsive-sm">
                 <!-- Boucle sur les entrées du journal -->
                 {% for info in list_journal %}
                     <tr>
                         <!-- Ce tag colHistory1 est défini dans taskmanager.css et permet de régler la largeur de la colonne -->
                         <td class="colHistory1">
                             <!-- Affichage de l'auteur et de la date de l'info -->
-                            <span class="badge badge-primary">{{ info.author }}</span>
+                            {# Cet if permet de mettre en avant les entrées de l'utilisateur connecté #}
+                            {% if request.user == info.author %}
+                                <span class="badge badge-primary">{{ info.author }}</span>
+                            {% else %}
+                                <span class="badge badge-secondary">{{ info.author }}</span>
+                            {% endif %}
                             <i>{{ info.date|date:"SHORT_DATETIME_FORMAT" }}</i>
                         </td>
                         <td>
@@ -92,6 +95,7 @@
     </div>
 
     <!-- Ajout d'une entrée au journal -->
+    {# TODO lorsque le formulaire est validé, faire en sorte de revenir au meme endroit sur la page #}
     <div class="container" id="newentry">
         <!-- Ce bouton, si cliqué, affiche le form -->
         <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#newentry">
