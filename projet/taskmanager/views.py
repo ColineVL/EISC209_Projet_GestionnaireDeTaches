@@ -72,7 +72,7 @@ def project(request, id_project):
             "name": task_to_display.name,
             "start": [task_to_display.start_date.year, task_to_display.start_date.month, task_to_display.start_date.day],
             "end": [task_to_display.due_date.year, task_to_display.due_date.month, task_to_display.due_date.day],
-            # TODO ajouter le taux d'avancement
+            "progress": task_to_display.progress/100
         }
         list_dicts.append(dict_task)
     return render(request, 'taskmanager/project.html', locals())

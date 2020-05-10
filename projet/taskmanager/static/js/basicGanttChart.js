@@ -17,7 +17,8 @@ for (var dict of list_dicts) {
     options.series[0].data.push({
         name: dict["name"],
         start: Date.UTC(start[0], start[1], start[2]),
-        end: Date.UTC(end[0], end[1], end[2])
+        end: Date.UTC(end[0], end[1], end[2]),
+        completed: dict["progress"]
     })
 }
 
