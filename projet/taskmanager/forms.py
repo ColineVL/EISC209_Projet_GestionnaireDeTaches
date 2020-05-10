@@ -1,4 +1,5 @@
 from django import forms
+#import django_filters
 from .models import Task
 
 
@@ -20,3 +21,8 @@ class TaskForm(forms.ModelForm):
 # Form pour entrer une nouvelle information complémentaire dans un journal
 class NewEntryForm(forms.Form):
     entry = forms.CharField(max_length=200)
+
+
+
+
+

@@ -16,6 +16,12 @@
 {# Contenu de la page #}
 {% block content %}
 
+    <form method="get">
+        {{ f.form.as_p }}
+        <input type="submit" />
+    </form>
+
+
     <!-- Titre de la page et bouton pour ajouter une tâche -->
     <div class="container" id="titre">
         <div class="row">
