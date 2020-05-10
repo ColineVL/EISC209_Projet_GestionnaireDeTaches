@@ -40,6 +40,17 @@
     <!-- Liste des tâches -->
     <div class="container" id="listeTaches">
 
+
+        {{ filter.form }}
+        <ul>
+            {% for task in filter.qs %}
+            <li>
+                {{ task.name }}
+            </li>
+            {% endfor %}
+        </ul>
+
+
         {% if list_tasks %}
             <!-- Cas où la liste des tâches n'est pas vide -->
             <table class="table table-hover table-responsive-sm">

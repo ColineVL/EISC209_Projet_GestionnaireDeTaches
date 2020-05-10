@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     'taskmanager',
     'import_export',
-    'crispy_forms'
+    'crispy_forms',
+    'django_filters'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

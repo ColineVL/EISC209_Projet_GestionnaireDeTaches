@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from zipfile import ZipFile
 import shutil
 from .export import *
+from .filters import TaskFilter
 
 
 # Pas une view, c'est une fonction utile
@@ -66,6 +67,7 @@ def project(request, id_project):
 
     # On prépare le diagramme de Gantt
     list_dicts = []
+    filter = TaskFilter(request.GET, queryset=list_tasks)
     for task_to_display in list_tasks:
         # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
         dict_task = {
@@ -360,3 +362,5 @@ def export_data(request):
         return response
 
     return render(request, 'taskmanager/export_data.html', locals())
+
+
