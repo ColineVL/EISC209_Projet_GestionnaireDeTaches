@@ -38,9 +38,6 @@ def progress(project):
 def accueil(request):
     return render(request, 'taskmanager/accueil.html')
 
-# TODO test
-import json
-
 
 @login_required
 def projects(request):

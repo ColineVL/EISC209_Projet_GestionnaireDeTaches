@@ -4,7 +4,6 @@
 {% load static %}
 
 
-
 {# Haut de page #}
 {% block head %}
     <!-- Titre de la page et boutons -->
@@ -16,6 +15,8 @@
                 {{ project_to_display }}
             </h1>
             {# Bouton pour ajouter une tâche #}
+            {# TODO c'est quoi ce m-3 ? #}
+            {# TODO en mode tablette, les boutons ne s'affichent pas bien (l'un va à la ligne)#}
             <button class="col-sm-2 btn btn-primary m-3"
                     onclick="window.location.href='{% url "newtask" id_project %}'">
                 <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
@@ -95,7 +96,7 @@
     </div>
 
     <!-- Affichage d'un diagramme de Gantt -->
-    <div class="container" id="container">
+    <div class="container" id="gantt">
         {# On fait passer les variables utiles au javascript#}
         {{ project_to_display.name | json_script:"name_project" }}
         {{ list_dicts | json_script:"list_dicts" }}

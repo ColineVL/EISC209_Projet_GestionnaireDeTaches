@@ -22,4 +22,4 @@ for (var dict of list_dicts) {
 }
 
 // On affiche le chart
-Highcharts.ganttChart('container', options);
+Highcharts.ganttChart('gantt', options);
