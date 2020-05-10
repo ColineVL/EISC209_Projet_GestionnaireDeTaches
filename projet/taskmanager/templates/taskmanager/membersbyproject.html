@@ -1,31 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Members by project{% endblock %}
 {% load bootstrap4 %}
+{% load static %}
 
 {# Haut de page #}
 {% block head %}
     <!-- Titre de la page -->
     <div class="container" id="titre">
-        <h2>Membres de <a href="{% url 'project' id_project%}">{{ project_to_display }}</a></h2>
+        <h2>Membres de <a href="{% url 'project' id_project %}">{{ project_to_display }}</a></h2>
     </div>
 {% endblock %}
 
 {# Contenu de la page #}
 {% block content %}
+
     <div class="container" id="membres">
-        {# Boucle sur les membres #}
-        <table class="table table-hover">
-            <tbody>
-            {% for mem in list_members %}
-                <tr>
-                    <td>{{ mem }}</td>
-                </tr>
-            {% empty %}
-                <td>Aucun membre</td>
-            {% endfor %}
-            </tbody>
-        </table>
+        <div class="row">
+        
+            <!-- Graphe -->
+            <div class="col-md-9" id="spiderweb">
+                {# On appelle le script #}
+                <script type="text/javascript" src="{% static 'js/spiderweb.js' %}"></script>
+            </div>
+
+            <!-- Liste des membres -->
+            <div class="col-md-3" id="liste des membres">
+                <h5>Liste des membres</h5>
+                {# Boucle sur les membres #}
+                <table class="table table-hover">
+                    <tbody>
+                    {% for mem in list_members %}
+                        <tr>
+                            <td>{{ mem }}</td>
+                        </tr>
+                    {% empty %}
+                        <td>Aucun membre</td>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
-{#    TODO : ajouter pour chaque membre à quel point il a participé, son nombre de tâches ?#}
 
 {% endblock %}
