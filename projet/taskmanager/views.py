@@ -1,6 +1,9 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TaskForm, NewEntryForm, ExportForm, ProjectForm
@@ -35,6 +38,9 @@ def progress(project):
 def accueil(request):
     return render(request, 'taskmanager/accueil.html')
 
+# TODO test
+import json
+
 
 @login_required
 def projects(request):
@@ -60,6 +66,18 @@ def project(request, id_project):
         return redirect('accueil')
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
+
+    # On prépare le diagramme de Gantt
+    list_dicts = []
+    for task_to_display in list_tasks:
+        # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
+        dict_task = {
+            "name": task_to_display.name,
+            "start": [task_to_display.start_date.year, task_to_display.start_date.month, task_to_display.start_date.day],
+            "end": [task_to_display.due_date.year, task_to_display.due_date.month, task_to_display.due_date.day],
+            # TODO ajouter le taux d'avancement
+        }
+        list_dicts.append(dict_task)
     return render(request, 'taskmanager/project.html', locals())
 
 

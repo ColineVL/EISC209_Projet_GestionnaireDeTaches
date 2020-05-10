@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Project{% endblock %}
+{% load bootstrap4 %}
+{% load static %}
+
 
 
 {# Haut de page #}
@@ -89,6 +92,15 @@
             <p>Aucune tâche !</p>
         {% endif %}
 
+    </div>
+
+    <!-- Affichage d'un diagramme de Gantt -->
+    <div class="container" id="container">
+        {# On fait passer les variables utiles au javascript#}
+        {{ project_to_display.name | json_script:"name_project" }}
+        {{ list_dicts | json_script:"list_dicts" }}
+        {# On appelle le script #}
+        <script type="text/javascript" src="{% static 'js/basicGanttChart.js' %}"></script>
     </div>
 
 {% endblock %}
