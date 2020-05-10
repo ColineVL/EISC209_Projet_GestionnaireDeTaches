@@ -16,9 +16,11 @@
 
     <div class="container" id="membres">
         <div class="row">
-        
+
             <!-- Graphe -->
             <div class="col-md-9" id="spiderweb">
+                {# On fait passer les variables #}
+                {{ list_dicts | json_script:"list_dicts" }}
                 {# On appelle le script #}
                 <script type="text/javascript" src="{% static 'js/spiderweb.js' %}"></script>
             </div>

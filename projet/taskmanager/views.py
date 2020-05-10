@@ -206,6 +206,14 @@ def membersbyproject(request, id_project):
     project_to_display = get_object_or_404(Project, id=id_project)
     # On récupère tous les membres du projet
     list_members = project_to_display.members.all()
+    # On prépare le graphe : pour chaque membre, on stocke le nombre de ses tâches
+    list_dicts = []
+    for mem in list_members:
+        dict_member = {
+            "name": mem.username,
+            "nb": len(mem.task_set.filter(project=project_to_display))
+        }
+        list_dicts.append(dict_member)
     return render(request, 'taskmanager/membersbyproject.html', locals())
 
 

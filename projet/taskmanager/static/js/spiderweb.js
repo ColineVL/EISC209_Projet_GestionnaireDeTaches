@@ -1,5 +1,8 @@
-Highcharts.chart('spiderweb', {
+// On récupère les données utiles
+const list_dicts = JSON.parse(document.getElementById('list_dicts').textContent);
 
+// On initialise les options du chart
+const options = {
     chart: {
         polar: true,
         type: 'line'
@@ -9,14 +12,8 @@ Highcharts.chart('spiderweb', {
         align: "center",
         text: 'Nombre de tâches par personne',
     },
-
-    // pane: {
-    //     size: '80%'
-    // },
-
     xAxis: {
-        categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
-            'Information Technology', 'Administration'],
+        categories: [],
         tickmarkPlacement: 'on',
         lineWidth: 0
     },
@@ -29,38 +26,28 @@ Highcharts.chart('spiderweb', {
 
     tooltip: {
         shared: true,
-        pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        pointFormat: '<span>{series.name}: <b>{point.y}</b><br/>'
     },
 
     legend: {
         enabled: false,
-        align: 'right',
-        verticalAlign: 'middle',
-        layout: 'vertical'
     },
 
     series: [{
-        name: 'Allocated Budget',
-        data: [43000, 19000, 60000, 35000, 17000, 10000],
+        name: 'Nombre de tâches',
+        data: [],
         pointPlacement: 'on'
     }],
+};
 
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    layout: 'horizontal'
-                },
-                pane: {
-                    size: '70%'
-                }
-            }
-        }]
-    }
+// On remplit les options
+for (var dict of list_dicts) {
+    options.xAxis.categories.push(dict["name"]);
+    options.series[0].data.push(dict["nb"]);
+}
 
-});
+// On affiche le chart
+Highcharts.chart('spiderweb', options);
+
+// TODO le rendre responsive ?
+
