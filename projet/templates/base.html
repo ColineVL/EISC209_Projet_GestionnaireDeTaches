@@ -21,7 +21,7 @@
     <!-- Inclusion de FontAwesome pour utiliser des icônes -->
     <script src="https://use.fontawesome.com/64f57eceaa.js"></script>
 
-    <!-- Inclusion d'un fichier CSS en plus pour gérer la taille d'une colonne dans l'affichage des tâches -->
+    <!-- Inclusion d'un fichier CSS en plus pour gérer la taille des colonnes dans l'affichage des tâches -->
     <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
 
     <!-- Inclusion de Moment.js -->
@@ -68,7 +68,7 @@
 {# TODO Sur iphone quand on etire un onglet, une case blanche est affichée #}
 <div class="container-fluid" id="navigation">
     {% if user.is_authenticated %}
-        <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#e9ecef">
+        <nav class="navbar navbar-expand-md navbar-light" style="background-color:#e9ecef">
             <ul class="navbar-nav">
 
                 <!-- Tous les projets -->
