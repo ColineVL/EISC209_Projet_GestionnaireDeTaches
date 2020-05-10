@@ -68,13 +68,16 @@
 <div class="container-fluid" id="navigation">
     {# On ne l'affiche que si l'utilisateur est connecté #}
     {% if user.is_authenticated %}
-        <nav class="navbar navbar-expand-md navbar-light" style="background-color:#e9ecef">
+        {#        TODO elle est juste un peu sticky, c'est bizarre#}
+        <nav class="navbar sticky-top navbar-expand-md justify-content-center  navbar-light"
+             style="background-color:#e9ecef">
 
             <!-- Bouton pour dérouler la barre de nav -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 Navigation
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <!-- Liens de navigation -->
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
