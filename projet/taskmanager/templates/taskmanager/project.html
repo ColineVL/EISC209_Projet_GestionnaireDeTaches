@@ -35,22 +35,26 @@
                 <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
                 Filtrage
             </button>
-            <div id="filter" class="collapse">
-                <form method="GET">
-                    {{ filter.form }}
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
 
             {# Bouton pour le triage #}
             <button data-toggle="collapse" data-target="#ordering" class="col-sm-1 btn btn-primary m-3">
                 <i class="fa fa-sort fa-lg" title="Ordering" aria-hidden="true"></i>
                 Triage
             </button>
+
+            {# container pour le formulaire du filtrage #}
+            <div id="filter" class="collapse">
+                <form method="GET">
+                    {{ filter.form }}
+                    <button type="submit" class="btn btn-primary">Chercer</button>
+                </form>
+            </div>
+
+            {# container pour le formulaire du triage #}
             <div id="ordering" class="collapse">
                 <form method="GET">
                     {{ ordering.form }}
-                    <button type="submit" class="btn btn-primary">Chercher</button>
+                    <button type="submit" class="btn btn-primary">Trier</button>
                 </form>
             </div>
 
