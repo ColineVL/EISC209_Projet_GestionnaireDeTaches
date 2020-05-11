@@ -199,14 +199,29 @@ def edittask(request, id_task):
 
 @login_required
 def usertasks_all(request):
+    # On récupère les tâches assignées à l'utilisateur
     list_tasks = request.user.task_set.all()
-    return render(request, "taskmanager/usertasks-all.html", locals())
 
+    # Cette variable est utilisée pour changer le titre de la template
+    title = "Toutes mes tâches"
+
+    return render(request, "taskmanager/usertasks.html", locals())
+
+@login_required
+def usertasks_unfinished(request):
+    # On récupère les tâches assignées à l'utilisateur non terminées
+    list_tasks = request.user.task_set.exclude(status__name="Terminée")
+
+    # Cette variable est utilisée pour changer le titre de la template
+    title = "Mes tâches non terminées"
+
+    return render(request, "taskmanager/usertasks.html", locals())
 
 @login_required
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
     list_tasks = request.user.task_set.filter(status__name="Terminée")
+
     return render(request, "taskmanager/usertasks-done.html", locals())
 
 
