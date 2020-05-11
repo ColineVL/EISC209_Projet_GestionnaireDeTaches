@@ -76,5 +76,6 @@ class ExportForm(forms.Form):
         super().__init__(*args,**kwargs)
         self.fields['project'] = forms.MultipleChoiceField(choices=[(proj.name, proj.name) for proj in user.project_set.all()],
                                                            required=False,
-                                                           help_text="Requis uniquement si 'sélectionner tous les projets' est décoché")
+                                                           help_text="Requis uniquement si 'sélectionner tous les projets' est décoché",
+                                                           label="Projets")
         # the help text allows to help the user and appear in muted in the form

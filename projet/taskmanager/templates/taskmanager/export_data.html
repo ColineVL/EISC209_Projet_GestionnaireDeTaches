@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 
-{% block title %}Export data{% endblock %}
+{% block title %}Exporter les données{% endblock %}
 
 {# Contenu de la page #}
 {% block content %}
@@ -66,7 +66,7 @@
             {% bootstrap_field form.project %}
             {#                {{ form.all_projects|as_crispy_field }}#}
             {#                {{ form.project|as_crispy_field }}#}
-            <input type="submit" value="Download Data" class="btn btn-primary">
+            <input type="submit" value="Télécharger les données" class="btn btn-primary">
         </form>
     </div>
 {% endblock %}
