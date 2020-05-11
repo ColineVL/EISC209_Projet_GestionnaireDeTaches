@@ -22,7 +22,7 @@
                         <!-- En-tête de la table -->
                         <thead class="thead-light">
                         <tr>
-                            <th>{{ pr|truncatechars:80 }}</th>
+                            <th><a href="{% url 'project' pr.id %}">{{ pr|truncatechars:80 }}</a></th>
                         </tr>
                         </thead>
                         <tbody>
