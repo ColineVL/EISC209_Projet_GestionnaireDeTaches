@@ -77,10 +77,27 @@
                 </div>
             </div>
         </div>
-        <!-- Fin du form, simple -->
-        {% bootstrap_field form.priority layout='horizontal' %}
+
+        <!-- Priorité de la tâche -->
+        <div class="form-group row">
+            <label class="col-sm-3" for="priority">Priority</label>
+            <div class="col-sm-9">
+                <input class="custom-range w-75" name="priority" type="range" value="{{ task_formed.priority }}" max="10" onchange="updateSlider(this.value,'value-priority-slider')">
+                <span id="value-priority-slider">{{ task_formed.priority }}</span>
+            </div>
+        </div>
+
+        <!-- Statut de la tâche -->
         {% bootstrap_field form.status layout='horizontal' %}
-        {% bootstrap_field form.progress layout='horizontal' %}
+
+        <!-- Taux d'avancement de la tâche -->
+        <div class="form-group row">
+            <label class="col-sm-3" for="priority">Progress</label>
+            <div class="col-sm-9">
+                <input class="custom-range w-75" name="progress" type="range" value="{{ task_formed.progress }}" step="5" onchange="updateSlider(this.value,'value-progress-slider')">
+                <span id="value-progress-slider">{{ task_formed.progress }}</span>
+            </div>
+        </div>
 
         {% buttons %}
             <button type="submit" class="btn btn-primary">Save</button>
@@ -106,6 +123,13 @@
                 $('#id_start_date').datetimepicker('maxDate', e.date);
             });
         });
+    </script>
+
+    {# Script pour mettre à jour le slider de priority et de progress #}
+    <script>
+        function updateSlider(val, id) {
+            document.getElementById(id).innerText = val
+        }
     </script>
 
 {% endblock %}
