@@ -40,8 +40,7 @@
                         <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:30 }}</a></td>
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
-                        <td><span class="badge badge-warning">{{ task.status }}</span></td>
-{#                        TODO : changer la couleur en fonction du statut ?#}
+                        <td><span class="badge badge-{{ task.status.badge_color }}">{{ task.status }}</span></td>
 
                         <td class="text-center">{{ task.progress }} %</td>
                         <td><a href="{% url 'edittask' task.id %}">

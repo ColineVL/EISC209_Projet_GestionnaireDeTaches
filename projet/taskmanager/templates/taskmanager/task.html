@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th>Statut</th>
-                <td><span class="badge badge-warning">{{ task_to_display.status }}</span></td>
+                <td><span class="badge badge-{{ task_to_display.status.badge_color }}">{{ task_to_display.status }}</span></td>
             </tr>
             <tr>
                 <th>Taux d'avancement</th>
