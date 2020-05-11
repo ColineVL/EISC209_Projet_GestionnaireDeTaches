@@ -10,6 +10,7 @@ Dans PyCharm, ouvrez le dossier. Dans le terminal, installez les modules nécess
 ```
 pip install django-bootstrap4
 pip install django-import-export
+pip install django-filter
 ```
 Placez-vous dans le dossier *projet*, et lancez les migrations.
 ```
