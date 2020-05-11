@@ -226,8 +226,8 @@ def get_list_entries(list_tasks, request):
     try:
         affiche = request.GET['affiche' or None]
     except:
-        # Par défaut, affiche vaut 5
-        affiche = 5
+        # Par défaut, affiche vaut 20
+        affiche = 20
 
     try:
         notmyentries = request.GET['notmyentries' or None]
@@ -260,7 +260,6 @@ def get_list_entries(list_tasks, request):
         list_entries = list_entries[:affiche]
 
     # TODO afficher depuis telle date ?
-    # TODO si je choisis 5 et "pas mes entrées", afficher 5 entrées, pas 5-les miennes...
 
     return list_entries, affiche, notmyentries
 
