@@ -38,7 +38,23 @@ def progress(project):
 
 @login_required
 def accueil(request):
-    return render(request, 'taskmanager/accueil.html')
+    list_projects = request.user.project_set.all()
+    nb_projects = len(list_projects)
+
+    list_tasks = request.user.task_set.all()
+    nb_tasks = len(list_tasks)
+
+    list_tasks_unfinished = list_tasks.exclude(status__name="Terminée")
+    nb_tasks_unfinished = len(list_tasks_unfinished)
+
+    list_tasks_unfinished = list_tasks_unfinished.order_by("-progress")
+    task_most_progress = list_tasks_unfinished[0]
+
+    nb_tasks_done = nb_tasks - nb_tasks_unfinished
+
+
+
+    return render(request, 'taskmanager/accueil.html', locals())
 
 
 @login_required
