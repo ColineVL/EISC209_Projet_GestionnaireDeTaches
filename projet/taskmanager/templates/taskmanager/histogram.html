@@ -1,21 +1,10 @@
-{% extends "base.html" %}
-{% block title %}Histogram{% endblock %}
-{% load bootstrap4 %}
-{% load static %}
-
-{# Haut de la page #}
-{% block head %}
-    <div class="container" id="head">
-        <h1>Histogramme des activités</h1>
-    </div>
-{% endblock %}
-
-{# Contenu de la page #}
-{% block content %}
-    <div class="container" id="graph">
-        {# On fait passer les variables #}
-{#        {{ list_dicts | json_script:"list_dicts" }}#}
-        {# On appelle le script #}
-        <script type="text/javascript" src="{% static 'js/histogramActivity.js' %}"></script>
-    </div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Histogramme</title>
+</head>
+<body>
+Salut
+</body>
+</html>
