@@ -115,10 +115,9 @@
                             Membres par projet
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item list-group-item-info" href={% url 'membersallprojects' %}>Tous les projets</a>
+                            <a class="dropdown-item" href={% url 'membersallprojects' %}><b>Tous les projets</b></a>
                             {% for pr in user.project_set.all %}
-                                <a class="dropdown-item"
-                                   href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
+                                <a class="dropdown-item" href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
                             {% endfor %}
                         </div>
                     </li>
@@ -129,7 +128,7 @@
                             Mes tâches
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'usertasks_all' %}">Toutes</a>
+                            <a class="dropdown-item" href="{% url 'usertasks_all' %}"><b>Toutes</b></a>
                             <a class="dropdown-item" href="{% url 'usertasks_unfinished' %}">Non terminées</a>
                             <a class="dropdown-item" href="{% url 'usertasks_done' %}">Terminées</a>
                         </div>
@@ -142,7 +141,7 @@
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{% url "histogram_activity" %}">Histogramme</a>
-                            <a class="dropdown-item list-group-item-info" href="{% url "activity_all" %}">Tous les projets</a>
+                            <a class="dropdown-item" href="{% url "activity_all" %}"><b>Tous les projets</b></a>
                             {% for pr in user.project_set.all %}
                                 <a class="dropdown-item"
                                    href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
