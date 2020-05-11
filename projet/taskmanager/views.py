@@ -314,31 +314,35 @@ def export_data(request):
 
 
         if bool_project:
-            create_file(file_type, 'projects.' + file_type, project_set, ProjectRessource(), zipObj)
+            create_file(file_type, 'projects.' + file_type, project_set,
+            ['name','members'], zipObj)
         if bool_status:
-            create_file(file_type, 'status.' + file_type, Status.objects.all(), StatusResource(), zipObj)
+            create_file(file_type, 'status.' + file_type, Status.objects.all(),
+            ['name'], zipObj)
         if bool_task or bool_journal:
             if one_dir_by_project:
                 for project in project_set:
                     os.mkdir(project.name)
                     if bool_task:
                         create_file(file_type, project.name + '/task.' + file_type,
-                                    Task.objects.filter(project=project), TaskResource(), zipObj)
+                        Task.objects.filter(project=project),
+                        ['project','name','description','assignee','start_date','due_date','priority','status','progress'], zipObj)
                     if bool_journal:
                         if ordered_journal_by_task:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('task')
                         else:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
-                        create_file(file_type, project.name + '/journal.' + file_type, set, JournalResource(), zipObj)
+                        create_file(file_type, project.name + '/journal.' + file_type, set,
+                        ['date','entry','author','task'], zipObj)
                     shutil.rmtree(project.name)
             else:
                 if bool_task:
                     create_file(file_type, 'task.' + file_type, Task.objects.filter(project__in=project_set),
-                                TaskResource(), zipObj)
+                                ['project','name','description','assignee','start_date','due_date','priority','status','progress'], zipObj)
                 if bool_journal:
                     create_file(file_type, 'journal.' + file_type,
                                 Journal.objects.filter(task__in=Task.objects.filter(project__in=project_set)),
-                                JournalResource(), zipObj)
+                                ['date','entry','author','task'], zipObj)
 
         response['Content-Disposition'] = 'attachment; filename="' + archive_name + '.zip"'
         return response
