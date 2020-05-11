@@ -359,6 +359,10 @@ def activity_per_project(request, id_project):
 
     return render(request, 'taskmanager/activity-per-project.html', locals())
 
+@login_required
+def histogram(request):
+    return render(request, 'taskmanager/histogram.html', locals())
+
 
 @login_required
 def export_data(request):

@@ -4,6 +4,5 @@ diagramme d'activité : histogramme qui indique le nombre d'actions sur les proj
 
 burndown chart : courbe ou histogramme de la quantité de travail qui reste à faire chaque jour ; on peut comptabiliser le nombre de tâches restantes à faire, ou, si on rajoute aux tâches un attribut "charge" qui indique le nombre de jours de travail prévisionnels, et combiné au taux d'avancement des tâches, on peut comptabiliser le nombre de jours de travail restant.
 
-radar de répartition du nombre d'actions par projet ou par utilisateur.
+radar de répartition du nombre d'actions par utilisateur.
 
-Dans mes projets, à la fin afficher un spiderweb du nb d'actions par projet
