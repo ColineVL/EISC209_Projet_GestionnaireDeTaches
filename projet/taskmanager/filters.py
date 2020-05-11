@@ -42,7 +42,7 @@ class TaskFilter(django_filters.FilterSet):
                                                  field_class=forms.IntegerField,
                                                  label='progrès',
                                                  )
-
+    #TESTTEST
     # class Meta:
     #   model = Task
     # fields = ['name']
