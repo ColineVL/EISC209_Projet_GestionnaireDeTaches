@@ -35,7 +35,7 @@ class ExportForm(forms.Form):
     """
     This form is used to export datas contained in the model
     """
-    archive_name = forms.CharField(max_length=100)
+    archive_name = forms.CharField(max_length=100, label="nom de l'archive")
     choice_types = [
         ('csv','csv'),
         ('html','html'),
