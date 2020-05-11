@@ -39,7 +39,7 @@ class ExportForm(forms.Form):
     choice_types = [
         ('csv','csv'),
         ('html','html'),
-        ('xls','xls'),
+        ('xlsx','xlsx'),
         ('json','json'),
         ('yaml','yaml'),
     ]

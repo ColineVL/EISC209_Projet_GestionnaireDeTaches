@@ -3,6 +3,7 @@ import io
 import csv
 import json
 import xml.etree.ElementTree as ET
+import xlsxwriter as xlsx
 
 def create_file(file_type, filename, queryset, fields, zipObj):
     """
@@ -15,22 +16,23 @@ def create_file(file_type, filename, queryset, fields, zipObj):
     :param zipObj: the zip object in wich we want to write
     :return: nothing
     """
-    file = open(filename, "w")
 
     if file_type == 'csv':
-        file.write(queryset_to_csv(queryset, fields))
-    if file_type == 'json':
-        file.write(queryset_to_json(queryset, fields))
-    if file_type == 'html':
-        file.write(queryset_to_xml(queryset, fields))
+        queryset_to_csv(queryset, fields,filename)
+    elif file_type == 'json':
+        queryset_to_json(queryset, fields,filename)
+    elif file_type == 'html':
+        queryset_to_xml(queryset, fields,filename)
+    elif file_type == 'xlsx':
+        queryset_to_xls(queryset, fields, filename)
 
-    file.close()
+
     zipObj.write(filename)
     os.remove(filename)
 
-def queryset_to_csv(queryset, fields):
-    result = io.StringIO()
-    writer = csv.writer(result)
+def queryset_to_csv(queryset, fields, filename):
+    file = open(filename,'w')
+    writer = csv.writer(file)
     writer.writerow([field for field in fields])
     for row in queryset:
         line = []
@@ -40,9 +42,10 @@ def queryset_to_csv(queryset, fields):
             else:
                 line.append(row.__getattribute__(field))
         writer.writerow(line)
-    return result.getvalue()
+    file.close()
 
-def queryset_to_json(queryset, fields):
+def queryset_to_json(queryset, fields, filename):
+    file = open(filename,"w")
     result = dict()
     for row in queryset:
         row_dict = dict()
@@ -52,9 +55,11 @@ def queryset_to_json(queryset, fields):
             else:
                 row_dict[field] = row.__getattribute__(field).__str__()
         result[row.id] = row_dict
-    return json.dumps(result)
+    file.write(json.dumps(result))
+    file.close()
 
-def queryset_to_xml(queryset, fields):
+def queryset_to_xml(queryset, fields, filename):
+    file = open(filename,"wb")
     table = ET.Element('table')
     head = ET.SubElement(table,'tr')
     for field in fields:
@@ -70,4 +75,27 @@ def queryset_to_xml(queryset, fields):
             else:
                 item.text = row.__getattribute__(field).__str__()
 
-    return ET.tostring(table).decode()
+    file.write(ET.tostring(table))
+    file.close()
+
+def queryset_to_xls(queryset, fields, filename):
+    file = xlsx.Workbook(filename)
+    worksheet = file.add_worksheet()
+    bold = file.add_format({'bold':True})
+    count=0
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    for field in fields:
+        worksheet.write(alphabet[count]+(1).__str__(), field, bold)
+        count +=1
+    row_number=2
+    for row in queryset:
+        col_number = 0
+        for field in fields:
+            if field == 'members':
+                worksheet.write(alphabet[col_number]+row_number.__str__(),[member.username for member in row.__getattribute__(field).all()].__str__())
+            else:
+                worksheet.write(alphabet[col_number]+row_number.__str__(), row.__getattribute__(field).__str__())
+                col_number +=1
+        row_number +=1
+
+    file.close()
