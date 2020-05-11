@@ -38,18 +38,16 @@
 {# Contenu de la page #}
 {% block content %}
     <!-- Liste des tâches -->
+    <div>
+        <form method="GET">
+            {{ filter.form }}
+
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+
     <div class="container" id="listeTaches">
-
-
-        {{ filter.form }}
-        <ul>
-            {% for task in filter.qs %}
-            <li>
-                {{ task.name }}
-            </li>
-            {% endfor %}
-        </ul>
-
 
         {% if list_tasks %}
             <!-- Cas où la liste des tâches n'est pas vide -->
@@ -66,7 +64,7 @@
                 </thead>
                 <!-- Corps de la table, boucle sur les tâches -->
                 <tbody>
-                {% for task in list_tasks %}
+                {% for task in filter.qs %}
                     {# Cet if permet de mettre en avant les tâches de l'utilisateur connecté #}
                     {% if task.assignee == request.user %}
                         <tr class="table-primary">
