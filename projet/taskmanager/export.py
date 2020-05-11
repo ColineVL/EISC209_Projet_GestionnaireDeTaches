@@ -1,9 +1,9 @@
 import os
-import io
 import csv
 import json
 import xml.etree.ElementTree as ET
 import xlsxwriter as xlsx
+import yaml
 
 def create_file(file_type, filename, queryset, fields, zipObj):
     """
@@ -25,6 +25,8 @@ def create_file(file_type, filename, queryset, fields, zipObj):
         queryset_to_xml(queryset, fields,filename)
     elif file_type == 'xlsx':
         queryset_to_xlsx(queryset, fields, filename)
+    elif file_type == 'yaml':
+        queryset_to_yaml(queryset, fields, filename)
 
 
     zipObj.write(filename)
@@ -98,4 +100,18 @@ def queryset_to_xlsx(queryset, fields, filename):
                 col_number +=1
         row_number +=1
 
+    file.close()
+
+def queryset_to_yaml(queryset, fields, filename):
+    file = open(filename, "w")
+    result = []
+    for row in queryset:
+        row_dict = dict()
+        for field in fields:
+            if field == 'members':
+                row_dict[field] = [member.username for member in row.__getattribute__(field).all()]
+            else:
+                row_dict[field] = row.__getattribute__(field).__str__()
+        result.append(row_dict)
+    file.write(yaml.dump(result))
     file.close()
