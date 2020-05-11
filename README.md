@@ -21,6 +21,11 @@ python manage.py runserver
 ```
 Le serveur est alors accessible dans n'importe quel navigateur, à l'adresse : http://localhost:8000/
 
+Pour avoir un bon fonctionnement des statuts des tâches, votre base de données doit avoir un élément <i>status</i> dont le nom est :
+```
+Terminée
+```
+
 ## Authors
 Coline van Leeuwen <br>
 Martin Delage <br>
