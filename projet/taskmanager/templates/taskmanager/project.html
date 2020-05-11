@@ -37,16 +37,27 @@
 
 {# Contenu de la page #}
 {% block content %}
+
+    <!-- Dropdown liste des membres -->
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            Filter
+        </a>
+        <div class="dropdown-menu">
+            <div>
+                <form method="GET">
+                    {{ filter.form }}
+
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+    </li>
+
+
+
+
     <!-- Liste des tâches -->
-    <div>
-        <form method="GET">
-            {{ filter.form }}
-
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-    </div>
-
-
     <div class="container" id="listeTaches">
 
         {% if list_tasks %}
