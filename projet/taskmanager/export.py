@@ -1,6 +1,7 @@
 import os
 import io
 import csv
+import json
 
 def create_file(file_type, filename, queryset, fields, zipObj):
     """
@@ -17,6 +18,8 @@ def create_file(file_type, filename, queryset, fields, zipObj):
 
     if file_type == 'csv':
         file.write(queryset_to_csv(queryset, fields))
+    if file_type == 'json':
+        file.write(queryset_to_json(queryset, fields))
 
     file.close()
     zipObj.write(filename)
@@ -35,3 +38,16 @@ def queryset_to_csv(queryset, fields):
                 line.append(row.__getattribute__(field))
         writer.writerow(line)
     return result.getvalue()
+
+def queryset_to_json(queryset, fields):
+    result = dict()
+    for row in queryset:
+        row_dict = dict()
+        for field in fields:
+            if field == 'members':
+                row_dict[field]=[member.username for member in row.__getattribute__(field).all()]
+            else:
+                row_dict[field] = row.__getattribute__(field).__str__()
+        result[row.id] = row_dict
+    return json.dumps(result)
+
