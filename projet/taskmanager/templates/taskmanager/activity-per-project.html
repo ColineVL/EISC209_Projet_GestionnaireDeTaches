@@ -19,7 +19,7 @@
     <div class="container" id="activite">
         {% if list_entries %}
             <!-- Dans le cas où list_entries n'est pas vide -->
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive-sm">
                 <!-- Entête de la table -->
                 <thead class="thead-light">
                 <tr>
@@ -37,9 +37,9 @@
                         <td>{{ entry }}</td>
                         {# Cet if permet de mettre en avant les entrées écrites par l'utilisateur connecté #}
                         {% if entry.author == request.user %}
-                            <td><span class="badge badge-secondary">{{ entry.author }}</span></td>
-                        {% else %}
                             <td><span class="badge badge-primary">{{ entry.author }}</span></td>
+                        {% else %}
+                            <td><span class="badge badge-secondary">{{ entry.author }}</span></td>
                         {% endif %}
                         <td><i>{{ entry.date }}</i></td>
                     </tr>

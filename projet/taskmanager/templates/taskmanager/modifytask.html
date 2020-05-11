@@ -4,7 +4,7 @@
 
 {# Haut de page #}
 {% block head %}
-   <!-- Titre de la page -->
+    <!-- Titre de la page -->
     <div class="container" id="titre">
         <h2>{{ project_related }}</h2>
         <h4>{{ method }} task</h4>
@@ -30,23 +30,7 @@
         <!-- Début du form, simple -->
         {% bootstrap_field form.name layout='horizontal' %}
         {% bootstrap_field form.description layout='horizontal' %}
-        <!-- Choix de l'assignee -->
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
-            <div class="col-md-9">
-                <select name="assignee" class="form-control" title="" required id="id_assignee">
-                    <option value="">---------</option>
-                    {% for mem in list_members %}
-                        {% if form.assignee.value|add:0 == mem.id %}
-                            {# Ce tag add permet de transformer la value de str en int #}
-                            <option value={{ mem.id }} selected>{{ mem }}</option>
-                        {% else %}
-                            <option value={{ mem.id }}>{{ mem }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+        {% bootstrap_field form.assignee layout='horizontal' %}
         <!-- Choix de la start_date -->
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="id_start_date">Start date</label>
@@ -93,10 +77,27 @@
                 </div>
             </div>
         </div>
-        <!-- Fin du form, simple -->
-        {% bootstrap_field form.priority layout='horizontal' %}
+
+        <!-- Priorité de la tâche -->
+        <div class="form-group row">
+            <label class="col-sm-3" for="priority">Priority</label>
+            <div class="col-sm-9">
+                <input class="custom-range w-75" name="priority" type="range" value="{{ task_formed.priority }}" max="10" onchange="updateSlider(this.value,'value-priority-slider')">
+                <span id="value-priority-slider">{{ task_formed.priority }}</span>
+            </div>
+        </div>
+
+        <!-- Statut de la tâche -->
         {% bootstrap_field form.status layout='horizontal' %}
-        {% bootstrap_field form.progress layout='horizontal' %}
+
+        <!-- Taux d'avancement de la tâche -->
+        <div class="form-group row">
+            <label class="col-sm-3" for="priority">Progress</label>
+            <div class="col-sm-9">
+                <input class="custom-range w-75" name="progress" type="range" value="{{ task_formed.progress }}" step="5" onchange="updateSlider(this.value,'value-progress-slider')">
+                <span id="value-progress-slider">{{ task_formed.progress }}</span>
+            </div>
+        </div>
 
         {% buttons %}
             <button type="submit" class="btn btn-primary">Save</button>
@@ -122,6 +123,13 @@
                 $('#id_start_date').datetimepicker('maxDate', e.date);
             });
         });
+    </script>
+
+    {# Script pour mettre à jour le slider de priority et de progress #}
+    <script>
+        function updateSlider(val, id) {
+            document.getElementById(id).innerText = val
+        }
     </script>
 
 {% endblock %}

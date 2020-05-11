@@ -4,9 +4,9 @@
 
 {# Haut de page #}
 {% block head %}
-<!-- Titre de la page et bouton d'édition de la tâche -->
+    <!-- Titre de la page et bouton d'édition de la tâche -->
     <div class="container" id="titre">
-        <h2> <a href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a></h2>
+        <h2><a href="{% url 'project' task_to_display.project.id %}">{{ task_to_display.project }}</a></h2>
         <div class="row">
             <div class="col-sm-12">
                 <h4>
@@ -28,7 +28,7 @@
     <div class="container" id="mainInfos">
         <table class="table">
             <tr>
-                <th>Assignée à</th>
+                <th class="colTask1">Assignée à</th>
                 <td><span class="badge badge-primary">{{ task_to_display.assignee }}</span></td>
             </tr>
             <tr>
@@ -52,20 +52,21 @@
                 <td>
                     <div class="progress">
                         <div class="progress-bar" style="width:{{ task_to_display.progress }}%">
-
+                            {{ task_to_display.progress }} %
                         </div>
                     </div>
-                    {{ task_to_display.progress }} %</td>
+
+                </td>
             </tr>
         </table>
     </div>
 
     <!-- Information complémentaires, ie les entrées du journal relatives à la tâche en question -->
     <div class="container" id="history">
-        <h6>Journal</h6>
+        <h5>Journal</h5>
         {% if list_journal %}
             <!-- Cas où la tâche a des infos complémentaires -->
-            <table class="table">
+            <table class="table table-responsive-sm">
                 <!-- Boucle sur les entrées du journal -->
                 {% for info in list_journal %}
                     <tr>

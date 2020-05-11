@@ -6,7 +6,7 @@
 {% block content %}
 
     <!-- Le form de connexion -->
-    <div class="container">
+    <div class="container" id="login">
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             {% bootstrap_field form.username show_label=False addon_before='<i class="fa fa-user fa-fw" aria-hidden="true"></i>'%}
@@ -15,6 +15,11 @@
                 <button type="submit" class="btn btn-primary">Se connecter</button>
             {% endbuttons %}
         </form>
+    </div>
+
+    <!-- Lien pour se créer un compte -->
+    <div class="container" id="newuser">
+        <p>Vous voulez vous créer un compte ? C'est par <a href="{% url 'newuser' %}">ici</a>.</p>
     </div>
 
 {% endblock %}

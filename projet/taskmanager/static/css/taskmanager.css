@@ -1,3 +1,12 @@
 .colHistory1 {
-  width: 30%;
+  width: 40%;
+}
+
+.colTask1 {
+  width: 50%;
+}
+
+#gantt {
+  margin: 1em auto;
+  width:100%;
 }

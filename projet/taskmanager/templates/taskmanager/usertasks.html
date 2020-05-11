@@ -7,7 +7,7 @@
 {% block head %}
   <!-- Titre de la page -->
     <div class="container" id="titre">
-        <h1>Toutes mes tâches</h1>
+        <h1>{{ title }}</h1>
         <br>
     </div>
 {% endblock %}
@@ -19,7 +19,7 @@
 
         {% if list_tasks %}
             <!-- Cas où la liste des tâches n'est pas vide -->
-            <table class="table table-hover">
+            <table class="table table-hover table-responsive-sm">
                 <!-- En-tête de la table -->
                 <thead class="thead-light">
                 <tr>

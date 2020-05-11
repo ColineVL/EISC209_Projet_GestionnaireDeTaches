@@ -21,9 +21,6 @@
     <!-- Inclusion de FontAwesome pour utiliser des icônes -->
     <script src="https://use.fontawesome.com/64f57eceaa.js"></script>
 
-    <!-- Inclusion d'un fichier CSS en plus pour gérer la taille d'une colonne dans l'affichage des tâches -->
-    <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
-
     <!-- Inclusion de Moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"
             integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
@@ -34,6 +31,14 @@
           integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"
             integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+    <!-- Inclusion de HighCharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/gantt/modules/gantt.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+    <!-- Inclusion d'un fichier CSS en plus -->
+    <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
 
 </head>
 
@@ -54,7 +59,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <hr>
-                Bienvenue {{ user.username }} !
+                Votre identifiant : {{ user.username }}
                 <a href='{% url "logout" %}'>
                     <i class="fa fa-sign-out fa-3x fa-pull-right" title="logout" aria-hidden="true"></i>
                 </a>
@@ -64,73 +69,88 @@
 </div>
 
 <!-- Barre de navigation -->
-{# On ne l'affiche que si l'utilisateur est connecté #}
 {# TODO Sur iphone quand on etire un onglet, une case blanche est affichée #}
-<div class="container-fluid" id="navigation">
+<div class="container-fluid sticky-top" id="navigation">
+    {# On ne l'affiche que si l'utilisateur est connecté #}
     {% if user.is_authenticated %}
-        <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#e9ecef">
-            <ul class="navbar-nav">
+        <nav class="navbar navbar-expand-sm justify-content-center  navbar-light"
+             style="background-color:#e9ecef">
 
-                <!-- Tous les projets -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'projects' %}">Tous mes projets</a>
-                </li>
+            <!-- Bouton pour dérouler la barre de nav -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                Navigation
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <!-- Dropdown par projet -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Projet
-                    </a>
-                    <div class="dropdown-menu">
-                        {% for pr in user.project_set.all %}
-                            <a class="dropdown-item" href="{% url 'project' pr.id %}">{{ pr|truncatechars:60 }}</a>
-                        {% endfor %}
-                    </div>
-                </li>
+            <!-- Liens de navigation -->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
 
-                <!-- Dropdown liste des membres -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Membres par projet
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href={% url 'membersallprojects' %}>Tous les projets</a>
-                        {% for pr in user.project_set.all %}
-                            <a class="dropdown-item" href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
-                        {% endfor %}
-                    </div>
-                </li>
+                    <!-- Tous les projets -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'projects' %}">Tous mes projets</a>
+                    </li>
 
-                <!-- Dropdown Mes tâches -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Mes tâches
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'usertasks_all' %}">Toutes</a>
-                        <a class="dropdown-item" href="{% url 'usertasks_done' %}">Terminées</a>
-                    </div>
-                </li>
+                    <!-- Dropdown par projet -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Projet
+                        </a>
+                        <div class="dropdown-menu">
+                            {% for pr in user.project_set.all %}
+                                <a class="dropdown-item" href="{% url 'project' pr.id %}">{{ pr|truncatechars:60 }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
 
-                <!-- Dropdown Activité -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Activité
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
-                        {% for pr in user.project_set.all %}
-                            <a class="dropdown-item" href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
-                        {% endfor %}
-                    </div>
-                </li>
+                    <!-- Dropdown liste des membres -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Membres par projet
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href={% url 'membersallprojects' %}>Tous les projets</a>
+                            {% for pr in user.project_set.all %}
+                                <a class="dropdown-item"
+                                   href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
 
-                <!-- Exportation -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'export_data' %}">Exportation</a>
-                </li>
+                    <!-- Dropdown Mes tâches -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Mes tâches
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'usertasks_all' %}">Toutes</a>
+                            <a class="dropdown-item" href="{% url 'usertasks_unfinished' %}">Non terminées</a>
+                            <a class="dropdown-item" href="{% url 'usertasks_done' %}">Terminées</a>
+                        </div>
+                    </li>
 
-            </ul>
+                    <!-- Dropdown Activité -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Dernières activités
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
+                            {% for pr in user.project_set.all %}
+                                <a class="dropdown-item"
+                                   href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+
+                    <!-- Exportation -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'export_data' %}">Exportation</a>
+                    </li>
+
+                </ul>
+            </div>
+
         </nav>
     {% endif %}
     <br>

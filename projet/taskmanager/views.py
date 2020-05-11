@@ -1,6 +1,11 @@
 from datetime import datetime
 
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TaskForm, NewEntryForm, ExportForm, ProjectForm
@@ -33,7 +38,26 @@ def progress(project):
 
 @login_required
 def accueil(request):
-    return render(request, 'taskmanager/accueil.html')
+    # On récupère les projets de l'utilisateur, ainsi que leur nombre
+    list_projects = request.user.project_set.all()
+    nb_projects = len(list_projects)
+
+    # On récupère la liste des tâches assignées à l'utilisateur, ainsi que leur nombre
+    list_tasks = request.user.task_set.all()
+    nb_tasks = len(list_tasks)
+
+    # On récupère la liste des tâches assignées à l'utilisateur et non terminée, ainsi que leur nombre
+    list_tasks_unfinished = list_tasks.exclude(status__name="Terminée")
+    nb_tasks_unfinished = len(list_tasks_unfinished)
+
+    # On récupère la tâche assignée à l'utilisateur et non terminée, qui a le plus grand taux d'avancement
+    list_tasks_unfinished = list_tasks_unfinished.order_by("-progress")
+    task_most_progress = list_tasks_unfinished[0]
+
+    # On récupère le nombre de tâches terminées
+    nb_tasks_done = nb_tasks - nb_tasks_unfinished
+
+    return render(request, 'taskmanager/accueil.html', locals())
 
 
 @login_required
@@ -60,6 +84,19 @@ def project(request, id_project):
         return redirect('accueil')
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
+
+    # On prépare le diagramme de Gantt
+    list_dicts = []
+    for task_to_display in list_tasks:
+        # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
+        dict_task = {
+            "name": task_to_display.name,
+            "start": [task_to_display.start_date.year, task_to_display.start_date.month,
+                      task_to_display.start_date.day],
+            "end": [task_to_display.due_date.year, task_to_display.due_date.month, task_to_display.due_date.day],
+            "progress": task_to_display.progress / 100
+        }
+        list_dicts.append(dict_task)
     return render(request, 'taskmanager/project.html', locals())
 
 
@@ -153,6 +190,7 @@ def edittask(request, id_task):
         return redirect('accueil')
     # On crée un form pour modifier la tâche demandée
     form = TaskForm(request.POST or None, instance=task_formed)
+    form.fields['assignee'].queryset = task_formed.project.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
     method = "Edit"
     if form.is_valid():
@@ -164,14 +202,31 @@ def edittask(request, id_task):
 
 @login_required
 def usertasks_all(request):
+    # On récupère les tâches assignées à l'utilisateur
     list_tasks = request.user.task_set.all()
-    return render(request, "taskmanager/usertasks-all.html", locals())
+
+    # Cette variable est utilisée pour changer le titre de la template
+    title = "Toutes mes tâches"
+
+    return render(request, "taskmanager/usertasks.html", locals())
+
+
+@login_required
+def usertasks_unfinished(request):
+    # On récupère les tâches assignées à l'utilisateur non terminées
+    list_tasks = request.user.task_set.exclude(status__name="Terminée")
+
+    # Cette variable est utilisée pour changer le titre de la template
+    title = "Mes tâches non terminées"
+
+    return render(request, "taskmanager/usertasks.html", locals())
 
 
 @login_required
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
     list_tasks = request.user.task_set.filter(status__name="Terminée")
+
     return render(request, "taskmanager/usertasks-done.html", locals())
 
 
@@ -191,6 +246,16 @@ def membersbyproject(request, id_project):
     project_to_display = get_object_or_404(Project, id=id_project)
     # On récupère tous les membres du projet
     list_members = project_to_display.members.all()
+    # On prépare le graphe : pour chaque membre, on stocke le nombre de ses tâches
+    list_dicts = []
+    name_series = "Nombre de tâches"
+    title = 'Nombre de tâches par personne'
+    for mem in list_members:
+        dict_member = {
+            "name": mem.username,
+            "nb": len(mem.task_set.filter(project=project_to_display))
+        }
+        list_dicts.append(dict_member)
     return render(request, 'taskmanager/membersbyproject.html', locals())
 
 
@@ -203,8 +268,8 @@ def get_list_entries(list_tasks, request):
     try:
         affiche = request.GET['affiche' or None]
     except:
-        # Par défaut, affiche vaut 5
-        affiche = 5
+        # Par défaut, affiche vaut 20
+        affiche = 20
 
     try:
         notmyentries = request.GET['notmyentries' or None]
@@ -244,7 +309,7 @@ def get_list_entries(list_tasks, request):
 # Cette vue permet d'afficher les dernières activités de tous les projets où participent l'utilisateur
 @login_required
 def activity_all(request):
-    # On récupère tous les p rojets de l'utilisateur
+    # On récupère tous les projets de l'utilisateur
     list_projects = request.user.project_set.all()
 
     # On récupère les tâches correspondantes
@@ -291,6 +356,7 @@ def activity_per_project(request, id_project):
 
 @login_required
 def export_data(request):
+    # TODO commenter !!!
     form = ExportForm(request.POST or None, user=request.user)
 
     if form.is_valid():
@@ -311,7 +377,6 @@ def export_data(request):
 
         response = HttpResponse('content_type=application/zip')
         zipObj = ZipFile(response, 'w')
-
 
         if bool_project:
             create_file(file_type, 'projects.' + file_type, project_set,
@@ -348,3 +413,23 @@ def export_data(request):
         return response
 
     return render(request, 'taskmanager/export_data.html', locals())
+
+
+# Pas de login required
+def newuser(request):
+    if request.method == 'POST':
+        # On crée le form
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+            # On crée l'utilisateur
+            user = authenticate(username=username, password=password)
+            # On le connecte
+            login(request, user)
+            # On le redirige
+            return redirect('accueil')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/newuser.html', locals())

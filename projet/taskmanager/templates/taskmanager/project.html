@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Project{% endblock %}
+{% load bootstrap4 %}
+{% load static %}
 
 
 {# Haut de page #}
@@ -8,21 +10,25 @@
     <div class="container" id="titre">
         <div class="row">
 
-                <h1 class="col-sm-7">
-                    {# Nom du projet #}
-                    {{ project_to_display }}
-                </h1>
-                    {# Bouton pour ajouter une tâche #}
-                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href='{% url "newtask" id_project %}'">
-                        <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
-                        Nouvelle tâche
-                    </button>
+            <h1 class="col-sm-7">
+                {# Nom du projet #}
+                {{ project_to_display }}
+            </h1>
+            {# Bouton pour ajouter une tâche #}
+            {# TODO c'est quoi ce m-3 ? #}
+            {# TODO en mode tablette, les boutons ne s'affichent pas bien (l'un va à la ligne)#}
+            <button class="col-sm-2 btn btn-primary m-3"
+                    onclick="window.location.href='{% url "newtask" id_project %}'">
+                <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
+                Nouvelle tâche
+            </button>
 
-                    {# Bouton pour modifier le projet #}
-                    <button class="col-sm-2 btn btn-primary m-3" onclick="window.location.href='{% url "editproject" id_project %}'">
-                        <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
-                        Modifier le projet
-                    </button>
+            {# Bouton pour modifier le projet #}
+            <button class="col-sm-2 btn btn-primary m-3"
+                    onclick="window.location.href='{% url "editproject" id_project %}'">
+                <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
+                Modifier le projet
+            </button>
 
 
         </div>
@@ -36,7 +42,7 @@
 
         {% if list_tasks %}
             <!-- Cas où la liste des tâches n'est pas vide -->
-            <table class="table table-hover table-responsive">
+            <table class="table table-hover table-responsive-sm">
                 <!-- En-tête de la table -->
                 <thead class="thead-light">
                 <tr>
@@ -59,7 +65,8 @@
                             <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                             <td>
                                 <a href="{% url 'edittask' task.id %}">
-                                    <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task" aria-hidden="true"></i></p>
+                                    <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task"
+                                          aria-hidden="true"></i></p>
                                 </a>
                             </td>
                         </tr>
@@ -71,7 +78,8 @@
                             <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                             <td>
                                 <a href="{% url 'edittask' task.id %}">
-                                <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task" aria-hidden="true"></i></p>
+                                    <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task"
+                                          aria-hidden="true"></i></p>
                                 </a>
                             </td>
                         </tr>
@@ -85,6 +93,15 @@
             <p>Aucune tâche !</p>
         {% endif %}
 
+    </div>
+
+    <!-- Affichage d'un diagramme de Gantt -->
+    <div class="container" id="gantt">
+        {# On fait passer les variables utiles au javascript#}
+        {{ project_to_display.name | json_script:"name_project" }}
+        {{ list_dicts | json_script:"list_dicts" }}
+        {# On appelle le script #}
+        <script type="text/javascript" src="{% static 'js/basicGanttChart.js' %}"></script>
     </div>
 
 {% endblock %}

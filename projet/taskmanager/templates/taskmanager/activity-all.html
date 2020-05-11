@@ -5,7 +5,7 @@
 {# Haut de page #}
 {% block head %}
     <div class="container" id="titre">
-        <h2>Dernière activité</h2>
+        <h2>Dernières activités</h2>
     </div>
 {% endblock %}
 
@@ -19,7 +19,7 @@
     <div class="container" id="activite">
         {% if list_entries %}
             <!-- Dans le cas où list_entries n'est pas vide -->
-            <table class="table table-responsive table-hover">
+            <table class="table table-responsive-sm table-hover">
                 <!-- Entête de la table -->
                 <thead class="thead-light">
                 <tr>
@@ -33,7 +33,6 @@
 
                 <!-- Corps de la table -->
                 {% for entry in list_entries %}
-
                     <tr>
                         <td>
                             <a href="{% url 'project' entry.task.project.id %}">{{ entry.task.project|truncatechars:50 }}</a>
@@ -42,9 +41,9 @@
                         <td>{{ entry }}</td>
                         {# Cet if permet de mettre en avant les entrées écrites par l'utilisateur connecté #}
                         {% if entry.author == request.user %}
-                            <td><span class="badge badge-secondary">{{ entry.author }}</span></td>
-                        {% else %}
                             <td><span class="badge badge-primary">{{ entry.author }}</span></td>
+                        {% else %}
+                            <td><span class="badge badge-secondary">{{ entry.author }}</span></td>
                         {% endif %}
                         <td><i>{{ entry.date }}</i></td>
                     </tr>
