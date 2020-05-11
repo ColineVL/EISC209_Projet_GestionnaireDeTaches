@@ -114,7 +114,7 @@
                             Membres par projet
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href={% url 'membersallprojects' %}>Tous les projets</a>
+                            <a class="dropdown-item list-group-item-info" href={% url 'membersallprojects' %}>Tous les projets</a>
                             {% for pr in user.project_set.all %}
                                 <a class="dropdown-item"
                                    href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
@@ -140,12 +140,12 @@
                             Dernières activités
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
+                            <a class="dropdown-item list-group-item-info" href="{% url "activity_all" %}">Tous les projets</a>
                             {% for pr in user.project_set.all %}
                                 <a class="dropdown-item"
                                    href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
                             {% endfor %}
-                            <a class="dropdown-item" href="{% url "histogram_activity" %}">Histogramme</a>
+                            <a class="dropdown-item list-group-item-info" href="{% url "histogram_activity" %}">Histogramme</a>
                         </div>
                     </li>
 
