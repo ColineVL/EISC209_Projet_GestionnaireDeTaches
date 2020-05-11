@@ -31,16 +31,26 @@
             </button>
 
             {# Bouton pour le filtrage #}
-
-            <!-- Dropdown des filtres -->
-            <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-3">
+            <button data-toggle="collapse" data-target="#filter" class="col-sm-1.5 btn btn-primary m-3">
                 <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
-                Filtrage et triage
+                Filtrage
             </button>
             <div id="filter" class="collapse">
                 <form method="GET">
                     {{ filter.form }}
                     <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+
+            {# Bouton pour le triage #}
+            <button data-toggle="collapse" data-target="#ordering" class="col-sm-1 btn btn-primary m-3">
+                <i class="fa fa-sort fa-lg" title="Ordering" aria-hidden="true"></i>
+                Triage
+            </button>
+            <div id="ordering" class="collapse">
+                <form method="GET">
+                    {{ ordering.form }}
+                    <button type="submit" class="btn btn-primary">Chercher</button>
                 </form>
             </div>
 

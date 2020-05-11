@@ -45,6 +45,8 @@ class TaskFilter(django_filters.FilterSet):
                                                  field_class=forms.IntegerField,
                                                  label='progrès',
                                                  )
+
+class TaskOrdering(django_filters.FilterSet):
     CHOICES = (
         ('priority ascending','Prioritè plus haute'),
         ('priority descending', 'Prioritè plus basse'),
@@ -54,7 +56,7 @@ class TaskFilter(django_filters.FilterSet):
         ('due_date further', 'Date de fin plus loine')
     )
 
-    ordering = django_filters.ChoiceFilter(label = 'Ordering', choices = CHOICES, method='filter_by_order')
+    task_ordering = django_filters.ChoiceFilter(label = 'Triage par:', choices = CHOICES, method='filter_by_order')
 
     def filter_by_order(selfself, queryset, name, value):
         if value == 'priority ascending':
@@ -73,32 +75,3 @@ class TaskFilter(django_filters.FilterSet):
             value == 'priority'
         return queryset.order_by(expression)
 
-    # class Meta:
-    #   model = Task
-    # fields = ['name']
-    """    class Meta:
-        model = Task
-        fields = ['name','assignee', 'start_date']
-
-
-        filter_overrides = {
-            models.CharField: {
-                'filter_class': django_filters.CharFilter,
-                'extra': lambda f: {
-                    'label': 'nom de la tache',
-                    'lookup_expr': 'icontains',
-                    'widget': forms.TextInput(attrs={'title':'Nom', 'placeholder': "Ecrire entierement ou partiellement la tache..."})
-                },
-            },
-
-            models.DateField: {
-                'filter_class' : django_filters.DateFilter,
-                'extra': lambda f: {
-
-                    'label': 'Date de debut',
-                    'lookup_expr': 'year__gte',
-                    'widget': forms.SelectDateWidget()
-                }
-            }
-        }
-"""
