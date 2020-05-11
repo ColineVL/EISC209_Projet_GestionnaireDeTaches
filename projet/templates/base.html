@@ -36,6 +36,7 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/gantt/modules/gantt.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
 
     <!-- Inclusion d'un fichier CSS en plus -->
     <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
@@ -135,12 +136,13 @@
                             Dernières activités
                         </a>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url "histogram_activity" %}">Histogramme</a>
                             <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
                             {% for pr in user.project_set.all %}
                                 <a class="dropdown-item"
                                    href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>
                             {% endfor %}
-                            <a class="dropdown-item" href="{% url "histogram_activity" %}">Histogramme</a>
+
                         </div>
                     </li>
 
