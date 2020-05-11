@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('taskmanager/', include('taskmanager.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.projects),
+    path('', views.accueil),
 ]

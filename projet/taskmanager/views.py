@@ -1,6 +1,8 @@
 from datetime import datetime
 
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count
 from django.http import JsonResponse, HttpResponse
@@ -70,9 +72,10 @@ def project(request, id_project):
         # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
         dict_task = {
             "name": task_to_display.name,
-            "start": [task_to_display.start_date.year, task_to_display.start_date.month, task_to_display.start_date.day],
+            "start": [task_to_display.start_date.year, task_to_display.start_date.month,
+                      task_to_display.start_date.day],
             "end": [task_to_display.due_date.year, task_to_display.due_date.month, task_to_display.due_date.day],
-            "progress": task_to_display.progress/100
+            "progress": task_to_display.progress / 100
         }
         list_dicts.append(dict_task)
     return render(request, 'taskmanager/project.html', locals())
@@ -368,3 +371,23 @@ def export_data(request):
         return response
 
     return render(request, 'taskmanager/export_data.html', locals())
+
+
+# Pas de login required
+def newuser(request):
+    if request.method == 'POST':
+        # On crée le form
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
+            # On crée l'utilisateur
+            user = authenticate(username=username, password=password)
+            # On le connecte
+            login(request, user)
+            # On le redirige
+            return redirect('accueil')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/newuser.html', locals())

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Se créer un compte{% endblock %}
+{% load bootstrap4 %}
+
+
+{% block content %}
+
+    <!-- Le form de connexion -->
+    <div class="container">
+        <form method="post" action="{% url 'newuser' %}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Créer mon compte</button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+{% endblock %}
+
