@@ -70,11 +70,11 @@
 
 <!-- Barre de navigation -->
 {# TODO Sur iphone quand on etire un onglet, une case blanche est affichée #}
-<div class="container-fluid" id="navigation">
+<div class="container-fluid sticky-top" id="navigation">
     {# On ne l'affiche que si l'utilisateur est connecté #}
     {% if user.is_authenticated %}
         {#        TODO elle est juste un peu sticky, c'est bizarre#}
-        <nav class="navbar sticky-top navbar-expand-sm justify-content-center  navbar-light"
+        <nav class="navbar navbar-expand-sm justify-content-center  navbar-light"
              style="background-color:#e9ecef">
 
             <!-- Bouton pour dérouler la barre de nav -->
@@ -132,7 +132,7 @@
                     <!-- Dropdown Activité -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                            Activité
+                            Dernières activités
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
