@@ -10,7 +10,7 @@
     <div class="container" id="titre">
         <div class="row">
 
-            <h1 class="col-sm-7">
+            <h1 class="col-sm-4">
                 {# Nom du projet #}
                 {{ project_to_display }}
             </h1>
@@ -30,6 +30,19 @@
                 Modifier le projet
             </button>
 
+            {# Bouton pour le filtrage #}
+
+            <!-- Dropdown des filtres -->
+            <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-3">
+                <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
+                Filtrage et triage
+            </button>
+            <div id="filter" class="collapse">
+                <form method="GET">
+                    {{ filter.form }}
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
 
         </div>
     </div>
@@ -37,24 +50,6 @@
 
 {# Contenu de la page #}
 {% block content %}
-
-    <!-- Dropdown liste des membres -->
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            Filter
-        </a>
-        <div class="dropdown-menu">
-            <div>
-                <form method="GET">
-                    {{ filter.form }}
-
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        </div>
-    </li>
-
-
 
 
     <!-- Liste des tâches -->
