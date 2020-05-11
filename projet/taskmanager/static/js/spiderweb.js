@@ -1,5 +1,7 @@
 // On récupère les données utiles
 const list_dicts = JSON.parse(document.getElementById('list_dicts').textContent);
+const name_series = JSON.parse(document.getElementById('name_series').textContent);
+const title = JSON.parse(document.getElementById('title').textContent);
 
 // On initialise les options du chart
 const options = {
@@ -10,7 +12,7 @@ const options = {
 
     title: {
         align: "center",
-        text: 'Nombre de tâches par personne',
+        text: title,
     },
     xAxis: {
         categories: [],
@@ -34,7 +36,7 @@ const options = {
     },
 
     series: [{
-        name: 'Nombre de tâches',
+        name: name_series,
         data: [],
         pointPlacement: 'on'
     }],

@@ -212,6 +212,8 @@ def membersbyproject(request, id_project):
     list_members = project_to_display.members.all()
     # On prépare le graphe : pour chaque membre, on stocke le nombre de ses tâches
     list_dicts = []
+    name_series = "Nombre de tâches"
+    title = 'Nombre de tâches par personne'
     for mem in list_members:
         dict_member = {
             "name": mem.username,
