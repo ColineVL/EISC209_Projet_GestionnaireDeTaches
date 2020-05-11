@@ -19,6 +19,7 @@ urlpatterns = [
     path('newtask/<int:id_project>', views.newtask, name='newtask'),
     path('edittask/<int:id_task>', views.edittask, name='edittask'),
     path('usertasks/all', views.usertasks_all, name='usertasks_all'),
+    path('usertasks/unfinished', views.usertasks_unfinished, name='usertasks_unfinished'),
     path('usertasks/done', views.usertasks_done, name='usertasks_done'),
 
     # Membres

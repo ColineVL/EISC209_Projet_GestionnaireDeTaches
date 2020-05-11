@@ -38,21 +38,24 @@ def progress(project):
 
 @login_required
 def accueil(request):
+    # On récupère les projets de l'utilisateur, ainsi que leur nombre
     list_projects = request.user.project_set.all()
     nb_projects = len(list_projects)
 
+    # On récupère la liste des tâches assignées à l'utilisateur, ainsi que leur nombre
     list_tasks = request.user.task_set.all()
     nb_tasks = len(list_tasks)
 
+    # On récupère la liste des tâches assignées à l'utilisateur et non terminée, ainsi que leur nombre
     list_tasks_unfinished = list_tasks.exclude(status__name="Terminée")
     nb_tasks_unfinished = len(list_tasks_unfinished)
 
+    # On récupère la tâche assignée à l'utilisateur et non terminée, qui a le plus grand taux d'avancement
     list_tasks_unfinished = list_tasks_unfinished.order_by("-progress")
     task_most_progress = list_tasks_unfinished[0]
 
+    # On récupère le nombre de tâches terminées
     nb_tasks_done = nb_tasks - nb_tasks_unfinished
-
-
 
     return render(request, 'taskmanager/accueil.html', locals())
 
@@ -207,14 +210,31 @@ def edittask(request, id_task):
 
 @login_required
 def usertasks_all(request):
+    # On récupère les tâches assignées à l'utilisateur
     list_tasks = request.user.task_set.all()
-    return render(request, "taskmanager/usertasks-all.html", locals())
+
+    # Cette variable est utilisée pour changer le titre de la template
+    title = "Toutes mes tâches"
+
+    return render(request, "taskmanager/usertasks.html", locals())
+
+
+@login_required
+def usertasks_unfinished(request):
+    # On récupère les tâches assignées à l'utilisateur non terminées
+    list_tasks = request.user.task_set.exclude(status__name="Terminée")
+
+    # Cette variable est utilisée pour changer le titre de la template
+    title = "Mes tâches non terminées"
+
+    return render(request, "taskmanager/usertasks.html", locals())
 
 
 @login_required
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
     list_tasks = request.user.task_set.filter(status__name="Terminée")
+
     return render(request, "taskmanager/usertasks-done.html", locals())
 
 
@@ -365,31 +385,35 @@ def export_data(request):
         zipObj = ZipFile(response, 'w')
 
         if bool_project:
-            create_file(file_type, 'projects.' + file_type, project_set, ProjectRessource(), zipObj)
+            create_file(file_type, 'projects.' + file_type, project_set,
+            ['name','members'], zipObj)
         if bool_status:
-            create_file(file_type, 'status.' + file_type, Status.objects.all(), StatusResource(), zipObj)
+            create_file(file_type, 'status.' + file_type, Status.objects.all(),
+            ['name'], zipObj)
         if bool_task or bool_journal:
             if one_dir_by_project:
                 for project in project_set:
                     os.mkdir(project.name)
                     if bool_task:
                         create_file(file_type, project.name + '/task.' + file_type,
-                                    Task.objects.filter(project=project), TaskResource(), zipObj)
+                        Task.objects.filter(project=project),
+                        ['project','name','description','assignee','start_date','due_date','priority','status','progress'], zipObj)
                     if bool_journal:
                         if ordered_journal_by_task:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('task')
                         else:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
-                        create_file(file_type, project.name + '/journal.' + file_type, set, JournalResource(), zipObj)
+                        create_file(file_type, project.name + '/journal.' + file_type, set,
+                        ['date','entry','author','task'], zipObj)
                     shutil.rmtree(project.name)
             else:
                 if bool_task:
                     create_file(file_type, 'task.' + file_type, Task.objects.filter(project__in=project_set),
-                                TaskResource(), zipObj)
+                                ['project','name','description','assignee','start_date','due_date','priority','status','progress'], zipObj)
                 if bool_journal:
                     create_file(file_type, 'journal.' + file_type,
                                 Journal.objects.filter(task__in=Task.objects.filter(project__in=project_set)),
-                                JournalResource(), zipObj)
+                                ['date','entry','author','task'], zipObj)
 
         response['Content-Disposition'] = 'attachment; filename="' + archive_name + '.zip"'
         return response
