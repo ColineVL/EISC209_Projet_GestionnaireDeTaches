@@ -359,8 +359,22 @@ def activity_per_project(request, id_project):
 
     return render(request, 'taskmanager/activity-per-project.html', locals())
 
+
 @login_required
 def histogram(request):
+    # On récupère tous les projets de l'utilisateur
+    list_projects = request.user.project_set.all()
+
+    # On récupère les tâches correspondantes
+    list_tasks = Task.objects.none()
+    for project in list_projects:
+        list_tasks = list_tasks.union(project.task_set.all())
+
+    # On récupère toutes les entrées
+    list_entries = Journal.objects.filter(task__project__in=list_projects)
+
+    # Qu'on trie par date croissante
+    list_entries = list_entries.order_by('date')
     return render(request, 'taskmanager/histogram.html', locals())
 
 
@@ -390,34 +404,36 @@ def export_data(request):
 
         if bool_project:
             create_file(file_type, 'projects.' + file_type, project_set,
-            ['name','members'], zipObj)
+                        ['name', 'members'], zipObj)
         if bool_status:
             create_file(file_type, 'status.' + file_type, Status.objects.all(),
-            ['name'], zipObj)
+                        ['name'], zipObj)
         if bool_task or bool_journal:
             if one_dir_by_project:
                 for project in project_set:
                     os.mkdir(project.name)
                     if bool_task:
                         create_file(file_type, project.name + '/task.' + file_type,
-                        Task.objects.filter(project=project),
-                        ['project','name','description','assignee','start_date','due_date','priority','status','progress'], zipObj)
+                                    Task.objects.filter(project=project),
+                                    ['project', 'name', 'description', 'assignee', 'start_date', 'due_date', 'priority',
+                                     'status', 'progress'], zipObj)
                     if bool_journal:
                         if ordered_journal_by_task:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('task')
                         else:
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
                         create_file(file_type, project.name + '/journal.' + file_type, set,
-                        ['date','entry','author','task'], zipObj)
+                                    ['date', 'entry', 'author', 'task'], zipObj)
                     shutil.rmtree(project.name)
             else:
                 if bool_task:
                     create_file(file_type, 'task.' + file_type, Task.objects.filter(project__in=project_set),
-                                ['project','name','description','assignee','start_date','due_date','priority','status','progress'], zipObj)
+                                ['project', 'name', 'description', 'assignee', 'start_date', 'due_date', 'priority',
+                                 'status', 'progress'], zipObj)
                 if bool_journal:
                     create_file(file_type, 'journal.' + file_type,
                                 Journal.objects.filter(task__in=Task.objects.filter(project__in=project_set)),
-                                ['date','entry','author','task'], zipObj)
+                                ['date', 'entry', 'author', 'task'], zipObj)
 
         response['Content-Disposition'] = 'attachment; filename="' + archive_name + '.zip"'
         return response
