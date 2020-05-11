@@ -38,21 +38,24 @@ def progress(project):
 
 @login_required
 def accueil(request):
+    # On récupère les projets de l'utilisateur, ainsi que leur nombre
     list_projects = request.user.project_set.all()
     nb_projects = len(list_projects)
 
+    # On récupère la liste des tâches assignées à l'utilisateur, ainsi que leur nombre
     list_tasks = request.user.task_set.all()
     nb_tasks = len(list_tasks)
 
+    # On récupère la liste des tâches assignées à l'utilisateur et non terminée, ainsi que leur nombre
     list_tasks_unfinished = list_tasks.exclude(status__name="Terminée")
     nb_tasks_unfinished = len(list_tasks_unfinished)
 
+    # On récupère la tâche assignée à l'utilisateur et non terminée, qui a le plus grand taux d'avancement
     list_tasks_unfinished = list_tasks_unfinished.order_by("-progress")
     task_most_progress = list_tasks_unfinished[0]
 
+    # On récupère le nombre de tâches terminées
     nb_tasks_done = nb_tasks - nb_tasks_unfinished
-
-
 
     return render(request, 'taskmanager/accueil.html', locals())
 
@@ -207,6 +210,7 @@ def usertasks_all(request):
 
     return render(request, "taskmanager/usertasks.html", locals())
 
+
 @login_required
 def usertasks_unfinished(request):
     # On récupère les tâches assignées à l'utilisateur non terminées
@@ -216,6 +220,7 @@ def usertasks_unfinished(request):
     title = "Mes tâches non terminées"
 
     return render(request, "taskmanager/usertasks.html", locals())
+
 
 @login_required
 def usertasks_done(request):

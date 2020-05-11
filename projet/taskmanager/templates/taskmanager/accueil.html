@@ -14,6 +14,7 @@
     <div class="container">
         <p>Vous participez à <strong>{{ nb_projects }}</strong> <a href="{% url 'projects' %}">projets</a>, dont <strong>{{ nb_tasks }}</strong> <a href="{% url 'usertasks_all' %}">tâches.</a></p> </br>
         <p>Vous avez <strong>{{ nb_tasks_unfinished }}</strong> <a href="{% url 'usertasks_unfinished' %}">tâches non terminées</a>.</p>
+        <!-- Affiche la tâche non terminée avec le plus grand taux d'avancement -->
         <div class="row">
             <p class="col-sm-3">Votre tâche la plus avancée est :</p>
             <p class="col-sm-9"><a href="{% url 'task' task_most_progress.id %}">{{ task_most_progress }}</a>, à <strong>{{ task_most_progress.progress }} %</strong>, dans <a href="{% url 'project' task_most_progress.project_id %}">{{ task_most_progress.project }}</a>.</p>
