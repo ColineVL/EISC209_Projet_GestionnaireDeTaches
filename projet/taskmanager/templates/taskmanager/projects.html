@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
+{% load static %}
 
 {% block title %}Projects{% endblock %}
 
@@ -51,5 +52,13 @@
             <!-- Cas où l'utilisateur n'a pas de projets -->
             <p>Vous n'avez pas de projet...</p>
         {% endif %}
+    </div>
+
+    <!-- Graphe -->
+    <div class="container" id="spiderweb">
+        {# On fait passer les variables #}
+        {{ list_dicts | json_script:"list_dicts" }}
+        {# On appelle le script #}
+        <script type="text/javascript" src="{% static 'js/spiderwebEntriesByProject.js' %}"></script>
     </div>
 {% endblock %}
