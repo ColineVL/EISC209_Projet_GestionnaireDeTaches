@@ -29,7 +29,12 @@
         <table class="table">
             <tr>
                 <th class="colTask1">Assignée à</th>
-                <td><span class="badge badge-primary">{{ task_to_display.assignee }}</span></td>
+                {# Cet if sert à changer l'apparence du badge #}
+                {% if task_to_display.assignee == request.user %}
+                    <td><span class="badge badge-primary">{{ task_to_display.assignee }}</span></td>
+                {% else %}
+                    <td><span class="badge badge-secondary">{{ task_to_display.assignee }}</span></td>
+                {% endif %}
             </tr>
             <tr>
                 <th>Date de début</th>
