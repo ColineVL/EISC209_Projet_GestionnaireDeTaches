@@ -4,7 +4,7 @@
 
 {# Haut de page #}
 {% block head %}
-   <!-- Titre de la page -->
+    <!-- Titre de la page -->
     <div class="container" id="titre">
         <h2>{{ project_related }}</h2>
         <h4>{{ method }} task</h4>
@@ -30,23 +30,7 @@
         <!-- Début du form, simple -->
         {% bootstrap_field form.name layout='horizontal' %}
         {% bootstrap_field form.description layout='horizontal' %}
-        <!-- Choix de l'assignee -->
-        <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="id_assignee">Assignee</label>
-            <div class="col-md-9">
-                <select name="assignee" class="form-control" title="" required id="id_assignee">
-                    <option value="">---------</option>
-                    {% for mem in list_members %}
-                        {% if form.assignee.value|add:0 == mem.id %}
-                            {# Ce tag add permet de transformer la value de str en int #}
-                            <option value={{ mem.id }} selected>{{ mem }}</option>
-                        {% else %}
-                            <option value={{ mem.id }}>{{ mem }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+        {% bootstrap_field form.assignee layout='horizontal' %}
         <!-- Choix de la start_date -->
         <div class="form-group row">
             <label class="col-md-3 col-form-label" for="id_start_date">Start date</label>

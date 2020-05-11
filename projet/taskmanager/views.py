@@ -168,6 +168,7 @@ def edittask(request, id_task):
         return redirect('accueil')
     # On crée un form pour modifier la tâche demandée
     form = TaskForm(request.POST or None, instance=task_formed)
+    form.fields['assignee'].queryset = task_formed.project.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
     method = "Edit"
     if form.is_valid():
