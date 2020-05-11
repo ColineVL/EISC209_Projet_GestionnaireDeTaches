@@ -24,7 +24,7 @@ def create_file(file_type, filename, queryset, fields, zipObj):
     elif file_type == 'html':
         queryset_to_xml(queryset, fields,filename)
     elif file_type == 'xlsx':
-        queryset_to_xls(queryset, fields, filename)
+        queryset_to_xlsx(queryset, fields, filename)
 
 
     zipObj.write(filename)
@@ -78,7 +78,7 @@ def queryset_to_xml(queryset, fields, filename):
     file.write(ET.tostring(table))
     file.close()
 
-def queryset_to_xls(queryset, fields, filename):
+def queryset_to_xlsx(queryset, fields, filename):
     file = xlsx.Workbook(filename)
     worksheet = file.add_worksheet()
     bold = file.add_format({'bold':True})
