@@ -72,6 +72,14 @@ def projects(request):
         # Taux d'avancement pour chaque projet (avec int on arrondit à l'entier)
         pr.progress = int(progress(pr))
 
+    # On prépare le graphe (spiderweb)
+    list_dicts = []
+    for pro in list_projects:
+        dict_project = {
+            "name": pro.name,
+            "nb": len(Journal.objects.filter(task__project=pro))
+        }
+        list_dicts.append(dict_project)
     return render(request, 'taskmanager/projects.html', locals())
 
 
@@ -248,8 +256,6 @@ def membersbyproject(request, id_project):
     list_members = project_to_display.members.all()
     # On prépare le graphe : pour chaque membre, on stocke le nombre de ses tâches
     list_dicts = []
-    name_series = "Nombre de tâches"
-    title = 'Nombre de tâches par personne'
     for mem in list_members:
         dict_member = {
             "name": mem.username,
