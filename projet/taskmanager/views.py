@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from zipfile import ZipFile
 import shutil
 from .export import *
-from .filters import TaskFilter, TaskOrdering
+from .filters import TaskFilter
 # TODO trier tout ça, c'est le bordel
 
 
@@ -92,8 +92,9 @@ def project(request, id_project):
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
 
+
     filter = TaskFilter(request.GET, queryset=list_tasks)
-    ordering = TaskOrdering(request.GET, queryset=list_tasks)
+
 
     # On prépare le diagramme de Gantt
     list_dicts = []
