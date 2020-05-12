@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -382,8 +382,22 @@ def histogram(request):
     # On récupère seulement les dates
     list_dates = []
     for entry in list_entries:
-        list_dates.append(entry.date)
-    print(list_dates)
+        list_dates.append(entry.date.timestamp())
+    # start_date = list_dates[0]
+    # end_date = list_dates[-1]
+    # list_dicts = []
+    #
+    # delta = timedelta(days=1)
+    # list_categories = []
+    # list_data = []
+    # while start_date <= end_date:
+    #     list_categories.append(start_date)
+    #     start_date += delta
+    # for entry in list_entries:
+    #     if entry.date.day !=
+    # print(list_dates)
+    # print(list_dates[0])
+    # print(list_dates[0].timestamp())
     return render(request, 'taskmanager/histogram.html', locals())
 
 

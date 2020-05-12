@@ -14,7 +14,7 @@
 {% block content %}
     <div class="container" id="graph">
         {# On fait passer les variables #}
-{#        {{ list_dicts | json_script:"list_dicts" }}#}
+        {{ list_dates | json_script:"list_dates" }}
         {# On appelle le script #}
         <script type="text/javascript" src="{% static 'js/histogramActivity.js' %}"></script>
     </div>
