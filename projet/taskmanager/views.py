@@ -178,6 +178,7 @@ def newtask(request, id_project):
         return redirect('accueil')
     # On crée un formulaire pour créer une nouvelle tâche
     form = TaskForm(request.POST or None)
+    form.fields['assignee'].queryset = project_related.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
     method = "New"
     if form.is_valid():
