@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -55,6 +55,25 @@ def accueil(request):
     # On récupère le nombre de tâches terminées
     nb_tasks_done = nb_tasks - nb_tasks_unfinished
 
+    # Ne marche pas pour le moment
+    # # Date quand l'utilisateur s'est connecté pour la dernière fois
+    # date_last_connection = request.user.last_login
+    #
+    # # On récupère les entrées apparues depuis la dernière fois qu'il s'est connecté
+    # list_entries_last_connection = Journal.objects.none()
+    # for task in list_tasks:
+    #     list_entries_last_connection = list_entries_last_connection.union(task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
+    # # Qu'on trie par date décroissante
+    # list_entries_last_connection = list_entries_last_connection.order_by('-date')
+    #
+    # # On récupère leur nombre
+    # nb_entries_last_connection = len(list_entries_last_connection)
+    #
+    # # Utiliser pour bien accorder dans la template
+    # plural = ''
+    # if nb_entries_last_connection > 1:
+    #     plural = 's'
+
     return render(request, 'taskmanager/accueil.html', locals())
 
 
@@ -92,6 +111,7 @@ def project(request, id_project):
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
 
+    # On crée le filtre pour les taches
     filter = TaskFilter(request.GET, queryset=list_tasks)
 
     # On prépare le diagramme de Gantt
@@ -177,6 +197,7 @@ def newtask(request, id_project):
         return redirect('accueil')
     # On crée un formulaire pour créer une nouvelle tâche
     form = TaskForm(request.POST or None)
+    form.fields['assignee'].queryset = project_related.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
     method = "New"
     if form.is_valid():
@@ -379,8 +400,22 @@ def histogram(request):
     # On récupère seulement les dates
     list_dates = []
     for entry in list_entries:
-        list_dates.append(entry.date)
-    print(list_dates)
+        list_dates.append(entry.date.timestamp())
+    # start_date = list_dates[0]
+    # end_date = list_dates[-1]
+    # list_dicts = []
+    #
+    # delta = timedelta(days=1)
+    # list_categories = []
+    # list_data = []
+    # while start_date <= end_date:
+    #     list_categories.append(start_date)
+    #     start_date += delta
+    # for entry in list_entries:
+    #     if entry.date.day !=
+    # print(list_dates)
+    # print(list_dates[0])
+    # print(list_dates[0].timestamp())
     return render(request, 'taskmanager/histogram.html', locals())
 
 
