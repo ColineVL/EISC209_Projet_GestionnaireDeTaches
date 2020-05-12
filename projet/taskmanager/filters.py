@@ -28,8 +28,8 @@ class TaskFilter(django_filters.FilterSet):
     # TODO : borner la valeur de la priorité
 
     priority = django_filters.LookupChoiceFilter(field_name='priority',
-                                                 lookup_choices=[('exact', 'égal à'), ('gte', 'Plus grande ou égal à'),
-                                                                 ('lte', 'Plus petite ou égal à')],
+                                                 lookup_choices=[('exact', 'Égale à'), ('gte', 'Supérieure ou égale à'),
+                                                                 ('lte', 'Inférieure ou égale à')],
                                                  field_class=forms.IntegerField,
                                                  label='Priorité',
                                                  )
@@ -37,8 +37,8 @@ class TaskFilter(django_filters.FilterSet):
     # TODO : borner la valeur du progrès
 
     progress = django_filters.LookupChoiceFilter(field_name='progress',
-                                                 lookup_choices=[('exact', 'égal à'), ('gte', 'Plus grande ou égal à'),
-                                                                 ('lte', 'Plus petite ou égal à')],
+                                                 lookup_choices=[('exact', 'Égal à'), ('gte', 'Supérieur ou égal à'),
+                                                                 ('lte', 'Inférieur ou égal à')],
                                                  field_class=forms.IntegerField,
                                                  label='Progrès',
                                                  )
@@ -46,12 +46,12 @@ class TaskFilter(django_filters.FilterSet):
 
 class TaskOrdering(django_filters.FilterSet):
     CHOICES = (
-        ('priority ascending', 'Prioritè plus haute'),
-        ('priority descending', 'Prioritè plus basse'),
-        ('progress ascending', 'Progrès plus haut'),
-        ('progress descending', 'Progrès plus bas'),
-        ('due_date closer', 'Date de fin plus proche'),
-        ('due_date further', 'Date de fin plus loine')
+        ('priority ascending', 'Priorité haute'),
+        ('priority descending', 'Priorité basse'),
+        ('progress ascending', 'Progrès élevé'),
+        ('progress descending', 'Progrès bas'),
+        ('due_date closer', 'Date de fin proche'),
+        ('due_date further', 'Date de fin lointaine')
     )
 
     task_ordering = django_filters.ChoiceFilter(label='Trier par', choices=CHOICES, method='filter_by_order')

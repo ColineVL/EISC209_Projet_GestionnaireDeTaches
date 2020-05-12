@@ -8,42 +8,53 @@
 {% block head %}
     <!-- Titre de la page et boutons -->
     <div class="container" id="titre">
-    <h1 class="col-sm-4">
-        {# Nom du projet #}
-        {{ project_to_display }}
-    </h1>
-    <div class="row d-flex justify-content-center">
-        {# Bouton pour ajouter une tâche #}
-        <button class="col-sm-2 btn btn-primary m-2"
-                onclick="window.location.href='{% url "newtask" id_project %}'">
-            <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
-            Nouvelle tâche
-        </button>
+        <h1 class="col-sm-4">
+            {# Nom du projet #}
+            {{ project_to_display }}
+        </h1>
+    </div>
 
-        {# Bouton pour modifier le projet #}
-        <button class="col-sm-2 btn btn-primary m-2"
-                onclick="window.location.href='{% url "editproject" id_project %}'">
-            <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
-            Modifier le projet
-        </button>
+    <div class="container" id="boutons">
+        <div class="row d-flex justify-content-center">
+            {# Bouton pour ajouter une tâche #}
+            <button class="col-sm-2 btn btn-primary m-2"
+                    onclick="window.location.href='{% url "newtask" id_project %}'">
+                <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
+                Nouvelle tâche
+            </button>
 
-        {# Bouton pour filtrer #}
-        <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-2">
-            <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
-            Filtrer
-        </button>
+            {# Bouton pour modifier le projet #}
+            <button class="col-sm-2 btn btn-primary m-2"
+                    onclick="window.location.href='{% url "editproject" id_project %}'">
+                <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
+                Modifier le projet
+            </button>
 
-        {# Bouton pour trier #}
-        <button data-toggle="collapse" data-target="#ordering" class="col-sm-2 btn btn-primary m-2">
-            <i class="fa fa-sort fa-lg" title="Ordering" aria-hidden="true"></i>
-            Trier
-        </button>
+            {# Bouton pour filtrer #}
+            <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-2">
+                <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
+                Filtrer
+            </button>
+
+            {# Bouton pour trier #}
+            <button data-toggle="collapse" data-target="#ordering" class="col-sm-2 btn btn-primary m-2">
+                <i class="fa fa-sort fa-lg" title="Ordering" aria-hidden="true"></i>
+                Trier
+            </button>
+        </div>
     </div>
 
     {# container pour le formulaire du filtrage #}
     <div class="container collapse" id="filter">
         <form method="GET">
-            {% bootstrap_form filter.form layout="horizontal" %}
+            <div class="row">
+                <div class="col-sm-6">
+                    {% bootstrap_form filter.form layout="horizontal" horizontal_label_class="col-sm-4" horizontal_field_class="col-sm-8" exclude="progress, priority, status" %}
+                </div>
+                <div class="col-sm-6">
+                    {% bootstrap_form filter.form layout="horizontal" horizontal_label_class="col-sm-4" horizontal_field_class="col-sm-8" exclude="name, assignee, start_date, due_date" %}
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Chercher</button>
         </form>
     </div>
@@ -61,6 +72,7 @@
             </div>
         </form>
     </div>
+
 {% endblock %}
 
 {# Contenu de la page #}
