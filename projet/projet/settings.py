@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'bootstrap4',
     'taskmanager',
     'import_export',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
+# TODO vérifier qu'on peut enlever ça
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
@@ -123,5 +125,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-LOGIN_REDIRECT_URL = '/taskmanager/projects'
+LOGIN_REDIRECT_URL = '/taskmanager/'
 LOGOUT_REDIRECT_URL = '/accounts/login'

@@ -35,6 +35,8 @@
     <!-- Inclusion de HighCharts -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/gantt/modules/gantt.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
 
     <!-- Inclusion d'un fichier CSS en plus -->
     <link href='{% static "css/taskmanager.css" %}' rel='stylesheet' type='text/css'/>
@@ -69,11 +71,10 @@
 
 <!-- Barre de navigation -->
 {# TODO Sur iphone quand on etire un onglet, une case blanche est affichée #}
-<div class="container-fluid" id="navigation">
+<div class="container-fluid sticky-top" id="navigation">
     {# On ne l'affiche que si l'utilisateur est connecté #}
     {% if user.is_authenticated %}
-        {#        TODO elle est juste un peu sticky, c'est bizarre#}
-        <nav class="navbar sticky-top navbar-expand-sm justify-content-center  navbar-light"
+        <nav class="navbar navbar-expand-sm justify-content-center  navbar-light"
              style="background-color:#e9ecef">
 
             <!-- Bouton pour dérouler la barre de nav -->
@@ -85,6 +86,11 @@
             <!-- Liens de navigation -->
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
+
+                    <!-- Accueil -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accueil' %}">Accueil</a>
+                    </li>
 
                     <!-- Tous les projets -->
                     <li class="nav-item">
@@ -109,10 +115,9 @@
                             Membres par projet
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href={% url 'membersallprojects' %}>Tous les projets</a>
+                            <a class="dropdown-item" href={% url 'membersallprojects' %}><b>Tous les projets</b></a>
                             {% for pr in user.project_set.all %}
-                                <a class="dropdown-item"
-                                   href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
+                                <a class="dropdown-item" href="{% url 'membersbyproject' pr.id %}">{{ pr|truncatechars:60 }}</a>
                             {% endfor %}
                         </div>
                     </li>
@@ -123,7 +128,8 @@
                             Mes tâches
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'usertasks_all' %}">Toutes</a>
+                            <a class="dropdown-item" href="{% url 'usertasks_all' %}"><b>Toutes</b></a>
+                            <a class="dropdown-item" href="{% url 'usertasks_unfinished' %}">Non terminées</a>
                             <a class="dropdown-item" href="{% url 'usertasks_done' %}">Terminées</a>
                         </div>
                     </li>
@@ -131,10 +137,11 @@
                     <!-- Dropdown Activité -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                            Activité
+                            Dernières activités
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url "activity_all" %}">Tous les projets</a>
+                            <a class="dropdown-item" href="{% url "histogram_activity" %}">Histogramme</a>
+                            <a class="dropdown-item" href="{% url "activity_all" %}"><b>Tous les projets</b></a>
                             {% for pr in user.project_set.all %}
                                 <a class="dropdown-item"
                                    href="{% url "activity_per_project" pr.id %}">{{ pr|truncatechars:60 }}</a>

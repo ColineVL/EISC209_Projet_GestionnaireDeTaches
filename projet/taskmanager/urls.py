@@ -4,8 +4,9 @@ from . import views
 
 # TO DO: commenter les path
 urlpatterns = [
-    #Accueil
+    # Accueil et nouvel utilisateur
     path('', views.accueil, name='accueil'),
+    path('newuser', views.newuser, name='newuser'),
 
     # Projets
     path('projects', views.projects, name='projects'),
@@ -18,18 +19,20 @@ urlpatterns = [
     path('newtask/<int:id_project>', views.newtask, name='newtask'),
     path('edittask/<int:id_task>', views.edittask, name='edittask'),
     path('usertasks/all', views.usertasks_all, name='usertasks_all'),
+    path('usertasks/unfinished', views.usertasks_unfinished, name='usertasks_unfinished'),
     path('usertasks/done', views.usertasks_done, name='usertasks_done'),
 
     # Membres
-    path('members/allprojects', views.membersallprojects, name="membersallprojects"),
+    path('members/allprojects', views.membersallprojects, name='membersallprojects'),
     path('members/<int:id_project>', views.membersbyproject, name='membersbyproject'),
 
     # URL vers la page d'activité, pour voir les dernières entrées de journal par tâche
-    path('activity/allprojects', views.activity_all, name="activity_all"),
+    path('activity/allprojects', views.activity_all, name='activity_all'),
     # Même URL que la précédente, mais trié pour un seul projet
-    path('activity/<int:id_project>', views.activity_per_project, name="activity_per_project"),
+    path('activity/<int:id_project>', views.activity_per_project, name='activity_per_project'),
+    # Histogramme
+    path('activity/histogram', views.histogram, name='histogram_activity'),
   
     # Exportation de données
-    path('export_data',views.export_data, name="export_data")
-
+    path('export_data',views.export_data, name='export_data'),
 ]

@@ -35,22 +35,22 @@ class ExportForm(forms.Form):
     """
     This form is used to export datas contained in the model
     """
-    archive_name = forms.CharField(max_length=100)
+    archive_name = forms.CharField(max_length=100, label="nom de l'archive")
     choice_types = [
         ('csv','csv'),
         ('html','html'),
-        ('xls','xls'),
+        ('xlsx','xlsx'),
         ('json','json'),
         ('yaml','yaml'),
     ]
-    file_type = forms.ChoiceField(choices = choice_types)
-    bool_project = forms.BooleanField(initial=True,required=False, label='project table')
-    bool_task = forms.BooleanField(initial=True,required=False, label='task table')
-    bool_status = forms.BooleanField(initial=False,required=False, label='status table')
-    bool_Journal = forms.BooleanField(initial=True,required=False, label='journal table')
-    one_dir_by_project = forms.BooleanField(initial=True, required=False, label='one directory by project')
-    ordered_journal_by_task = forms.BooleanField(initial=True, required=False, label='group journal by task')
-    all_projects = forms.BooleanField(initial=True, required=False, label='select all projects')
+    file_type = forms.ChoiceField(choices = choice_types,label='type de fichier')
+    bool_project = forms.BooleanField(initial=True,required=False, label='table projet')
+    bool_task = forms.BooleanField(initial=True,required=False, label='table tâche')
+    bool_status = forms.BooleanField(initial=False,required=False, label='table statut')
+    bool_Journal = forms.BooleanField(initial=True,required=False, label='table journal')
+    one_dir_by_project = forms.BooleanField(initial=True, required=False, label='un répertoire par projet')
+    ordered_journal_by_task = forms.BooleanField(initial=True, required=False, label='grouper le journal par tâche')
+    all_projects = forms.BooleanField(initial=True, required=False, label='sélectionner tous les projets')
 
     def clean(self):
         """
@@ -61,7 +61,7 @@ class ExportForm(forms.Form):
         if not all_project:
             if not self.cleaned_data['project']:
                 # if not all project are needed and there is nothing in project, we raise an error in the field project
-                msg = forms.ValidationError('Please select at least one project')
+                msg = forms.ValidationError('Merci de sélectionner au moins un projet')
                 self.add_error('project', msg)
         else:
             # in the other case project is an empty field
@@ -76,5 +76,6 @@ class ExportForm(forms.Form):
         super().__init__(*args,**kwargs)
         self.fields['project'] = forms.MultipleChoiceField(choices=[(proj.name, proj.name) for proj in user.project_set.all()],
                                                            required=False,
-                                                           help_text="Only require if all projects is deselect")
+                                                           help_text="Requis uniquement si 'sélectionner tous les projets' est décoché",
+                                                           label="Projets")
         # the help text allows to help the user and appear in muted in the form

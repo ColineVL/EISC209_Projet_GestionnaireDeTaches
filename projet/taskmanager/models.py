@@ -14,6 +14,8 @@ class Project(models.Model):
 # Modèle Status
 class Status(models.Model):
     name = models.CharField(max_length=200)
+    # Ce champ est utilisé pour l'apparence des statuts avec Bootstrap4
+    badge_color = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
