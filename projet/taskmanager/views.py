@@ -12,6 +12,7 @@ from zipfile import ZipFile
 import shutil
 from .export import *
 from .filters import TaskFilter, TaskOrdering
+# TODO trier tout ça, c'est le bordel
 
 
 # Pas une view, c'est une fonction utile
@@ -85,15 +86,17 @@ def project(request, id_project):
     # On récupère le projet demandé
     project_to_display = get_object_or_404(Project, id=id_project)
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
+    # TODO cette boucle if, la mettre partout
     if request.user not in project_to_display.members.all():
         return redirect('accueil')
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
 
-    # On prépare le diagramme de Gantt
-    list_dicts = []
     filter = TaskFilter(request.GET, queryset=list_tasks)
     ordering = TaskOrdering(request.GET, queryset=list_tasks)
+
+    # On prépare le diagramme de Gantt
+    list_dicts = []
     for task_to_display in list_tasks:
         # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
         dict_task = {

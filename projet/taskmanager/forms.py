@@ -30,23 +30,25 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = '__all__'
 
+
 class ExportForm(forms.Form):
     """
     This form is used to export datas contained in the model
     """
     archive_name = forms.CharField(max_length=100, label="nom de l'archive")
     choice_types = [
-        ('csv','csv'),
-        ('html','html'),
-        ('xlsx','xlsx'),
-        ('json','json'),
-        ('yaml','yaml'),
+        ('csv', 'csv'),
+        ('html', 'html'),
+        ('xlsx', 'xlsx'),
+        ('json', 'json'),
+        ('yaml', 'yaml'),
     ]
-    file_type = forms.ChoiceField(choices = choice_types,label='type de fichier')
-    bool_project = forms.BooleanField(initial=True,required=False, label='table projet')
-    bool_task = forms.BooleanField(initial=True,required=False, label='table tâche')
-    bool_status = forms.BooleanField(initial=False,required=False, label='table statut')
-    bool_Journal = forms.BooleanField(initial=True,required=False, label='table journal')
+    # TODO mettre des majuscules ?
+    file_type = forms.ChoiceField(choices=choice_types, label='type de fichier')
+    bool_project = forms.BooleanField(initial=True, required=False, label='table projet')
+    bool_task = forms.BooleanField(initial=True, required=False, label='table tâche')
+    bool_status = forms.BooleanField(initial=False, required=False, label='table statut')
+    bool_Journal = forms.BooleanField(initial=True, required=False, label='table journal')
     one_dir_by_project = forms.BooleanField(initial=True, required=False, label='un répertoire par projet')
     ordered_journal_by_task = forms.BooleanField(initial=True, required=False, label='grouper le journal par tâche')
     all_projects = forms.BooleanField(initial=True, required=False, label='sélectionner tous les projets')
@@ -64,17 +66,17 @@ class ExportForm(forms.Form):
                 self.add_error('project', msg)
         else:
             # in the other case project is an empty field
-            self.cleaned_data['project']=''
+            self.cleaned_data['project'] = ''
 
         return self.cleaned_data
 
-
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         # in the project field, only the project of the user must appear, so we redifine the init function
         user = kwargs.pop('user')
-        super().__init__(*args,**kwargs)
-        self.fields['project'] = forms.MultipleChoiceField(choices=[(proj.name, proj.name) for proj in user.project_set.all()],
-                                                           required=False,
-                                                           help_text="Requis uniquement si 'sélectionner tous les projets' est décoché",
-                                                           label="Projets")
+        super().__init__(*args, **kwargs)
+        self.fields['project'] = forms.MultipleChoiceField(
+            choices=[(proj.name, proj.name) for proj in user.project_set.all()],
+            required=False,
+            help_text="Requis uniquement si 'sélectionner tous les projets' est décoché",
+            label="Projets")
         # the help text allows to help the user and appear in muted in the form

@@ -1,8 +1,6 @@
 import django_filters
-from django_filters.widgets import RangeWidget
 
-from .models import Task, User, Status
-from django.db import models
+from .models import User, Status
 from django import forms
 
 
@@ -25,7 +23,6 @@ class TaskFilter(django_filters.FilterSet):
 
                                                                        'placeholder': "..."}))
 
-
     status = django_filters.ModelMultipleChoiceFilter(queryset=Status.objects.all(), field_name='status',
                                                       label='Statut')
     # TODO : borner la valeur de la priorité
@@ -46,9 +43,10 @@ class TaskFilter(django_filters.FilterSet):
                                                  label='progrès',
                                                  )
 
+
 class TaskOrdering(django_filters.FilterSet):
     CHOICES = (
-        ('priority ascending','Prioritè plus haute'),
+        ('priority ascending', 'Prioritè plus haute'),
         ('priority descending', 'Prioritè plus basse'),
         ('progress ascending', 'Progrès plus haut'),
         ('progress descending', 'Progrès plus bas'),
@@ -56,7 +54,7 @@ class TaskOrdering(django_filters.FilterSet):
         ('due_date further', 'Date de fin plus loine')
     )
 
-    task_ordering = django_filters.ChoiceFilter(label = 'Triage par:', choices = CHOICES, method='filter_by_order')
+    task_ordering = django_filters.ChoiceFilter(label='Trier par :', choices=CHOICES, method='filter_by_order')
 
     def filter_by_order(selfself, queryset, name, value):
         if value == 'priority ascending':
@@ -74,4 +72,3 @@ class TaskOrdering(django_filters.FilterSet):
         else:
             value == 'priority'
         return queryset.order_by(expression)
-
