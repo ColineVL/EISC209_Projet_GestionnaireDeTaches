@@ -29,10 +29,5 @@
         <p>Vous avez <strong>{{ nb_tasks_done }}</strong> <a href="{% url 'usertasks_done' %}">tâches terminées</a>.</p>
         <br>
 
-        {# Ne marche pas #}
-        {#        <!-- Affiche le nombre d'entrées depuis que l'utilisateur s'est connecté -->#}
-        {#        <p>Depuis <span title="{{ date_last_connection }}"><i>la dernière fois que vous vous êtes connectés</i></span>, <strong>{{ nb_entries_last_connection }}</strong> <a href="{% url 'activity_all' %}">entrée{{ plural }} de journal</a> ont été créée{{ plural }}.</p>#}
-
-
     </div>
 {% endblock %}
