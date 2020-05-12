@@ -55,6 +55,25 @@ def accueil(request):
     # On récupère le nombre de tâches terminées
     nb_tasks_done = nb_tasks - nb_tasks_unfinished
 
+    # Ne marche pas pour le moment
+    # # Date quand l'utilisateur s'est connecté pour la dernière fois
+    # date_last_connection = request.user.last_login
+    #
+    # # On récupère les entrées apparues depuis la dernière fois qu'il s'est connecté
+    # list_entries_last_connection = Journal.objects.none()
+    # for task in list_tasks:
+    #     list_entries_last_connection = list_entries_last_connection.union(task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
+    # # Qu'on trie par date décroissante
+    # list_entries_last_connection = list_entries_last_connection.order_by('-date')
+    #
+    # # On récupère leur nombre
+    # nb_entries_last_connection = len(list_entries_last_connection)
+    #
+    # # Utiliser pour bien accorder dans la template
+    # plural = ''
+    # if nb_entries_last_connection > 1:
+    #     plural = 's'
+
     return render(request, 'taskmanager/accueil.html', locals())
 
 
