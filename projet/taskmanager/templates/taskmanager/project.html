@@ -8,35 +8,34 @@
 {% block head %}
     <!-- Titre de la page et boutons -->
     <div class="container" id="titre">
-        <div class="row">
-            <h1 class="col-sm-7">
-                {# Nom du projet #}
-                {{ project_to_display }}
-            </h1>
+        <h1 class="col-sm-4">
+            {# Nom du projet #}
+            {{ project_to_display }}
+        </h1>
+        {# TODO en mode tablette, les boutons ne s'affichent pas bien (l'un va à la ligne)#}
+        <div class="row d-flex justify-content-center">
             {# Bouton pour ajouter une tâche #}
-            {# TODO c'est quoi ce m-3 ? #}
-            {# TODO en mode tablette, les boutons ne s'affichent pas bien (l'un va à la ligne)#}
-            <button class="col-sm-2 btn btn-primary m-3"
+            <button class="col-sm-2 btn btn-primary m-2"
                     onclick="window.location.href='{% url "newtask" id_project %}'">
                 <i class="fa fa-plus-circle fa-lg" title="New task" aria-hidden="true"></i>
                 Nouvelle tâche
             </button>
 
             {# Bouton pour modifier le projet #}
-            <button class="col-sm-2 btn btn-primary m-3"
+            <button class="col-sm-2 btn btn-primary m-2"
                     onclick="window.location.href='{% url "editproject" id_project %}'">
                 <i class="fa fa-pencil-square-o fa-lg" title="Edit project" aria-hidden="true"></i>
                 Modifier le projet
             </button>
 
-            {# Bouton pour le filtrage #}
-            <button data-toggle="collapse" data-target="#filter" class="col-sm-1.5 btn btn-primary m-3">
+            {# Bouton pour filtrer #}
+            <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-2">
                 <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
                 Filtrage
             </button>
 
-            {# Bouton pour le triage #}
-            <button data-toggle="collapse" data-target="#ordering" class="col-sm-1 btn btn-primary m-3">
+            {# Bouton pour trier #}
+            <button data-toggle="collapse" data-target="#ordering" class="col-sm-2 btn btn-primary m-2">
                 <i class="fa fa-sort fa-lg" title="Ordering" aria-hidden="true"></i>
                 Triage
             </button>
