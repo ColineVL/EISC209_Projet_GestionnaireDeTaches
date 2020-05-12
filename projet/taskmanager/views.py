@@ -3,13 +3,9 @@ from datetime import datetime
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Count
-from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import TaskForm, NewEntryForm, ExportForm, ProjectForm
-from .models import *
 from .resources import *
 from django.http import HttpResponse
 from zipfile import ZipFile
@@ -375,12 +371,18 @@ def histogram(request):
 
     # Qu'on trie par date croissante
     list_entries = list_entries.order_by('date')
+
+    # On récupère seulement les dates
+    list_dates = []
+    for entry in list_entries:
+        list_dates.append(entry.date)
+    print(list_dates)
     return render(request, 'taskmanager/histogram.html', locals())
 
 
 @login_required
 def export_data(request):
-    # TODO commenter !!!
+    # TODO elle est encore utilisée cette fonction ? Si oui, il faut absolument commenter. Si non, la supprimer.
     form = ExportForm(request.POST or None, user=request.user)
 
     if form.is_valid():
