@@ -28,6 +28,7 @@
                     <th>Date de début</th>
                     <th>Date de fin</th>
                     <th>Statut</th>
+                    <th>Priorité</th>
                     <th>Taux d'avancement</th>
                     <th></th>
                 </tr>
@@ -41,7 +42,7 @@
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><span class="badge badge-{{ task.status.badge_color }}">{{ task.status }}</span></td>
-
+                        <td class="text-center">{{ task.priority }} / 10</td>
                         <td class="text-center">{{ task.progress }} %</td>
                         <td><a href="{% url 'edittask' task.id %}">
                             <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task" aria-hidden="true"></i></p>

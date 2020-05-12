@@ -14,7 +14,6 @@ from .export import *
 from .filters import TaskFilter, TaskOrdering
 
 
-
 # Pas une view, c'est une fonction utile
 def progress(project):
     # On récupère les tâches au sein du projet
@@ -444,7 +443,6 @@ def export_data(request):
         return response
 
     return render(request, 'taskmanager/export_data.html', locals())
-
 
 
 # Pas de login required
