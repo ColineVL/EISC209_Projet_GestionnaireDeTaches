@@ -13,7 +13,6 @@ class TaskForm(forms.ModelForm):
         progress = self.cleaned_data['progress']
         if progress > 100:
             raise forms.ValidationError("Le taux d'avancement ne peut supérieur à 100%")
-            # TODO plutôt une barre entre 0 et 100 et un bouton à déplacer ?
         return progress
     # On spécifie que le taux d'avancement doit rester entre 0 et 100
 

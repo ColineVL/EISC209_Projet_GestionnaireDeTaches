@@ -46,22 +46,11 @@
             </tr>
             <tr>
                 <th>Priorité</th>
-                <td>{{ task_to_display.priority }}</td>
+                <td>{{ task_to_display.priority }} / 10</td>
             </tr>
             <tr>
                 <th>Statut</th>
                 <td><span class="badge badge-{{ task_to_display.status.badge_color }}">{{ task_to_display.status }}</span></td>
-            </tr>
-            <tr>
-                <th>Taux d'avancement</th>
-                <td>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:{{ task_to_display.progress }}%">
-                            {{ task_to_display.progress }} %
-                        </div>
-                    </div>
-
-                </td>
             </tr>
             <tr>
                 <th>Taux d'avancement</th>
