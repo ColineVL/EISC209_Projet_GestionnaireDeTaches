@@ -13,7 +13,7 @@ def create_file(file_type, filename, queryset, fields, zipObj):
     :param file_type: the type of the file to generate ('csv','xls','json','html' or 'yaml')
     :param filename: the name of the file to generate
     :param queryset: the table contained in the file
-    :param resource: the resource assiated with the queryset
+    :param resource: the resource associated with the queryset
     :param zipObj: the zip object in wich we want to write
     :return: nothing
     """

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Modèle Project
 class Project(models.Model):
@@ -35,9 +35,9 @@ class Task(models.Model):
     assignee = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     due_date = models.DateField()
-    priority = models.PositiveIntegerField(default=0)
+    priority = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    progress = models.PositiveIntegerField(default=0)
+    progress = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):
         return self.name

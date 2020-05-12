@@ -35,5 +35,4 @@ urlpatterns = [
   
     # Exportation de données
     path('export_data',views.export_data, name='export_data'),
-
 ]

@@ -9,6 +9,7 @@ git clone https://github.com/ColineVL/GestionnaireDeTaches.git
 Dans PyCharm, ouvrez le dossier. Dans le terminal, installez les modules nécessaires. 
 ```
 pip install django-bootstrap4
+pip install django-filter
 pip install xlsxwriter
 ```
 Placez-vous dans le dossier *projet*, et lancez les migrations.

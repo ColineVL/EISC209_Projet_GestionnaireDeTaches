@@ -11,6 +11,8 @@ from django.http import HttpResponse
 from zipfile import ZipFile
 import shutil
 from .export import *
+from .filters import TaskFilter, TaskOrdering
+
 
 
 # Pas une view, c'est une fonction utile
@@ -91,6 +93,8 @@ def project(request, id_project):
 
     # On prépare le diagramme de Gantt
     list_dicts = []
+    filter = TaskFilter(request.GET, queryset=list_tasks)
+    ordering = TaskOrdering(request.GET, queryset=list_tasks)
     for task_to_display in list_tasks:
         # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
         dict_task = {
@@ -230,7 +234,6 @@ def usertasks_unfinished(request):
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
     list_tasks = request.user.task_set.filter(status__name="Terminée")
-
     return render(request, "taskmanager/usertasks-done.html", locals())
 
 
@@ -250,6 +253,7 @@ def membersbyproject(request, id_project):
     project_to_display = get_object_or_404(Project, id=id_project)
     # On récupère tous les membres du projet
     list_members = project_to_display.members.all()
+
     # On prépare le graphe : pour chaque membre, on stocke le nombre de ses tâches
     list_dicts = []
     for mem in list_members:
@@ -304,7 +308,6 @@ def get_list_entries(list_tasks, request):
         list_entries = list_entries[:affiche]
 
     # TODO afficher depuis telle date ?
-
     return list_entries, affiche, notmyentries
 
 
@@ -441,6 +444,7 @@ def export_data(request):
         return response
 
     return render(request, 'taskmanager/export_data.html', locals())
+
 
 
 # Pas de login required
