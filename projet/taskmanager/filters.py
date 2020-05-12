@@ -44,12 +44,12 @@ class TaskFilter(django_filters.FilterSet):
                                                  )
 
 
-class TaskOrdering(django_filters.FilterSet):
+
     CHOICES = (
         ('priority ascending', 'Priorité haute'),
         ('priority descending', 'Priorité basse'),
-        ('progress ascending', 'Progrès élevé'),
-        ('progress descending', 'Progrès bas'),
+        ('progress descending', 'Progrès élevé'),
+        ('progress ascending', 'Progrès bas'),
         ('due_date closer', 'Date de fin proche'),
         ('due_date further', 'Date de fin lointaine')
     )
