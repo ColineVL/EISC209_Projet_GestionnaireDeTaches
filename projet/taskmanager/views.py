@@ -1,20 +1,19 @@
-from datetime import datetime, timedelta
-
+# Inportation dans Django
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 
+# Importation de fichiers du projet
 from .forms import TaskForm, NewEntryForm, ExportForm, ProjectForm
 from .resources import *
-from django.http import HttpResponse
-from zipfile import ZipFile
-import shutil
 from .export import *
 from .filters import TaskFilter
 
-
-# TODO trier tout ça, c'est le bordel
+# Importations extérieures
+from zipfile import ZipFile
+import shutil
 
 
 # Pas une view, c'est une fonction utile
