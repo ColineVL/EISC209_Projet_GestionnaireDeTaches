@@ -41,7 +41,7 @@
                         <td><a href="{% url 'task' task.id %}">{{ task }}</a></td>
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
-                        <td class="text-center">{{ task.priority }} / 10</td>
+                        <td>{{ task.priority }} / 10</td>
                         <td><a href="{% url 'edittask' task.id %}">
                             <p><i class="fa fa-pencil-square-o fa-2x" title="Modify task" aria-hidden="true"></i></p>
                         </a></td>

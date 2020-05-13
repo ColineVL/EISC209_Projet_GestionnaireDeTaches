@@ -164,7 +164,6 @@ def project(request, id_project):
     # On récupère le projet demandé
     project_to_display = get_object_or_404(Project, id=id_project)
     # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
-    # TODO cette boucle if, la mettre partout
     if request.user not in project_to_display.members.all():
         return redirect('accueil')
     # On récupère la liste des tâches du projet
@@ -261,7 +260,11 @@ def newtask(request, id_project):
     method = "New"
     if form.is_valid():
         task_formed = form.save(commit=False)
+        # On attribue automatiquement le projet
         task_formed.project = project_related
+        # Si le status est "terminée", alors l'avancement est mis à 100%
+        if task_formed.status.name == "Terminée":
+            task_formed.progress = 100
         task_formed.save()
         # On redirige vers la tâche nouvellement créée
         return redirect('task', id_task=task_formed.id)
@@ -284,6 +287,10 @@ def edittask(request, id_task):
     method = "Edit"
     if form.is_valid():
         form.save()
+        # Si le status est "terminée", alors l'avancement est mis à 100%
+        if task_formed.status.name == "Terminée":
+            task_formed.progress = 100
+            task_formed.save()
         # On redirige vers la tâche modifiée
         return redirect(task, id_task=id_task)
     return render(request, 'taskmanager/modifytask.html', locals())
@@ -332,6 +339,9 @@ def membersallprojects(request):
 def membersbyproject(request, id_project):
     # On récupère le projet demandé
     project_to_display = get_object_or_404(Project, id=id_project)
+    # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
+    if request.user not in project_to_display.members.all():
+        return redirect('accueil')
     # On récupère tous les membres du projet
     list_members = project_to_display.members.all()
 
@@ -347,7 +357,7 @@ def membersbyproject(request, id_project):
 
 
 # Pas une vue
-# Cette fonction permet de récupérer la liste des entries à partir d'une liste de tâche
+# Cette fonction permet de récupérer la liste des entries à partir d'une liste de tâches
 def get_list_entries(list_tasks, request):
     # On récupère les paramètres GET affiche et notmyentries
     # affiche sert à afficher un nombre précis d'entrées
@@ -392,7 +402,7 @@ def get_list_entries(list_tasks, request):
     return list_entries, affiche, notmyentries
 
 
-# Cette vue permet d'afficher les dernières activités de tous les projets où participent l'utilisateur
+# Cette vue permet d'afficher les dernières activités de tous les projets où participe l'utilisateur
 @login_required
 def activity_all(request):
     # On récupère tous les projets de l'utilisateur
@@ -418,11 +428,14 @@ def activity_all(request):
     return render(request, 'taskmanager/activity-all.html', locals())
 
 
-# Cette vue permet d'afficher les dernières activités d'un projet où participent l'utilisateur
+# Cette vue permet d'afficher les dernières activités d'un projet où participe l'utilisateur
 @login_required
 def activity_per_project(request, id_project):
     # On récupère le projet correspondant
     projet = get_object_or_404(Project, id=id_project)
+    # Si l'utilisateur n'est pas dans le projet, on le redirige vers sa page d'accueil
+    if request.user not in projet.members.all():
+        return redirect('accueil')
 
     # On récupère les tâches
     list_tasks = projet.task_set.all()
