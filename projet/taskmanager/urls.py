@@ -39,5 +39,5 @@ urlpatterns = [
     path('activity/histogram', views.histogram, name='histogram_activity'),
   
     # Exportation de données
-    path('export_data',views.export_data, name='export_data'),
+    path('export_data', views.export_data, name='export_data'),
 ]

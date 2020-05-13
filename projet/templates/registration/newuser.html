@@ -2,10 +2,18 @@
 {% block title %}Se créer un compte{% endblock %}
 {% load bootstrap4 %}
 
+{# Haut de page #}
+{% block head %}
+    <!-- Titre de la page -->
+    <div class="container">
+        <h1>Création de compte</h1>
+        <h4>Remplissez le formulaire pour créer votre compte</h4>
+    </div>
+{% endblock %}
 
+{# Contenu de la page #}
 {% block content %}
-
-    <!-- Le form de connexion -->
+    <!-- Le form de création de compte -->
     <div class="container">
         <form method="post" action="{% url 'newuser' %}">
             {% csrf_token %}
@@ -15,6 +23,5 @@
             {% endbuttons %}
         </form>
     </div>
-    
 {% endblock %}
 

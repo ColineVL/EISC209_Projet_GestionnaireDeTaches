@@ -484,7 +484,7 @@ def histogram(request):
     return render(request, 'taskmanager/histogram.html', locals())
 
 
-@login_required
+# @login_required
 def export_data(request):
     # TODO elle est encore utilisée cette fonction ? Si oui, il faut absolument commenter. Si non, la supprimer.
     form = ExportForm(request.POST or None, user=request.user)
@@ -558,8 +558,9 @@ def newuser(request):
             password = form.cleaned_data.get("password1")
             # On crée l'utilisateur
             user = authenticate(username=username, password=password)
-            var = LastLogin(user=user, current=datetime.now(), previous=datetime.now())
-            var.save()
+            # On crée l'objet "dernière fois que l'utilisateur s'est connecté"
+            log = LastLogin(user=user, current=datetime.now(), previous=datetime.now())
+            log.save()
             # On le connecte
             login(request, user)
             # On le redirige

@@ -4,37 +4,37 @@
 
 {% block title %}Exporter les données{% endblock %}
 
-{#TODO supprimer le code mort + améliorer l'affichage du form#}
+{# Haut de la page #}
+{% block head %}
+    <!-- Titre de la page -->
+    <div class="container">
+        <h1>Exportation des données</h1>
+        <p>Remplissez le formulaire pour télécharger vos données</p>
+    </div>
+{% endblock %}
 
-{#TODO afficher un titre#}
-{#TODO mettre les h2 en h4 ou h5#}
 
 {# Contenu de la page #}
 {% block content %}
     <div class='container' id="form">
+        <!-- Le form à ramplir -->
         <form action="{% url 'export_data' %}" method="post">
             {% csrf_token %}
-
-            <h2>Nom et type de fichiers voulus</h2>
+            <!-- Première partie -->
+            <h5>Nom et type de fichiers voulus</h5>
             <div class="form-row">
                 <div class="col-sm-6">
-                    {% bootstrap_field form.archive_name layout='horizontal' %}
+                    {% bootstrap_field form.archive_name layout='horizontal' horizontal_field_class="col-sm-7" horizontal_label_class="col-sm-4"%}
                 </div>
-                <div class="col-md-4 offset-md-1">
-                    {% bootstrap_field form.file_type layout='horizontal' horizontal_field_class="col-md-4" %}
+                <div class="col-md-6">
+                    {% bootstrap_field form.file_type layout='horizontal' horizontal_label_class="col-md-3" horizontal_field_class="col-md-4" %}
                 </div>
             </div>
 
-            {#            <div class="form-row">#}
-            {#                <div class="form-group col-md-6">{{ form.archive_name|as_crispy_field }}</div>#}
-            {#                <div class="form-group col-md-6">{{ form.file_type|as_crispy_field }}</div>#}
-            {#            </div>#}
-
-            <br>
-
             <div class="row">
+                <!-- Deuxième partie -->
                 <div class="col-sm-6" id="fichiers souhaités">
-                    <h2>Fichiers souhaités</h2>
+                    <h5>Fichiers souhaités</h5>
                     <div class="form-row">
                         <div class="col-sm-4">
                             {% bootstrap_field form.bool_project %}
@@ -46,32 +46,22 @@
                         </div>
                     </div>
                 </div>
-
-                {#            <div class="form-row">#}
-                {#                <div class="form-group col-md-3">{{ form.bool_project|as_crispy_field }}</div>#}
-                {#                <div class="form-group col-md-3">{{ form.bool_status|as_crispy_field }}</div>#}
-                {#                <div class="form-group col-md-3">{{ form.bool_task|as_crispy_field }}</div>#}
-                {#                <div class="form-group col-md-3">{{ form.bool_Journal|as_crispy_field }}</div>#}
-                {#            </div>#}
+                <!-- Troisième partie -->
                 <div class="col-sm-6" id="organisation">
-                    <h2>Organisation du répertoire</h2>
+                    <h5>Organisation du répertoire</h5>
                     {% bootstrap_field form.one_dir_by_project %}
                     {% bootstrap_field form.ordered_journal_by_task %}
                 </div>
             </div>
-            <br>
 
-            {#            <div class="form-row">#}
-            {#                <div class="form-group col-md-6">{{ form.one_dir_by_project|as_crispy_field }}</div>#}
-            {#                <div class="form-group col-md-6">{{ form.ordered_journal_by_task|as_crispy_field }}</div>#}
-            {#            </div>#}
-
-            <h2>Projet souhaité</h2>
+            <!-- Quatrième partie -->
+            <h5>Projets souhaités</h5>
             {% bootstrap_field form.all_projects %}
             {% bootstrap_field form.project %}
-            {#                {{ form.all_projects|as_crispy_field }}#}
-            {#                {{ form.project|as_crispy_field }}#}
+
+            <!-- Bouton submit -->
             <input type="submit" value="Télécharger les données" class="btn btn-primary">
+
         </form>
     </div>
 {% endblock %}
