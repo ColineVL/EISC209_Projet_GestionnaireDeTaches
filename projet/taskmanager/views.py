@@ -87,7 +87,7 @@ def accueil(request):
     # Utilisé pour bien accorder dans la template
     plural = ''
     plural_bis = 'a'
-    if nb_entries_last_connection > 1:
+    if nb_all_entries_last_connection > 1:
         plural = 's'
         plural_bis = 'ont'
 
