@@ -24,8 +24,8 @@
             {# Affiche la tâche non terminée avec le plus grand taux d'avancement #}
             {% if task_most_progress %}
             <p>Votre tâche la plus avancée est :
-                <a href="{% url 'task' task_most_progress.id %}">  {{ task_most_progress }}  </a>
-                , à <b>{{ task_most_progress.progress }} %</b>, dans
+                <a href="{% url 'task' task_most_progress.id %}">  {{ task_most_progress }}</a>,
+                à <b>{{ task_most_progress.progress }} %</b>, dans
                 <a href="{% url 'project' task_most_progress.project_id %}">{{ task_most_progress.project }}</a>.
             </p>
             {% endif %}
