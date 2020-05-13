@@ -25,15 +25,10 @@
                 <a href="{% url 'project' task_most_progress.project_id %}">{{ task_most_progress.project }}</a>.
             </p>
         </div>
-        <br/>
+        <br>
 
         <p>Vous avez <strong>{{ nb_tasks_done }}</strong> <a href="{% url 'usertasks_done' %}">tâches terminées</a>.</p>
-        <br/>
-
-        {# Ne marche pas TODO enlever#}
-        {#        <!-- Affiche le nombre d'entrées depuis que l'utilisateur s'est connecté -->#}
-        {#        <p>Depuis <span title="{{ date_last_connection }}"><i>la dernière fois que vous vous êtes connectés</i></span>, <strong>{{ nb_entries_last_connection }}</strong> <a href="{% url 'activity_all' %}">entrée{{ plural }} de journal</a> ont été créée{{ plural }}.</p>#}
-
+        <br>
 
     </div>
 {% endblock %}

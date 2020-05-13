@@ -12,8 +12,6 @@ from zipfile import ZipFile
 import shutil
 from .export import *
 from .filters import TaskFilter
-
-
 # TODO trier tout ça, c'est le bordel
 
 
@@ -113,11 +111,12 @@ def project(request, id_project):
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
 
+    # On crée le filtre pour les taches
     filter = TaskFilter(request.GET, queryset=list_tasks)
 
     # On prépare le diagramme de Gantt
     list_dicts = []
-    for task_to_display in list_tasks:
+    for task_to_display in filter.qs:
         # On ajoute à la liste un dictionnaire regroupant les infos de la tâche
         dict_task = {
             "name": task_to_display.name,
