@@ -440,7 +440,8 @@ def histogram(request):
     # On récupère seulement les dates
     list_dates = []
     for entry in list_entries:
-        list_dates.append(entry.date.timestamp())
+    # list_dates.append(entry.date.timestamp())
+        list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute]);
     # start_date = list_dates[0]
     # end_date = list_dates[-1]
     # list_dicts = []
