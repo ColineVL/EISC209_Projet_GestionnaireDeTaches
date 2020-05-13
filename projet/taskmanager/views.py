@@ -12,6 +12,8 @@ from zipfile import ZipFile
 import shutil
 from .export import *
 from .filters import TaskFilter
+
+
 # TODO trier tout ça, c'est le bordel
 
 
@@ -111,9 +113,7 @@ def project(request, id_project):
     # On récupère la liste des tâches du projet
     list_tasks = Task.objects.filter(project__id=id_project)
 
-
     filter = TaskFilter(request.GET, queryset=list_tasks)
-
 
     # On prépare le diagramme de Gantt
     list_dicts = []
@@ -401,7 +401,8 @@ def histogram(request):
     # On récupère seulement les dates
     list_dates = []
     for entry in list_entries:
-        list_dates.append(entry.date.timestamp())
+    # list_dates.append(entry.date.timestamp())
+        list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute]);
     # start_date = list_dates[0]
     # end_date = list_dates[-1]
     # list_dicts = []
