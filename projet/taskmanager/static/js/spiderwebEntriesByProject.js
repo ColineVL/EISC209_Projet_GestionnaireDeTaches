@@ -48,6 +48,3 @@ for (var dict of list_dicts) {
 
 // On affiche le chart
 Highcharts.chart('spiderweb', options);
-
-// TODO le rendre responsive ?
-

@@ -398,7 +398,7 @@ def get_list_entries(list_tasks, request):
     if affiche > 0:
         list_entries = list_entries[:affiche]
 
-    # TODO afficher depuis telle date ?
+    # TODO (Martin) ce serait cool si on pouvait choisir d'afficher depuis telle date
     return list_entries, affiche, notmyentries
 
 
@@ -477,7 +477,7 @@ def histogram(request):
     for entry in list_entries:
         list_dates_timestamp.append(entry.date.timestamp())
         list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute]);
-    # TODO enlever tous les tests et le code mort quand ça marchera
+    # TODO (Coline) enlever tous les tests et le code mort quand ça marchera
     # start_date = list_dates[0]
     # end_date = list_dates[-1]
     # list_dicts = []
@@ -498,7 +498,7 @@ def histogram(request):
 
 # @login_required
 def export_data(request):
-    # TODO elle est encore utilisée cette fonction ? Si oui, il faut absolument commenter. Si non, la supprimer.
+    # TODO (Alexis) elle est encore utilisée cette fonction ? Si oui, il faut absolument commenter. Si non, la supprimer.
     form = ExportForm(request.POST or None, user=request.user)
 
     if form.is_valid():

@@ -1,7 +1,6 @@
 import django_filters
-
-from .models import User, Status
 from django import forms
+from .models import User, Status
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -25,7 +24,7 @@ class TaskFilter(django_filters.FilterSet):
 
     status = django_filters.ModelMultipleChoiceFilter(queryset=Status.objects.all(), field_name='status',
                                                       label='Statut')
-    # TODO : borner la valeur de la priorité
+    # TODO (Nicola) borner la valeur de la priorité
 
     priority = django_filters.LookupChoiceFilter(field_name='priority',
                                                  lookup_choices=[('exact', 'Égale à'), ('gte', 'Supérieure ou égale à'),
@@ -34,7 +33,7 @@ class TaskFilter(django_filters.FilterSet):
                                                  label='Priorité',
                                                  )
 
-    # TODO : borner la valeur du progrès
+    # TODO (Nicola) borner la valeur du progrès
 
     progress = django_filters.LookupChoiceFilter(field_name='progress',
                                                  lookup_choices=[('exact', 'Égal à'), ('gte', 'Supérieur ou égal à'),

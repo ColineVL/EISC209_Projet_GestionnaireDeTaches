@@ -28,7 +28,7 @@ class TaskForm(forms.ModelForm):
                 )
         return cleaned_data  # N'oublions pas de renvoyer les données si tout est OK
 
-    # TODO vérifier que les dates sont start < end : réussir à afficher le message d'erreur
+    # TODO (Coline) vérifier que les dates sont start < end : réussir à afficher le message d'erreur
 
 
 # Form pour entrer une nouvelle information complémentaire dans un journal

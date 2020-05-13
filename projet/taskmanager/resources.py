@@ -1,7 +1,7 @@
 from import_export import resources
 from .models import *
 from import_export.fields import Field
-# TODO on utilise encore import export ?
+# TODO (Alexis) on utilise encore import export ?
 
 # This file contains classes wich allows model and queryset to be exported in several format
 
