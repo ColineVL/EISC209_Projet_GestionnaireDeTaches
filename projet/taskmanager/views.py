@@ -36,6 +36,7 @@ def progress(project):
     return total_progress / nb_tasks
 
 
+# Vue gérant l'accueil
 @login_required
 def accueil(request):
     # On récupère les projets de l'utilisateur, ainsi que leur nombre
@@ -92,7 +93,8 @@ def accueil(request):
 
     return render(request, 'taskmanager/accueil.html', locals())
 
-
+# Cette vue est appelée juste après que l'utilisateur se soit connecté
+# Elle permet de stocker la dernière fois où l'utilisateur s'est connecté
 @login_required
 def record_date(request):
     # get_or_create renvoie un tuple de longueur 2 avec l'objet et un booléen indiquant
@@ -388,12 +390,13 @@ def activity_all(request):
 
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
-        "5": 5,
-        "10": 10,
         "20": 20,
         "100": 100,
         "Toutes": -1
     }
+
+    # On récupère la dernière fois qu'un utilisateur s'est connecté
+    last_login = LastLogin.objects.get(user=request.user).previous
 
     return render(request, 'taskmanager/activity-all.html', locals())
 
@@ -411,12 +414,13 @@ def activity_per_project(request, id_project):
 
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
-        "5": 5,
-        "10": 10,
         "20": 20,
         "100": 100,
         "Toutes": -1
     }
+
+    # On récupère la dernière fois qu'un utilisateur s'est connecté
+    last_login = LastLogin.objects.get(user=request.user).previous
 
     return render(request, 'taskmanager/activity-per-project.html', locals())
 
