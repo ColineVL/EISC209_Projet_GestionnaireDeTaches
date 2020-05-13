@@ -29,5 +29,6 @@
         <p>Vous avez <strong>{{ nb_tasks_done }}</strong> <a href="{% url 'usertasks_done' %}">tâches terminées</a>.</p>
         <br>
 
+        <p>Depuis <span title="{{ date_last_connection }}"><U>la dernière fois que vous vous êtes connectés</U></span>, <strong>{{ nb_all_entries_last_connection }}</strong> <a href="{% url 'activity_all' %}">entrée{{ plural }} de journal</a> {{ plural_bis }} été rajoutée{{ plural }}, dont <strong>{{ nb_entries_last_connection }}</strong> sur vos tâches.</p>
     </div>
 {% endblock %}

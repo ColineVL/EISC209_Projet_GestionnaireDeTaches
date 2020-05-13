@@ -14,9 +14,11 @@
             {% buttons %}
                 <button type="submit" class="btn btn-primary">Se connecter</button>
             {% endbuttons %}
+
+            <!-- This hidden input is used to redirect the user to a page where his last login will be record -->
+            <input type="hidden" name="next" value="{% url 'record_date' %}"/>
         </form>
     </div>
-
 
     <!-- Lien pour se créer un compte -->
     <div class="container" id="newuser">
