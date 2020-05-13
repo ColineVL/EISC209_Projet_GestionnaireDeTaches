@@ -12,9 +12,10 @@
 {# Contenu #}
 {% block content %}
     <div class="container">
-        <p>Vous participez à <strong>{{ nb_projects }}</strong> <a href="{% url 'projects' %}">projets</a>, dont
-            <strong>{{ nb_tasks }}</strong> <a href="{% url 'usertasks_all' %}">tâches.</a></p>
-        <br/>
+{#        <div class="container">#}
+            <p class="paragraph">Vous participez à <strong>{{ nb_projects }}</strong> <a href="{% url 'projects' %}">projets</a>, dont
+                <strong>{{ nb_tasks }}</strong> <a href="{% url 'usertasks_all' %}">tâches.</a></p>
+{#        </div>#}
         <p>Vous avez <strong>{{ nb_tasks_unfinished }}</strong> <a href="{% url 'usertasks_unfinished' %}">tâches non
             terminées</a>.</p>
         <!-- Affiche la tâche non terminée avec le plus grand taux d'avancement -->
