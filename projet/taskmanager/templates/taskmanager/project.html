@@ -104,7 +104,7 @@
                 {% for task in filter.qs %}
                     {# Cet if permet de mettre en avant les tâches de l'utilisateur connecté #}
                     {% if task.assignee == request.user %}
-                        <tr class="table-primary">
+                        <tr class="list-group-item-primary">
                             {% else %}
                         <tr>
                     {% endif %}

@@ -5,7 +5,7 @@
 {# Haut de page #}
 {% block head %}
     <div class="container" id="titre">
-        <h2>Dernière activité dans <a href="{% url 'project' projet.id %}"><i>{{ projet }}</i></a></h2>
+        <h2>Dernières activités dans <a href="{% url 'project' projet.id %}"><i>{{ projet }}</i></a></h2>
     </div>
 {% endblock %}
 
@@ -32,8 +32,20 @@
 
                 <!-- Corps de la table -->
                 {% for entry in list_entries %}
-                    <tr>
-                        <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatewords:50 }}</a></td>
+                    <tr class=
+                            "
+                            {# Ici, cet if permet de surligner différemment l'entrée #}
+                            {% if entry.date > last_login and entry.author != request.user %}
+                                {% if entry.task.assignee == request.user %}
+                                    list-group-item-primary
+                                {% else %}
+                                    list-group-item-warning
+                                {% endif %}
+                            {% else %}
+                            {% endif %}
+                            "
+                    >
+                        <td><a href="{% url 'task' entry.task.id %}">{{ entry.task|truncatechars:50 }}</a></td>
                         <td>{{ entry }}</td>
                         {# Cet if permet de mettre en avant les entrées écrites par l'utilisateur connecté #}
                         {% if entry.author == request.user %}

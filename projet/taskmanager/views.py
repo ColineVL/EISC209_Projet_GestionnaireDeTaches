@@ -12,6 +12,8 @@ from zipfile import ZipFile
 import shutil
 from .export import *
 from .filters import TaskFilter
+
+
 # TODO trier tout ça, c'est le bordel
 
 
@@ -34,11 +36,17 @@ def progress(project):
     return total_progress / nb_tasks
 
 
+# Vue gérant l'accueil
 @login_required
 def accueil(request):
     # On récupère les projets de l'utilisateur, ainsi que leur nombre
     list_projects = request.user.project_set.all()
     nb_projects = len(list_projects)
+
+    # On récupère la liste des tâches des projets de l'utilisateur
+    list_all_tasks = Task.objects.none()
+    for project in list_projects:
+        list_all_tasks = list_all_tasks.union(project.task_set.all())
 
     # On récupère la liste des tâches assignées à l'utilisateur, ainsi que leur nombre
     list_tasks = request.user.task_set.all()
@@ -55,26 +63,60 @@ def accueil(request):
     # On récupère le nombre de tâches terminées
     nb_tasks_done = nb_tasks - nb_tasks_unfinished
 
-    # Ne marche pas pour le moment
-    # # Date quand l'utilisateur s'est connecté pour la dernière fois
-    # date_last_connection = request.user.last_login
-    #
-    # # On récupère les entrées apparues depuis la dernière fois qu'il s'est connecté
-    # list_entries_last_connection = Journal.objects.none()
-    # for task in list_tasks:
-    #     list_entries_last_connection = list_entries_last_connection.union(task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
-    # # Qu'on trie par date décroissante
-    # list_entries_last_connection = list_entries_last_connection.order_by('-date')
-    #
-    # # On récupère leur nombre
-    # nb_entries_last_connection = len(list_entries_last_connection)
-    #
-    # # Utiliser pour bien accorder dans la template
-    # plural = ''
-    # if nb_entries_last_connection > 1:
-    #     plural = 's'
+    # Date quand l'utilisateur s'est connecté pour la dernière fois
+    date_last_connection = LastLogin.objects.get(user=request.user).previous
+
+    # On récupère les entrées apparues depuis la dernière fois qu'il s'est connecté
+    list_entries_last_connection = Journal.objects.none()
+    for task in list_all_tasks:
+        list_entries_last_connection = list_entries_last_connection.union(task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
+
+    # On récupère leur nombre
+    nb_all_entries_last_connection = len(list_entries_last_connection)
+
+    # On récupère les entrées apparues dans les tâches assignées à l'utilisateur
+    # depuis la dernière fois qu'il s'est connecté
+    list_entries_last_connection = Journal.objects.none()
+    for task in list_tasks:
+        list_entries_last_connection = list_entries_last_connection.union(
+            task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
+
+    # On récupère leur nombre
+    nb_entries_last_connection = len(list_entries_last_connection)
+
+    # Utilisé pour bien accorder dans la template
+    plural = ''
+    plural_bis = 'a'
+    if nb_all_entries_last_connection > 1:
+        plural = 's'
+        plural_bis = 'ont'
 
     return render(request, 'taskmanager/accueil.html', locals())
+
+# Cette vue est appelée juste après que l'utilisateur se soit connecté
+# Elle permet de stocker la dernière fois où l'utilisateur s'est connecté
+@login_required
+def record_date(request):
+    # get_or_create renvoie un tuple de longueur 2 avec l'objet et un booléen indiquant
+    # si l'objet est nouveau ou non
+    ll_object = LastLogin.objects.get_or_create(user=request.user)[0]
+
+    # On vérifie d'abord que le champ n'est pas None
+    if ll_object.current:
+        # Dans ce cas, on vérifie que le champ last_login de User est plus récent
+        # que le champ current de LastLogin
+        if request.user.last_login > ll_object.current:
+            ll_object.previous = ll_object.current
+            ll_object.current = request.user.last_login
+
+    else:
+        # Dans ce cas, on remplit les deux champs de la même façon
+        ll_object.current = request.user.last_login
+        ll_object.previous = request.user.last_login
+
+    ll_object.save()
+
+    return redirect('accueil', permanent=True)
 
 
 @login_required
@@ -348,12 +390,13 @@ def activity_all(request):
 
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
-        "5": 5,
-        "10": 10,
         "20": 20,
         "100": 100,
         "Toutes": -1
     }
+
+    # On récupère la dernière fois qu'un utilisateur s'est connecté
+    last_login = LastLogin.objects.get(user=request.user).previous
 
     return render(request, 'taskmanager/activity-all.html', locals())
 
@@ -371,12 +414,13 @@ def activity_per_project(request, id_project):
 
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
-        "5": 5,
-        "10": 10,
         "20": 20,
         "100": 100,
         "Toutes": -1
     }
+
+    # On récupère la dernière fois qu'un utilisateur s'est connecté
+    last_login = LastLogin.objects.get(user=request.user).previous
 
     return render(request, 'taskmanager/activity-per-project.html', locals())
 

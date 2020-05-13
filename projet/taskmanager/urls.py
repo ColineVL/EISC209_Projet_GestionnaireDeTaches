@@ -8,6 +8,9 @@ urlpatterns = [
     path('', views.accueil, name='accueil'),
     path('newuser', views.newuser, name='newuser'),
 
+    # Page pour enregistrer les last_login
+    path('recorddate/', views.record_date, name="record_date"),
+
     # Projets
     path('projects', views.projects, name='projects'),
     path('project/<int:id_project>', views.project, name='project'),
