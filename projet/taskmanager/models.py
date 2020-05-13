@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -63,4 +65,4 @@ class LastLogin(models.Model):
     previous = models.DateTimeField(null=True)
 
     def __str__(self):
-        return self.previous_last_login
+        return self.user.username

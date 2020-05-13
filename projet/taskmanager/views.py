@@ -35,12 +35,14 @@ def progress(project):
 
     return total_progress / nb_tasks
 
+
 # Pas une view, pour obtenir le pluriel
 def plural(nb):
     if nb > 1:
         return 's'
     else:
         return ''
+
 
 # Vue gérant l'accueil
 @login_required
@@ -78,7 +80,8 @@ def accueil(request):
     # On récupère les entrées apparues depuis la dernière fois qu'il s'est connecté
     list_entries_last_connection = Journal.objects.none()
     for task in list_all_tasks:
-        list_entries_last_connection = list_entries_last_connection.union(task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
+        list_entries_last_connection = list_entries_last_connection.union(
+            task.journal_set.filter(date__gt=date_last_connection).exclude(author=request.user))
 
     # On récupère leur nombre
     nb_all_entries_last_connection = len(list_entries_last_connection)
@@ -106,6 +109,7 @@ def accueil(request):
     plural_task_done = plural(nb_tasks_done)
 
     return render(request, 'taskmanager/accueil.html', locals())
+
 
 # Cette vue est appelée juste après que l'utilisateur se soit connecté
 # Elle permet de stocker la dernière fois où l'utilisateur s'est connecté
@@ -457,9 +461,11 @@ def histogram(request):
 
     # On récupère seulement les dates
     list_dates = []
+    list_dates_timestamp = []
     for entry in list_entries:
-    # list_dates.append(entry.date.timestamp())
+        list_dates_timestamp.append(entry.date.timestamp())
         list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute]);
+    # TODO enlever tous les tests et le code mort quand ça marchera
     # start_date = list_dates[0]
     # end_date = list_dates[-1]
     # list_dicts = []
@@ -552,6 +558,8 @@ def newuser(request):
             password = form.cleaned_data.get("password1")
             # On crée l'utilisateur
             user = authenticate(username=username, password=password)
+            var = LastLogin(user=user, current=datetime.now(), previous=datetime.now())
+            var.save()
             # On le connecte
             login(request, user)
             # On le redirige

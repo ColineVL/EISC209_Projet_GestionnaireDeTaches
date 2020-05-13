@@ -38,13 +38,8 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'taskmanager',
-    'import_export',
-    'crispy_forms',
     'django_filters'
 ]
-
-# TODO vérifier qu'on peut enlever ça
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
