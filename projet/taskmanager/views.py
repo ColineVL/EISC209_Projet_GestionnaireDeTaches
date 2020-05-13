@@ -35,6 +35,12 @@ def progress(project):
 
     return total_progress / nb_tasks
 
+# Pas une view, pour obtenir le pluriel
+def plural(nb):
+    if nb > 1:
+        return 's'
+    else:
+        return ''
 
 # Vue gérant l'accueil
 @login_required
@@ -58,7 +64,10 @@ def accueil(request):
 
     # On récupère la tâche assignée à l'utilisateur et non terminée, qui a le plus grand taux d'avancement
     list_tasks_unfinished = list_tasks_unfinished.order_by("-progress")
-    task_most_progress = list_tasks_unfinished[0]
+    try:
+        task_most_progress = list_tasks_unfinished[0]
+    except IndexError:
+        task_most_progress = None
 
     # On récupère le nombre de tâches terminées
     nb_tasks_done = nb_tasks - nb_tasks_unfinished
@@ -85,11 +94,16 @@ def accueil(request):
     nb_entries_last_connection = len(list_entries_last_connection)
 
     # Utilisé pour bien accorder dans la template
-    plural = ''
-    plural_bis = 'a'
+    plural_entry = ''
+    plural_entry_bis = 'a'
     if nb_all_entries_last_connection > 1:
-        plural = 's'
-        plural_bis = 'ont'
+        plural_entry = 's'
+        plural_entry_bis = 'ont'
+
+    plural_project = plural(nb_projects)
+    plural_task = plural(nb_tasks)
+    plural_task_un = plural(nb_tasks_unfinished)
+    plural_task_done = plural(nb_tasks_done)
 
     return render(request, 'taskmanager/accueil.html', locals())
 
