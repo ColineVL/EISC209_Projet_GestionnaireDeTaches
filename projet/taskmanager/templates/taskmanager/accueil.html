@@ -26,11 +26,20 @@
                 <a href="{% url 'project' task_most_progress.project_id %}">{{ task_most_progress.project }}</a>.
             </p>
         </div>
-        <br>
 
-        <p>Vous avez <strong>{{ nb_tasks_done }}</strong> <a href="{% url 'usertasks_done' %}">tâches terminées</a>.</p>
-        <br>
+        <div class="paragraph">
+            <p>Vous avez <b>{{ nb_tasks_done }}</b> <a href="{% url 'usertasks_done' %}">tâches terminées</a>.</p>
+        </div>
 
-        <p>Depuis <span title="{{ date_last_connection }}"><U>la dernière fois que vous vous êtes connectés</U></span>, <strong>{{ nb_all_entries_last_connection }}</strong> <a href="{% url 'activity_all' %}">entrée{{ plural }} de journal</a> {{ plural_bis }} été rajoutée{{ plural }}, dont <strong>{{ nb_entries_last_connection }}</strong> sur vos tâches.</p>
+        <div class="paragraph">
+            <p>Depuis
+                <span title="{{ date_last_connection }}"><U>la dernière fois que vous vous êtes connectés</U></span>,
+                <b>{{ nb_all_entries_last_connection }}</b>
+                <a href="{% url 'activity_all' %}">entrée{{ plural }} de journal</a>
+                {{ plural_bis }} été rajoutée{{ plural }}, dont
+                <b>{{ nb_entries_last_connection }}</b>
+                sur vos tâches.</p>
+        </div>
+
     </div>
 {% endblock %}
