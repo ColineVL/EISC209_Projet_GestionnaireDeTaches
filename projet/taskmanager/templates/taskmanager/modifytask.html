@@ -82,7 +82,8 @@
         <div class="form-group row">
             <label class="col-sm-3" for="priority">Priorité</label>
             <div class="col-sm-9">
-                <input class="custom-range w-75" name="priority" type="range" value="{{ task_formed.priority }}" max="10" onchange="updateSlider(this.value,'value-priority-slider')">
+                <input class="custom-range w-75" name="priority" type="range" value="{{ task_formed.priority }}"
+                       max="10" onchange="updateSlider(this.value,'value-priority-slider')">
                 <span id="value-priority-slider">{{ task_formed.priority }}</span>
             </div>
         </div>
@@ -94,7 +95,8 @@
         <div class="form-group row">
             <label class="col-sm-3" for="priority">Taux d'avancement</label>
             <div class="col-sm-9">
-                <input class="custom-range w-75" name="progress" type="range" value="{{ task_formed.progress }}" step="5" onchange="updateSlider(this.value,'value-progress-slider')">
+                <input class="custom-range w-75" name="progress" type="range" value="{{ task_formed.progress }}"
+                       step="5" onchange="updateSlider(this.value,'value-progress-slider')">
                 <span id="value-progress-slider">{{ task_formed.progress }}</span>
             </div>
         </div>

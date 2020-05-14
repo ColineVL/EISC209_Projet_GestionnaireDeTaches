@@ -107,6 +107,17 @@ def accueil(request):
     plural_task_un = plural(nb_tasks_unfinished)
     plural_task_done = plural(nb_tasks_done)
 
+    # On prépare le graphe des entrées par statut
+    dico = {
+        "Nouvelle": 0,
+        "En cours": 0,
+        "En attente": 0,
+        "Terminée": 0,
+    }
+    for task in list_tasks:
+        # On ajoute 1 à la catégorie correspondante
+        dico[task.status.name] += 1
+
     return render(request, 'taskmanager/accueil.html', locals())
 
 
@@ -486,15 +497,15 @@ def export_data(request):
     form = ExportForm(request.POST or None, user=request.user)
 
     if form.is_valid():
-        file_type = form.cleaned_data['file_type'] # the type of the files we want to product
-        archive_name = form.cleaned_data['archive_name'] # the name of the achive we want to produce
-        bool_project = form.cleaned_data['bool_project'] # do we want the projects data
-        bool_task = form.cleaned_data['bool_task'] # do we want the task data
-        bool_status = form.cleaned_data['bool_status'] # do we want the status data
-        bool_journal = form.cleaned_data['bool_Journal'] # do we want the journal data
-        one_dir_by_project = form.cleaned_data['one_dir_by_project'] # do we want one directory by project
-        ordered_journal_by_task = form.cleaned_data['ordered_journal_by_task'] # do we want journal grouped by task
-        all_projects = form.cleaned_data['all_projects'] # do we want all projects
+        file_type = form.cleaned_data['file_type']  # the type of the files we want to product
+        archive_name = form.cleaned_data['archive_name']  # the name of the achive we want to produce
+        bool_project = form.cleaned_data['bool_project']  # do we want the projects data
+        bool_task = form.cleaned_data['bool_task']  # do we want the task data
+        bool_status = form.cleaned_data['bool_status']  # do we want the status data
+        bool_journal = form.cleaned_data['bool_Journal']  # do we want the journal data
+        one_dir_by_project = form.cleaned_data['one_dir_by_project']  # do we want one directory by project
+        ordered_journal_by_task = form.cleaned_data['ordered_journal_by_task']  # do we want journal grouped by task
+        all_projects = form.cleaned_data['all_projects']  # do we want all projects
 
         project_set = request.user.project_set.all()
         if not all_projects:
@@ -503,7 +514,7 @@ def export_data(request):
             project_set = project_set.filter(name__in=projects_name)
 
         response = HttpResponse('content_type=application/zip')
-        zipObj = ZipFile(response, 'w') # we create a zip object that we link to the http response
+        zipObj = ZipFile(response, 'w')  # we create a zip object that we link to the http response
 
         # we create the different files that we want
         if bool_project:
@@ -515,7 +526,7 @@ def export_data(request):
         if bool_task or bool_journal:
             if one_dir_by_project:
                 for project in project_set:
-                    os.mkdir(project.name) # this is to create a directory for a project
+                    os.mkdir(project.name)  # this is to create a directory for a project
                     if bool_task:
                         create_file(file_type, project.name + '/task.' + file_type,
                                     Task.objects.filter(project=project),
@@ -528,7 +539,8 @@ def export_data(request):
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
                         create_file(file_type, project.name + '/journal.' + file_type, set,
                                     ['date', 'entry', 'author', 'task'], zipObj)
-                    shutil.rmtree(project.name) # once all the project have been added to the zip file, w destroy the temporary directory of the project
+                    shutil.rmtree(
+                        project.name)  # once all the project have been added to the zip file, w destroy the temporary directory of the project
             else:
                 if bool_task:
                     create_file(file_type, 'task.' + file_type, Task.objects.filter(project__in=project_set),

@@ -33,7 +33,7 @@
                 <!-- Corps de la table -->
                 {% for entry in list_entries %}
                     <tr class=
-                            "
+                                "
                             {# Ici, cet if permet de surligner différemment l'entrée #}
                             {% if entry.date > last_login and entry.author != request.user %}
                                 {% if entry.task.assignee == request.user %}

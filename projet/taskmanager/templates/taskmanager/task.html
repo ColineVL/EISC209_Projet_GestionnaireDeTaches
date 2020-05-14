@@ -50,7 +50,9 @@
             </tr>
             <tr>
                 <th>Statut</th>
-                <td><span class="badge badge-{{ task_to_display.status.badge_color }}">{{ task_to_display.status }}</span></td>
+                <td><span
+                        class="badge badge-{{ task_to_display.status.badge_color }}">{{ task_to_display.status }}</span>
+                </td>
             </tr>
             <tr>
                 <th>Taux d'avancement</th>
@@ -102,9 +104,11 @@
     <!-- Ajout d'une entrée au journal -->
     <div class="container" id="enternewentry">
         <!-- Ce bouton, si cliqué, affiche le form -->
-        <p><button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#newentry">
-            Ajouter une entrée au journal
-        </button></p>
+        <p>
+            <button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#newentry">
+                Ajouter une entrée au journal
+            </button>
+        </p>
         {# Grâce à collapse, cette div apparait #}
         <div id="newentry" class="collapse">
             {# On récupère le form #}

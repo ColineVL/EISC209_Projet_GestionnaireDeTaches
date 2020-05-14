@@ -42,8 +42,6 @@ class TaskFilter(django_filters.FilterSet):
                                                  label='Progrès',
                                                  )
 
-
-
     CHOICES = (
         ('priority descending', 'Priorité haute'),
         ('priority ascending', 'Priorité basse'),
