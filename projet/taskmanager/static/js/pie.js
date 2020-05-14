@@ -23,12 +23,7 @@ Highcharts.chart('graph', {
         text: 'Vos tâches classées par statut'
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
-    accessibility: {
-        point: {
-            valueSuffix: '%'
-        }
+        pointFormat: '{series.name}: <b>{point.y}</b>'
     },
     plotOptions: {
         pie: {
@@ -41,7 +36,7 @@ Highcharts.chart('graph', {
         }
     },
     series: [{
-        name: 'Brands',
+        name: 'Tâches',
         colorByPoint: true,
         data: data
     }]
