@@ -7,10 +7,11 @@
 {% block head %}
   <!-- Titre de la page -->
     <div class="container" id="titre">
-        <h1>{{ title }}</h1>
+        <h1 class="col-sm-6">{{ title }}</h1>
     </div>
 
-
+    <div class="container" id="boutons">
+        <div class="row d-flex justify-content-center">
 {# Bouton pour filtrer #}
             <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-2">
                 <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
