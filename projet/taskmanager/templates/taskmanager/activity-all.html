@@ -1,5 +1,5 @@
 {% extends "taskmanager/activity-base.html" %}
-{% block title %}Members of all projects{% endblock %}
+{% block title %}All activities{% endblock %}
 {% load bootstrap4 %}
 
 {# Haut de page #}
@@ -32,7 +32,7 @@
                 </thead>
 
                 <!-- Corps de la table -->
-                {% for entry in journal_filter.qs %}
+                {% for entry in list_entries %}
                     <tr class=
                                 "
                             {# Ici, cet if permet de surligner différemment l'entrée #}
