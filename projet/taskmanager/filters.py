@@ -1,5 +1,7 @@
 import django_filters
 from django import forms
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 from .models import User, Status
 
 
@@ -24,24 +26,26 @@ class TaskFilter(django_filters.FilterSet):
 
     status = django_filters.ModelMultipleChoiceFilter(queryset=Status.objects.all(), field_name='status',
                                                       label='Statut')
-    # TODO (Nicola) borner la valeur de la priorité
+
 
     priority = django_filters.LookupChoiceFilter(field_name='priority',
                                                  lookup_choices=[('exact', 'Égale à'), ('gte', 'Supérieure ou égale à'),
                                                                  ('lte', 'Inférieure ou égale à')],
                                                  field_class=forms.IntegerField,
                                                  label='Priorité',
+                                                 validators=[MinValueValidator(1), MaxValueValidator(10)],
+                                                 widget=forms.TextInput(attrs={'min': 1, 'max': 10, 'type': 'number'})
                                                  )
 
-    # TODO (Nicola) borner la valeur du progrès
 
     progress = django_filters.LookupChoiceFilter(field_name='progress',
                                                  lookup_choices=[('exact', 'Égal à'), ('gte', 'Supérieur ou égal à'),
                                                                  ('lte', 'Inférieur ou égal à')],
                                                  field_class=forms.IntegerField,
                                                  label='Progrès',
+                                                 validators=[MinValueValidator(0), MaxValueValidator(100)],
+                                                 widget=forms.TextInput(attrs={'min': 0, 'max': 100, 'type': 'number'})
                                                  )
-
 
 
     CHOICES = (
