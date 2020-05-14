@@ -300,7 +300,8 @@ def edittask(request, id_task):
 def usertasks_all(request):
     # On récupère les tâches assignées à l'utilisateur
     list_tasks = request.user.task_set.all()
-
+    #On crèe le filtre pour trier et filtrer les taches affichées
+    filter = TaskFilter(request.GET, queryset=list_tasks)
     # Cette variable est utilisée pour changer le titre de la template
     title = "Toutes mes tâches"
 
