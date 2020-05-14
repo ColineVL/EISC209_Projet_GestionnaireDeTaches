@@ -7,9 +7,9 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         exclude = ('project',)
-        # Quand l'utilisateur crée une tache ou la modifie, il ne doit pas changer le projet associé
+        # Quand l'utilisateur crée une tâche ou la modifie, il ne doit pas changer le projet associé
         labels = {
-             # On met tous les labels en français
+            # On met tous les labels en français
             'name': 'Nom de la tâche',
             'description': 'Description',
             'assignee': 'Assignée à',

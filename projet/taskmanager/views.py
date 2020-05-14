@@ -469,32 +469,15 @@ def histogram(request):
     # Qu'on trie par date croissante
     list_entries = list_entries.order_by('date')
 
-    # On récupère seulement les dates
+    # On récupère seulement les dates des entrées
     list_dates = []
-    list_dates_timestamp = []
     for entry in list_entries:
-        list_dates_timestamp.append(entry.date.timestamp())
-        list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute]);
-    # TODO (Coline) enlever tous les tests et le code mort quand ça marchera
-    # start_date = list_dates[0]
-    # end_date = list_dates[-1]
-    # list_dicts = []
-    #
-    # delta = timedelta(days=1)
-    # list_categories = []
-    # list_data = []
-    # while start_date <= end_date:
-    #     list_categories.append(start_date)
-    #     start_date += delta
-    # for entry in list_entries:
-    #     if entry.date.day !=
-    # print(list_dates)
-    # print(list_dates[0])
-    # print(list_dates[0].timestamp())
+        list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute])
+
     return render(request, 'taskmanager/histogram.html', locals())
 
 
-# @login_required
+@login_required
 def export_data(request):
     """
     This view is used for the exportation of data
