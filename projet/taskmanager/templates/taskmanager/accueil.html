@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Accueil{% endblock %}
+{% load static %}
 
 {# Haut de page #}
 {% block head %}
@@ -12,38 +13,48 @@
 {# Contenu #}
 {% block content %}
     <br>
-    <div class="container">
+    <div class="container" id="données">
         <div class="paragraph">
-            <p>Vous participez à <b>{{ nb_projects }}</b> <a href="{% url 'projects' %}">projet{{ plural_project }}</a>, dont
+            <p>Vous participez à <b>{{ nb_projects }}</b> <a href="{% url 'projects' %}">projet{{ plural_project }}</a>,
+                dont
                 <b>{{ nb_tasks }}</b> <a href="{% url 'usertasks_all' %}">tâche{{ plural_task }}.</a></p>
         </div>
         <div class="paragraph">
-            <p>Vous avez <b>{{ nb_tasks_unfinished }}</b> <a href="{% url 'usertasks_unfinished' %}">tâche{{ plural_task_un }}
+            <p>Vous avez <b>{{ nb_tasks_unfinished }}</b> <a
+                    href="{% url 'usertasks_unfinished' %}">tâche{{ plural_task_un }}
                 non terminée{{ plural_task_un }}</a>.</p>
 
             {# Affiche la tâche non terminée avec le plus grand taux d'avancement #}
             {% if task_most_progress %}
-            <p>Votre tâche la plus avancée est :
-                <a href="{% url 'task' task_most_progress.id %}">  {{ task_most_progress }}</a>,
-                à <b>{{ task_most_progress.progress }} %</b>, dans
-                <a href="{% url 'project' task_most_progress.project_id %}">{{ task_most_progress.project }}</a>.
-            </p>
+                <p>Votre tâche la plus avancée est :
+                    <a href="{% url 'task' task_most_progress.id %}">  {{ task_most_progress }}</a>,
+                    à <b>{{ task_most_progress.progress }} %</b>, dans
+                    <a href="{% url 'project' task_most_progress.project_id %}">{{ task_most_progress.project }}</a>.
+                </p>
             {% endif %}
         </div>
 
         <div class="paragraph">
-            <p>Vous avez <b>{{ nb_tasks_done }}</b> <a href="{% url 'usertasks_done' %}">tâche{{ plural_task_done }} terminée{{ plural_task_done }}</a>.</p>
+            <p>Vous avez <b>{{ nb_tasks_done }}</b> <a href="{% url 'usertasks_done' %}">tâche{{ plural_task_done }}
+                terminée{{ plural_task_done }}</a>.</p>
         </div>
 
         <div class="paragraph">
             <p>Depuis
-                <span title="{{ date_last_connection }}"><U>la dernière fois que vous vous êtes connectés</U></span>,
+                <span title="{{ date_last_connection }}"><U>la dernière fois que vous vous êtes connecté</U></span>,
                 <b>{{ nb_all_entries_last_connection }}</b>
                 <a href="{% url 'activity_all' %}">entrée{{ plural_entry }} de journal</a>
                 {{ plural_entry_bis }} été rajoutée{{ plural_entry }}, dont
                 <b>{{ nb_entries_last_connection }}</b>
                 sur vos tâches.</p>
         </div>
-
     </div>
+
+    <div class="container" id="graph">
+        {# On fait passer les variables #}
+        {{ dico | json_script:"dico" }}
+        {# On appelle le script #}
+        <script type="text/javascript" src="{% static 'js/pie.js' %}"></script>
+    </div>
+
 {% endblock %}

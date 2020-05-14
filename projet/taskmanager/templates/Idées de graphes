@@ -1,8 +1,0 @@
-TODO (Coline) enlever ce fichier
-
-diagramme d'activité : histogramme qui indique le nombre d'actions sur les projets par utilisateur ou sur une échelle de temps ; une action est l'enregistrement d'une entrée d'historique sur une tâche.
-
-burndown chart : courbe ou histogramme de la quantité de travail qui reste à faire chaque jour ; on peut comptabiliser le nombre de tâches restantes à faire, ou, si on rajoute aux tâches un attribut "charge" qui indique le nombre de jours de travail prévisionnels, et combiné au taux d'avancement des tâches, on peut comptabiliser le nombre de jours de travail restant.
-
-radar de répartition du nombre d'actions par utilisateur.
-

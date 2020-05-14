@@ -107,6 +107,17 @@ def accueil(request):
     plural_task_un = plural(nb_tasks_unfinished)
     plural_task_done = plural(nb_tasks_done)
 
+    # On prépare le graphe des entrées par statut
+    dico = {
+        "Nouvelle": 0,
+        "En cours": 0,
+        "En attente": 0,
+        "Terminée": 0,
+    }
+    for task in list_tasks:
+        # On ajoute 1 à la catégorie correspondante
+        dico[task.status.name] += 1
+
     return render(request, 'taskmanager/accueil.html', locals())
 
 
@@ -192,7 +203,7 @@ def newproject(request):
     # On crée un formulaire pour créer un nouveau projet
     form = ProjectForm(request.POST or None)
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "New"
+    method = "Nouveau"
     if form.is_valid():
         project_formed = form.save()
         # On redirige vers le projet nouvellement créé
@@ -211,7 +222,7 @@ def editproject(request, id_project):
     # On crée un form pour modifier le projet demandé
     form = ProjectForm(request.POST or None, instance=project_formed)
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "Edit"
+    method = "Modifier"
     if form.is_valid():
         form.save()
         # On redirige vers le projet modifié
@@ -257,7 +268,7 @@ def newtask(request, id_project):
     form = TaskForm(request.POST or None)
     form.fields['assignee'].queryset = project_related.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "New"
+    method = "Nouvelle"
     if form.is_valid():
         task_formed = form.save(commit=False)
         # On attribue automatiquement le projet
@@ -284,7 +295,7 @@ def edittask(request, id_task):
     form = TaskForm(request.POST or None, instance=task_formed)
     form.fields['assignee'].queryset = task_formed.project.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "Edit"
+    method = "Modifier"
     if form.is_valid():
         form.save()
         # Si le status est "terminée", alors l'avancement est mis à 100%
@@ -400,8 +411,6 @@ def get_list_entries(list_tasks, request):
     # Enfin, on slash la liste des entrées, si affiche ne vaut pas -1
     if affiche > 0:
         list_entries = list_entries[:affiche]
-
-    # TODO (Martin) ce serait cool si on pouvait choisir d'afficher depuis telle date
     return list_entries, affiche, notmyentries
 
 
@@ -476,32 +485,15 @@ def histogram(request):
     # Qu'on trie par date croissante
     list_entries = list_entries.order_by('date')
 
-    # On récupère seulement les dates
+    # On récupère seulement les dates des entrées
     list_dates = []
-    list_dates_timestamp = []
     for entry in list_entries:
-        list_dates_timestamp.append(entry.date.timestamp())
-        list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute]);
-    # TODO (Coline) enlever tous les tests et le code mort quand ça marchera
-    # start_date = list_dates[0]
-    # end_date = list_dates[-1]
-    # list_dicts = []
-    #
-    # delta = timedelta(days=1)
-    # list_categories = []
-    # list_data = []
-    # while start_date <= end_date:
-    #     list_categories.append(start_date)
-    #     start_date += delta
-    # for entry in list_entries:
-    #     if entry.date.day !=
-    # print(list_dates)
-    # print(list_dates[0])
-    # print(list_dates[0].timestamp())
+        list_dates.append([entry.date.year, entry.date.month, entry.date.day, entry.date.hour, entry.date.minute])
+
     return render(request, 'taskmanager/histogram.html', locals())
 
 
-# @login_required
+@login_required
 def export_data(request):
     """
     This view is used for the exportation of data
@@ -510,15 +502,15 @@ def export_data(request):
     form = ExportForm(request.POST or None, user=request.user)
 
     if form.is_valid():
-        file_type = form.cleaned_data['file_type'] # the type of the files we want to product
-        archive_name = form.cleaned_data['archive_name'] # the name of the achive we want to produce
-        bool_project = form.cleaned_data['bool_project'] # do we want the projects data
-        bool_task = form.cleaned_data['bool_task'] # do we want the task data
-        bool_status = form.cleaned_data['bool_status'] # do we want the status data
-        bool_journal = form.cleaned_data['bool_Journal'] # do we want the journal data
-        one_dir_by_project = form.cleaned_data['one_dir_by_project'] # do we want one directory by project
-        ordered_journal_by_task = form.cleaned_data['ordered_journal_by_task'] # do we want journal grouped by task
-        all_projects = form.cleaned_data['all_projects'] # do we want all projects
+        file_type = form.cleaned_data['file_type']  # the type of the files we want to product
+        archive_name = form.cleaned_data['archive_name']  # the name of the achive we want to produce
+        bool_project = form.cleaned_data['bool_project']  # do we want the projects data
+        bool_task = form.cleaned_data['bool_task']  # do we want the task data
+        bool_status = form.cleaned_data['bool_status']  # do we want the status data
+        bool_journal = form.cleaned_data['bool_Journal']  # do we want the journal data
+        one_dir_by_project = form.cleaned_data['one_dir_by_project']  # do we want one directory by project
+        ordered_journal_by_task = form.cleaned_data['ordered_journal_by_task']  # do we want journal grouped by task
+        all_projects = form.cleaned_data['all_projects']  # do we want all projects
 
         project_set = request.user.project_set.all()
         if not all_projects:
@@ -527,7 +519,7 @@ def export_data(request):
             project_set = project_set.filter(name__in=projects_name)
 
         response = HttpResponse('content_type=application/zip')
-        zipObj = ZipFile(response, 'w') # we create a zip object that we link to the http response
+        zipObj = ZipFile(response, 'w')  # we create a zip object that we link to the http response
 
         # we create the different files that we want
         if bool_project:
@@ -539,7 +531,7 @@ def export_data(request):
         if bool_task or bool_journal:
             if one_dir_by_project:
                 for project in project_set:
-                    os.mkdir(project.name) # this is to create a directory for a project
+                    os.mkdir(project.name)  # this is to create a directory for a project
                     if bool_task:
                         create_file(file_type, project.name + '/task.' + file_type,
                                     Task.objects.filter(project=project),
@@ -552,7 +544,8 @@ def export_data(request):
                             set = Journal.objects.filter(task__in=Task.objects.filter(project=project)).order_by('date')
                         create_file(file_type, project.name + '/journal.' + file_type, set,
                                     ['date', 'entry', 'author', 'task'], zipObj)
-                    shutil.rmtree(project.name) # once all the project have been added to the zip file, w destroy the temporary directory of the project
+                    shutil.rmtree(
+                        project.name)  # once all the project have been added to the zip file, w destroy the temporary directory of the project
             else:
                 if bool_task:
                     create_file(file_type, 'task.' + file_type, Task.objects.filter(project__in=project_set),
