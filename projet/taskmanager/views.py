@@ -413,11 +413,13 @@ def activity_all(request):
 
     # On récupère les tâches correspondantes
     list_tasks = Task.objects.none()
+
     for project in list_projects:
         list_tasks = list_tasks.union(project.task_set.all())
 
     (list_entries, affiche, notmyentries) = get_list_entries(list_tasks, request)
-
+    #Filtre pour le journal
+    #journal_filter = JournalFilter(request.GET, queryset = list_entries)
     # Ce dictionnaire est utilisé dans la template pour spécifier les choix du paramètre affiche
     dict_choices = {
         "20": 20,

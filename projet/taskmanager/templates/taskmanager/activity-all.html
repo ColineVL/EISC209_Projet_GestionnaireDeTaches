@@ -32,7 +32,7 @@
                 </thead>
 
                 <!-- Corps de la table -->
-                {% for entry in list_entries %}
+                {% for entry in journal_filter.qs %}
                     <tr class=
                             "
                             {# Ici, cet if permet de surligner différemment l'entrée #}
