@@ -312,10 +312,10 @@ def usertasks_all(request):
 def usertasks_unfinished(request):
     # On récupère les tâches assignées à l'utilisateur non terminées
     list_tasks = request.user.task_set.exclude(status__name="Terminée")
-
+    # On crèe le filtre pour trier et filtrer les taches affichées
+    filter = TaskFilter(request.GET, queryset=list_tasks)
     # Cette variable est utilisée pour changer le titre de la template
     title = "Mes tâches non terminées"
-
     return render(request, "taskmanager/usertasks.html", locals())
 
 
@@ -323,6 +323,8 @@ def usertasks_unfinished(request):
 def usertasks_done(request):
     # Dans l'argument, mettre le statut qui correspond à une tâche terminé
     list_tasks = request.user.task_set.filter(status__name="Terminée")
+    # On crèe le filtre pour trier et filtrer les taches affichées
+    filter = TaskFilter(request.GET, queryset=list_tasks)
     return render(request, "taskmanager/usertasks-done.html", locals())
 
 

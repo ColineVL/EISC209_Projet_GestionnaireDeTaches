@@ -5,14 +5,14 @@
 
 {# Haut de page #}
 {% block head %}
-  <!-- Titre de la page -->
+    <!-- Titre de la page -->
     <div class="container" id="titre">
         <h1 class="col-sm-6">{{ title }}</h1>
     </div>
 
     <div class="container" id="boutons">
         <div class="row d-flex justify-content-center">
-{# Bouton pour filtrer #}
+            {# Bouton pour filtrer #}
             <button data-toggle="collapse" data-target="#filter" class="col-sm-2 btn btn-primary m-2">
                 <i class="fa fa-filter fa-lg" title="Filtre" aria-hidden="true"></i>
                 Filtrer
@@ -41,7 +41,7 @@
             <button type="submit" class="btn btn-primary">Chercher</button>
         </div>
 
-    {# container pour le formulaire du tri #}
+        {# container pour le formulaire du tri #}
         <div class="container collapse" id="ordering">
             <div class="row">
                 <div class="col-sm-10">
@@ -81,7 +81,7 @@
                 <tbody>
                 {% for task in filter.qs %}
                     <tr>
-                        <td><a href="{% url 'project' task.project_id %}">{{task.project|truncatechars:20}}</a></td>
+                        <td><a href="{% url 'project' task.project_id %}">{{ task.project|truncatechars:20}}</a></td>
                         <td><a href="{% url 'task' task.id %}">{{ task|truncatechars:30 }}</a></td>
                         <td><i>{{ task.start_date|date:"SHORT_DATE_FORMAT" }}</i></td>
                         <td><i>{{ task.due_date|date:"SHORT_DATE_FORMAT" }}</i></td>
