@@ -192,7 +192,7 @@ def newproject(request):
     # On crée un formulaire pour créer un nouveau projet
     form = ProjectForm(request.POST or None)
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "New"
+    method = "Nouveau"
     if form.is_valid():
         project_formed = form.save()
         # On redirige vers le projet nouvellement créé
@@ -211,7 +211,7 @@ def editproject(request, id_project):
     # On crée un form pour modifier le projet demandé
     form = ProjectForm(request.POST or None, instance=project_formed)
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "Edit"
+    method = "Modifier"
     if form.is_valid():
         form.save()
         # On redirige vers le projet modifié
@@ -257,7 +257,7 @@ def newtask(request, id_project):
     form = TaskForm(request.POST or None)
     form.fields['assignee'].queryset = project_related.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "New"
+    method = "Nouvelle"
     if form.is_valid():
         task_formed = form.save(commit=False)
         # On attribue automatiquement le projet
@@ -284,7 +284,7 @@ def edittask(request, id_task):
     form = TaskForm(request.POST or None, instance=task_formed)
     form.fields['assignee'].queryset = task_formed.project.members
     # On crée une variable qui sera utilisée dans le template pour personnaliser le titre
-    method = "Edit"
+    method = "Modifier"
     if form.is_valid():
         form.save()
         # Si le status est "terminée", alors l'avancement est mis à 100%
@@ -397,8 +397,6 @@ def get_list_entries(list_tasks, request):
     # Enfin, on slash la liste des entrées, si affiche ne vaut pas -1
     if affiche > 0:
         list_entries = list_entries[:affiche]
-
-    # TODO (Martin) ce serait cool si on pouvait choisir d'afficher depuis telle date
     return list_entries, affiche, notmyentries
 
 

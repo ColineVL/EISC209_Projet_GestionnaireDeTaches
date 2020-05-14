@@ -7,28 +7,38 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         exclude = ('project',)
-        # Quand l'utilisateur crée une tache ou la modifie, il ne doit pas changer le projet associé.
+        # Quand l'utilisateur crée une tache ou la modifie, il ne doit pas changer le projet associé
+        labels = {
+             # On met tous les labels en français
+            'name': 'Nom de la tâche',
+            'description': 'Description',
+            'assignee': 'Assignée à',
+            'start_date': 'Date de début',
+            'due_date': 'Date de fin',
+            'priority': 'Priorité',
+            'status': 'Statut',
+            'progress': "Taux d'avancement",
+
+        }
 
     def clean_progress(self):
+        # On spécifie que le taux d'avancement doit rester entre 0 et 100
         progress = self.cleaned_data['progress']
         if progress > 100:
             raise forms.ValidationError("Le taux d'avancement ne peut être supérieur à 100%")
         return progress
-    # On spécifie que le taux d'avancement doit rester entre 0 et 100
 
     def clean(self):
+        # On vérifie que la date de début est avant la date de fin
         cleaned_data = super(TaskForm, self).clean()
         start_date = cleaned_data.get('start_date')
         due_date = cleaned_data.get('due_date')
-
-        if start_date and due_date: # Si les deux sont valides
+        if start_date and due_date:  # Si les deux sont valides
             if start_date > due_date:
                 raise forms.ValidationError(
                     "La date de début doit être inférieure à la date de fin"
                 )
         return cleaned_data  # N'oublions pas de renvoyer les données si tout est OK
-
-    # TODO (Coline) vérifier que les dates sont start < end : réussir à afficher le message d'erreur
 
 
 # Form pour entrer une nouvelle information complémentaire dans un journal
@@ -41,6 +51,11 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
+        labels = {
+            # On met tous les labels en français
+            'name': 'Nom du projet',
+            'members': 'Membres'
+        }
 
 
 class ExportForm(forms.Form):

@@ -12,27 +12,6 @@ for (let date of list_dates_timestamp) {
         data_timestamp.push(new Date(date*1000));
 }
 
-// // Données test
-// data = [
-//     [Date.UTC(1970, 10, 25)],
-//     [Date.UTC(1970, 11, 6)],
-//     [Date.UTC(1970, 11, 20)],
-//     [Date.UTC(1970, 11, 25)],
-//     [Date.UTC(1971, 0, 4)],
-//     [Date.UTC(1971, 0, 17)],
-//     [Date.UTC(1971, 0, 24)],
-//     [Date.UTC(1971, 1, 4)],
-//     [Date.UTC(1971, 1, 14)],
-//     [Date.UTC(1971, 2, 6)],
-//     [Date.UTC(1971, 2, 14)],
-//     [Date.UTC(1971, 2, 24)],
-//     [Date.UTC(1971, 3, 1)],
-//     [Date.UTC(1971, 3, 11)],
-//     [Date.UTC(1971, 3, 27)],
-//     [Date.UTC(1971, 4, 4)],
-//     [Date.UTC(1971, 4, 9)],
-// ];
-
 Highcharts.chart('graph', {
     title: {
         text: 'Histogramme des entrées au cours du temps'
@@ -77,7 +56,7 @@ Highcharts.chart('graph', {
     }, {
         name: 'Data',
         type: 'scatter',
-        data: data_timestamp,
+        data: data,
         id: 's1',
         visible: false,
     }]

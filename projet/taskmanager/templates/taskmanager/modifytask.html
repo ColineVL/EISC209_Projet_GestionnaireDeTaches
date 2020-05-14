@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ method }} task{% endblock %}
+{% block title %}{{ method }} tâche{% endblock %}
 {% load bootstrap4 %}
 
 {# Haut de page #}
@@ -7,7 +7,7 @@
     <!-- Titre de la page -->
     <div class="container" id="titre">
         <h2>{{ project_related }}</h2>
-        <h4>{{ method }} task</h4>
+        <h4>{{ method }} tâche</h4>
         <br>
     </div>
 {% endblock %}
@@ -18,7 +18,7 @@
 
     <div class="container" id="form">
         <!-- On n'appelle pas le même form selon si on est en édition ou en création -->
-        {% if method == 'Edit' %}
+        {% if method == 'Modifier' %}
             <!-- Cas édition -->
             <form action="{% url "edittask" task_formed.id %}" method="post">
         {% else %}
@@ -33,18 +33,18 @@
         {% bootstrap_field form.assignee layout='horizontal' %}
         <!-- Choix de la start_date -->
         <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="id_start_date">Start date</label>
+            <label class="col-md-3 col-form-label" for="id_start_date">Date de début</label>
             <div class="col-md-9">
                 <div class="input-group date" id="id_start_date" data-target-input="nearest">
                     {% if form.start_date.value %}
                         {# Cas où on a déjà une valeur à mettre dans la case #}
                         <input type="text" name="start_date"
                                value={{ form.start_date.value }} class="form-control datetimepicker-input"
-                        placeholder="Start date" title="" required id="id_start_date">
+                        placeholder="Date de début" title="" required id="id_start_date">
                     {% else %}
                         {# Cas où on n'a pas de valeur à mettre dans la case #}
                         <input type="text" name="start_date" class="form-control datetimepicker-input"
-                               placeholder="Start date" title="" required id="id_start_date">
+                               placeholder="Date de début" title="" required id="id_start_date">
                     {% endif %}
                     <div class="input-group-append" data-target="#id_start_date" data-toggle="datetimepicker">
                         <div class="input-group-text">
@@ -56,17 +56,17 @@
         </div>
         <!-- Choix de la due_date -->
         <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="id_due_date">Due date</label>
+            <label class="col-md-3 col-form-label" for="id_due_date">Date de fin</label>
             <div class="col-md-9">
                 <div class="input-group date" id="id_due_date" data-target-input="nearest">
                     {% if form.due_date.value %}
                         {# Cas où on a déjà une valeur à mettre dans la case #}
                         <input type="text" name="due_date" value={{ form.due_date.value }} class="form-control
-                               datetimepicker-input" placeholder="Due date" title="" required id="id_due_date">
+                               datetimepicker-input" placeholder="Date de fin" title="" required id="id_due_date">
                     {% else %}
                         {# Cas où on n'a pas de valeur à mettre dans la case #}
                         <input type="text" name="due_date" class="form-control datetimepicker-input"
-                               placeholder="Due date"
+                               placeholder="Date de fin"
                                title="" required id="id_due_date">
                     {% endif %}
                     <div class="input-group-append" data-target="#id_due_date" data-toggle="datetimepicker">
@@ -80,7 +80,7 @@
 
         <!-- Priorité de la tâche -->
         <div class="form-group row">
-            <label class="col-sm-3" for="priority">Priority</label>
+            <label class="col-sm-3" for="priority">Priorité</label>
             <div class="col-sm-9">
                 <input class="custom-range w-75" name="priority" type="range" value="{{ task_formed.priority }}" max="10" onchange="updateSlider(this.value,'value-priority-slider')">
                 <span id="value-priority-slider">{{ task_formed.priority }}</span>
@@ -92,7 +92,7 @@
 
         <!-- Taux d'avancement de la tâche -->
         <div class="form-group row">
-            <label class="col-sm-3" for="priority">Progress</label>
+            <label class="col-sm-3" for="priority">Taux d'avancement</label>
             <div class="col-sm-9">
                 <input class="custom-range w-75" name="progress" type="range" value="{{ task_formed.progress }}" step="5" onchange="updateSlider(this.value,'value-progress-slider')">
                 <span id="value-progress-slider">{{ task_formed.progress }}</span>
@@ -100,7 +100,7 @@
         </div>
 
         {% buttons %}
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
         {% endbuttons %}
         </form>
     </div>

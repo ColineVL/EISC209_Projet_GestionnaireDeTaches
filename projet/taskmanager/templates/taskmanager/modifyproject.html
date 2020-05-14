@@ -5,7 +5,7 @@
 {# Haut de page #}
 {% block head %}
     <div class="container" id="head">
-        <h2>{{ method }} project</h2>
+        <h2>{{ method }} projet</h2>
     </div>
 {% endblock %}
 
@@ -13,10 +13,9 @@
 {% block content %}
 
     <!-- Form -->
-{#    TODO (?) afficher en français#}
     <div class="container" id="form">
         <!-- On n'appelle pas le même form selon si on est en édition ou en création -->
-        {% if method == 'Edit' %}
+        {% if method == 'Modifier' %}
             <!-- Cas édition -->
             <form action="{% url "editproject" id_project %}" method="post">
         {% else %}
